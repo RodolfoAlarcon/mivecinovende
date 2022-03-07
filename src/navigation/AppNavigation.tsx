@@ -4,6 +4,7 @@ import { AuthContex } from '../context/UsuarioContext';
 import {HomeScreens} from '../screens/HomeScreens'
 import {CategoriasScreen} from '../screens/CategoriasScreen' 
 import {SubcategoriasScreen} from '../screens/SubcategoriasScreen'
+import {NegocioScreen} from "../screens/NegocioScreen"
 
 const Stack = createStackNavigator();
 
@@ -24,6 +25,7 @@ export const Navigation = () => {
           <Stack.Screen name="HomeScreens" component={HomeScreens} />
           <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
           <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />
+          <Stack.Screen name="NegocioScreen" component={NegocioScreen} />
 
         </Stack.Navigator>
     );

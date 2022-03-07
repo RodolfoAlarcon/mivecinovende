@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import Select from '../components/Select';
+import { ScrollView } from 'react-native-gesture-handler';
+import ciudadesApi from '../api/apiCiudad'
+import { useCiudades } from '../hook/useCiudades';
+import { Datum } from '../interfaces/ciudadesInterface';
 
 var { height } = Dimensions.get('window');
  
@@ -9,31 +14,41 @@ var box_height = height / box_count;
 const navigator = useNavigation()
 
 export const HomeScreens = () => {
+
+    const { CiudadesActuales } = useCiudades();
+    console.log(CiudadesActuales[0]?.name)
+
   return (
-    <View style={styles.container}>
-    <View style={[styles.box, styles.box1]}></View>
-    <View style={[styles.box, styles.box2]}>
-        <Image 
-            source={require('../sources/img/icono.png')}
-            style={{width:'70%',marginVertical:50}} 
-        />
-        <Text style={styles.boxtext}> 
-            SELECIONA LA CIUDAD
-        </Text>
-        <Text style={[styles.boxtext, styles.boxtextmargin]}> 
-            ESCRIBE EL SECTOR
-        </Text>
-        <TouchableOpacity
-        onPress={()=>{goToScreen('CategoriasScreen')}}
-            style={styles.button}
-        >
-            <Text style={styles.textboton}>
-                BUSCAR
-            </Text>
-        </TouchableOpacity>
-    </View>
-    <View style={[styles.box, styles.box3]}></View>
-</View>
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.banner}>
+
+                </View>
+                <Image 
+                source={require('../sources/img/icono.png')}
+                style={{width:'70%',marginVertical:30,alignItems:'center'}} 
+                />
+                <Text style={styles.boxtext}> 
+                SELECIONA LA CIUDAD
+                </Text>
+                <View style={styles.select}>
+                    <Select/> 
+                </View>
+                <Text style={[styles.boxtext, styles.boxtextmargin]}> 
+                ESCRIBE EL SECTOR
+                </Text>
+                <View style={styles.select}>
+                </View>
+                <TouchableOpacity
+                onPress={()=>{goToScreen('CategoriasScreen')}}
+                style={styles.button}
+                >
+                <Text style={styles.textboton}>
+                    BUSCAR
+                </Text>
+                </TouchableOpacity>
+            </View>
+        </ScrollView>
   )
   function goToScreen(routeName: any) {
     navigator.navigate(routeName);
@@ -41,28 +56,13 @@ export const HomeScreens = () => {
 }
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      flexDirection: 'column'
+    container:{
+        alignItems:'center'
     },
-    box: {
-      height: box_height
-    },
-    //header
-    box1: {
-        flex: .7,
-        backgroundColor: '#007ba4'
-    },
-    //content
-    box2: {
-        flex: 10,
-        backgroundColor: '#ffffff',
-        alignItems:'center',
-    },
-    //footer
-    box3: {
-        flex: .2,
-        backgroundColor: '#007ba4'
+    banner:{
+        height:50,
+        width:'100%',
+        backgroundColor: '#007ba4',
     },
     boxtext:{
         fontWeight:'bold',
@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#dfa71b",
         padding: 10,
-        marginTop:50,
+        marginTop:30,
         width:'70%',
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
@@ -87,5 +87,8 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
         fontSize:25,
         color:'#007ba4'
+    },
+    select:{
+        width:'70%'
     }
   });

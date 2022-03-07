@@ -7,6 +7,8 @@ const apiApp = axios.create({
         api_key:'f96689e923236ccc3b2f57cc9c38a668',
         language: 'es-ES'
     }*/
-}) 
+})
+
+
 
 export default apiApp;

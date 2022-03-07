@@ -2,33 +2,33 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
 import { SwiperComponent } from '../components/slider';
 import Select  from '../components/Select';
+import { Slider } from 'react-native-elements/dist/slider/Slider';
+import { useNavigation } from '@react-navigation/native';
 
 
-var { height } = Dimensions.get('window');
- 
-var box_count = 3;
-var box_height =  box_count;
+const navigator = useNavigation()
 
 export const CategoriasScreen = () => {
   return (
-    <View style={styles.container}>
-    <View style={[styles.box, styles.box1]}>
-        <Text style={{color:'#ffffff',fontSize:25, fontWeight:'bold',textAlign:'center',marginVertical:10}}>
-            Guayaquil
-        </Text>
-    </View>
-    <View style={[styles.box, styles.box2]}>
-        <SwiperComponent />
-        <ScrollView style={styles.buscador} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
-            <Select    />
-        </ScrollView>
-        <View style={{flexDirection:'row',flex:1}}>
+      <ScrollView>
+            <View style={styles.banner}>
+                <Text style={styles.textbanner}>
+                    Guayaquil
+                </Text>
+            </View>
+            <View>
+                <SwiperComponent />
+            </View>
+            <View style={styles.buscador} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled"> 
+                
+            </View>
+            <View style={{flexDirection:'row',flex:1}}>
             <View style={styles.cajaCategoria}>
-                <TouchableOpacity style={[styles.botoncaja, styles.alimentos]}>
+                <TouchableOpacity style={[styles.botoncaja, styles.alimentos]} onPress={()=>{goToScreen('SubcategoriasScreen')}}>
                     <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-06.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -44,7 +44,7 @@ export const CategoriasScreen = () => {
                     <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-08.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -60,7 +60,7 @@ export const CategoriasScreen = () => {
                     <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-03.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -79,7 +79,7 @@ export const CategoriasScreen = () => {
                     <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-02.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -100,7 +100,7 @@ export const CategoriasScreen = () => {
                 <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-07.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -116,7 +116,7 @@ export const CategoriasScreen = () => {
             <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-04.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -132,7 +132,7 @@ export const CategoriasScreen = () => {
             <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-05.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -151,7 +151,7 @@ export const CategoriasScreen = () => {
             <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-01.png')}
-                            style={{width:70,height:70,resizeMode:'contain'}} 
+                            style={{width:60,height:50,resizeMode:'contain'}} 
                         />
                     </View>
                     <View style={styles.contenidobotontext}>
@@ -168,35 +168,31 @@ export const CategoriasScreen = () => {
             </TouchableOpacity>
             </View>
         </View>
-    </View>
-    <View style={[styles.box, styles.box3]}></View>
-</View>
+        <View style={{backgroundColor:'#007ba4',height:15}}>
+
+        </View>
+      </ScrollView>
   )
+  function goToScreen(routeName: any) {
+    navigator.navigate(routeName);
+  }
 }
 
 const styles = StyleSheet.create({
+    banner:{
+        height:50,
+        backgroundColor: '#007ba4',
+    },
+    textbanner:{
+        color:'#ffffff',
+        fontSize:25, 
+        fontWeight:'bold',
+        textAlign:'center',
+        marginVertical:8
+    },
     container: {
       flex: 1,
       flexDirection: 'column'
-    },
-    box: {
-      height: box_height
-    },
-    //header
-    box1: {
-        flex: .7,
-        backgroundColor: '#007ba4',
-    },
-    //content
-    box2: {
-        flex: 10,
-        backgroundColor: '#ffffff',
-        alignItems:'center',
-    },
-    //footer
-    box3: {
-        flex: .2,
-        backgroundColor: '#007ba4'
     },
     buscador:{
         height:60,
@@ -211,21 +207,21 @@ const styles = StyleSheet.create({
     },
     botoncaja:{
         width:'100%',
-        flex:1,
+        height:100,
         marginVertical:10,
         flexDirection:'row'
     },
     contenidoboton:{
-        width:'40%',
+        width:'35%',
         justifyContent:'center',
         alignItems: 'center'
     },
     contenidobotontext:{
-        width:'60%',
+        width:'65%',
         justifyContent:'center',
     },
     textboton:{
-        fontSize:16,
+        fontSize:14,
         fontWeight:'bold',
         color:'#000',
         textAlign:'center',

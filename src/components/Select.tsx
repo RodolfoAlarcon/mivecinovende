@@ -23,24 +23,28 @@ function Select(props:any){
     <SearchableDropdown
       onTextChange={(text: any) => console.log(text)}
       // Listner on the searchable input
-      onItemSelect={(item: any) => { alert(JSON.stringify(item)) }}
+      onItemSelect={(item: any) => { (item) }}
       // Called after the selection
       containerStyle={{ padding: 5 }}
       // Suggestion container style
       textInputStyle={{
         // Inserted text style
-        padding: 12,
-        borderWidth: 1,
-        borderColor: '#ccc',
-        backgroundColor: '#FAF7F6',
+        paddingHorizontal: 20,
+        paddingVertical:10,
+        borderWidth: 5,
+        borderColor: '#007ba4',
+        backgroundColor: '#fff',
+        borderTopLeftRadius: 50,
+        borderTopRightRadius: 50,
+        borderBottomLeftRadius: 50,
+        borderBottomRightRadius: 50,
       }}
       itemStyle={{
         // Single dropdown item style
         padding: 10,
         marginTop: 2,
-        backgroundColor: '#FAF9F8',
-        borderColor: '#bbb',
-        borderWidth: 1,
+        borderColor: '#007ba4',
+        borderWidth:1,
       }}
       itemTextStyle={{
         // Text style of a single dropdown item
@@ -49,7 +53,13 @@ function Select(props:any){
       itemsContainerStyle={{
         // Items container style you can pass maxHeight
         // To restrict the items dropdown hieght
-        maxHeight: '60%',
+        maxHeight: 200,
+        backgroundColor: '#fff',
+        position:'absolute',
+        zIndex:9,
+        top:70,
+        width:'100%',
+        left:7
       }}
       nestedScrollEnabled={true}
       items={items}
@@ -65,6 +75,11 @@ function Select(props:any){
       istProps={{ 
         nestedScrollEnabled: true,
        }}
+       listProps={
+        {
+          nestedScrollEnabled: true,
+        }
+      }
     />
 
   );

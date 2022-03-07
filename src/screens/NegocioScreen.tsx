@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
-import { Locales } from '../components/locales';
 import { SwiperComponent } from '../components/slider';
-import { useNavigation } from '@react-navigation/native';
 
 
-var { height } = Dimensions.get('window');
- 
-var box_count = 3;
-var box_height =  box_count;
-
-export const SubcategoriasScreen = () => {
+export const NegocioScreen = () => {
   return (
     <View style={{flex:1}}>
             <ScrollView>
@@ -22,17 +15,23 @@ export const SubcategoriasScreen = () => {
         <SwiperComponent />
         <View style={styles.buscador}>
         </View>
-        <View style={styles.titulo}>
+        <View style={{flexDirection:'row'}}>
+            <View style={{width:'50%'}}>
+                <Image 
+                    source={require('../sources/img/pizza.jpg')}
+                    style={{width:150,height:150,borderRadius:200,marginHorizontal:20,marginVertical:20}} 
+                />
+            </View>
+            <View style={{width:'50%', alignItems:'center', justifyContent:'center'}}>
             <Image 
-                source={require('../sources/img/ICONOS-06.png')}
-                style={{width:70,height:60,resizeMode:'contain',marginRight:10}} 
-            />
-            <Text style={styles.texttitulo}>
-                ALIMENTOS CASEROS
-            </Text>
-        </View>
-        <View style={{flex:1,width:'100%',paddingHorizontal:'2%',paddingVertical:'3%'}}>
-        <Locales />
+                    source={require('../sources/img/pdf.png')}
+                    style={{width:150,height:55, resizeMode:'contain',marginVertical:4}} 
+                />
+            <Image 
+                    source={require('../sources/img/whatsapp.png')}
+                    style={{width:150,height:55, resizeMode:'contain',marginVertical:4}} 
+                />
+            </View>
         </View>
     </ScrollView>
             <View style={{backgroundColor:'#007ba4',height:15,position: 'absolute', left: 0, right: 0, bottom: 0,zIndex:9}}>
