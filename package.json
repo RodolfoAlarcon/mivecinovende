@@ -63,7 +63,7 @@
       "node"
     ]
   },
-    "expo": {
+  "expo": {
     "name": "Mi Vecino Vende",
     "icon": "./path/to/your/app-icon.png",
     "version": "1.0.0",
@@ -77,4 +77,3 @@
     }
   }
 }
-

@@ -1,23 +1,14 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Select from '../components/Select';
-import { ScrollView } from 'react-native-gesture-handler';
-import ciudadesApi from '../api/apiCiudad'
-import { useCiudades } from '../hook/useCiudades';
-import { Datum } from '../interfaces/ciudadesInterface';
+import SelectSector from '../components/SelectSector'
 
-var { height } = Dimensions.get('window');
- 
-var box_count = 3;
-var box_height = height / box_count;
-const navigator = useNavigation()
 
 export const HomeScreens = () => {
 
-    const { CiudadesActuales } = useCiudades();
-    console.log(CiudadesActuales[0]?.name)
-
+    const navigator = useNavigation()
+    
   return (
         <ScrollView>
             <View style={styles.container}>
@@ -32,12 +23,13 @@ export const HomeScreens = () => {
                 SELECIONA LA CIUDAD
                 </Text>
                 <View style={styles.select}>
-                    <Select/> 
+                    <Select />
                 </View>
                 <Text style={[styles.boxtext, styles.boxtextmargin]}> 
                 ESCRIBE EL SECTOR
                 </Text>
                 <View style={styles.select}>
+                    <SelectSector />
                 </View>
                 <TouchableOpacity
                 onPress={()=>{goToScreen('CategoriasScreen')}}
@@ -48,6 +40,7 @@ export const HomeScreens = () => {
                 </Text>
                 </TouchableOpacity>
             </View>
+
         </ScrollView>
   )
   function goToScreen(routeName: any) {

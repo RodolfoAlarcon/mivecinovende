@@ -6,31 +6,27 @@ import { useCiudades } from '../hook/useCiudades';
 import { Datum } from '../interfaces/ciudadesInterface';
 
 
-const items = [
-  // name key is must. It is to show the text in front
-  { id: 1, name: 'angellist' },
-  { id: 2, name: 'codepen' },
-  { id: 3, name: 'envelope' },
-  { id: 4, name: 'etsy' },
-  { id: 5, name: 'facebook' },
-  { id: 6, name: 'foursquare' },
-  { id: 7, name: 'github-alt' },
-  { id: 8, name: 'github' },
-  { id: 9, name: 'gitlab' },
-  { id: 10, name: 'instagram' },
-];
+function SelectSector(props:any){
 
-
-function Select(props:any){
-
-  const { CiudadesActuales } = useCiudades();  
+  const { CiudadesActuales } = useCiudades();
+  const [items,setItems] = useState<any[]>([]);
+  console.log(items);
 
   return (
 
     <SearchableDropdown
-    onTextChange={(text: any) => (text)}
-    // Listner on the searchable input
-    onItemSelect={(items: any) => { (items) }}
+      multi
+      onTextChange={(text: any) => console.log(text)}
+      // Listner on the searchable input
+      onItemSelect={(item: any) => {
+        const newitems:any[] = items
+        newitems.push(items)
+        setItems(newitems)
+        console.log(items);
+      }}
+      selectedItems={
+        items
+      }
       // Called after the selection
       containerStyle={{ padding: 5 }}
       // Suggestion container style
@@ -73,7 +69,7 @@ function Select(props:any){
       // Mapping of item array
       defaultIndex={2}
       // Default selected item index
-      placeholder="Ciudad"
+      placeholder="Sector"
       // place holder for the search input
       resPtValue={false}
       // Reset textInput Value with true and false state
@@ -91,7 +87,7 @@ function Select(props:any){
 
   );
 };
-export default Select
+export default SelectSector
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -48,10 +48,10 @@ const styles = StyleSheet.create({
     },
     textbanner:{
         color:'#ffffff',
-        fontSize:22, 
+        fontSize:17, 
         fontWeight:'bold',
         textAlign:'center',
-        marginVertical:10
+        marginVertical:13
     },
     buscador:{
         height:45,

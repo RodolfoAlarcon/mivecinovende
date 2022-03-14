@@ -5,11 +5,6 @@ import { SwiperComponent } from '../components/slider';
 import { useNavigation } from '@react-navigation/native';
 
 
-var { height } = Dimensions.get('window');
- 
-var box_count = 3;
-var box_height =  box_count;
-
 export const SubcategoriasScreen = () => {
   return (
     <View style={{flex:1}}>
@@ -35,9 +30,7 @@ export const SubcategoriasScreen = () => {
         <Locales />
         </View>
     </ScrollView>
-            <View style={{backgroundColor:'#007ba4',height:15,position: 'absolute', left: 0, right: 0, bottom: 0,zIndex:9}}>
 
-            </View>
     </View>
   )
 }
@@ -49,10 +42,10 @@ const styles = StyleSheet.create({
     },
     textbanner:{
         color:'#ffffff',
-        fontSize:22, 
+        fontSize:17, 
         fontWeight:'bold',
         textAlign:'center',
-        marginVertical:10
+        marginVertical:13
     },
     buscador:{
         height:45,

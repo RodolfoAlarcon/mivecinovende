@@ -6,9 +6,11 @@ import { Slider } from 'react-native-elements/dist/slider/Slider';
 import { useNavigation } from '@react-navigation/native';
 
 
-const navigator = useNavigation()
 
 export const CategoriasScreen = () => {
+
+    const navigator = useNavigation()
+
   return (
       <ScrollView>
             <View style={styles.banner}>
@@ -19,7 +21,7 @@ export const CategoriasScreen = () => {
             <View>
                 <SwiperComponent />
             </View>
-            <View style={styles.buscador} showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled"> 
+            <View style={styles.buscador}> 
                 
             </View>
             <View style={{flexDirection:'row',flex:1}}>
