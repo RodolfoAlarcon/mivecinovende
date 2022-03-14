@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
-import { SwiperComponent } from '../components/slider';
+import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView, SliderComponent } from 'react-native';
+import { SliderSector } from '../components/SliderSector';
+import { SliderCiudad } from '../components/slider';
+
 
 
 export const NegocioScreen = () => {
@@ -12,13 +14,13 @@ export const NegocioScreen = () => {
             km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
             </Text>
         </View>
-        <SwiperComponent />
+        <SliderCiudad />
         <View style={styles.buscador}>
         </View>
         <View style={{flexDirection:'row'}}>
             <View style={{width:'50%'}}>
                 <Image 
-                    source={require('../sources/img/pizza.jpg')}
+                    source={require('../sources/img/restaurante.png')}
                     style={{width:150,height:150,borderRadius:200,marginHorizontal:20,marginVertical:20}} 
                 />
             </View>
@@ -34,9 +36,7 @@ export const NegocioScreen = () => {
             </View>
         </View>
     </ScrollView>
-            <View style={{backgroundColor:'#007ba4',height:15,position: 'absolute', left: 0, right: 0, bottom: 0,zIndex:9}}>
 
-            </View>
     </View>
   )
 }

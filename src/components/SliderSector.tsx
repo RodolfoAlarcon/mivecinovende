@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
   },
 })
 
-export const SliderCiudad = () => {
+export const SliderSector = () => {
 
     return (
         <View style={{height:190}}>
@@ -29,19 +29,19 @@ export const SliderCiudad = () => {
                 >
                 <View style={styles.slide1}>
                 <Image 
-                  source={require('../sources/img/guayaquil-1.jpg')}
+                  source={require('../sources/img/daule-1.jpg')}
                   style={{width:"100%",height:"100%",resizeMode:'cover'}} 
                 />
                 </View>
                 <View style={styles.slide2}>
                 <Image 
-                  source={require('../sources/img/guayaquil-2.png')}
+                  source={require('../sources/img/daule-2.jpg')}
                   style={{width:"100%",height:"100%",resizeMode:'cover'}} 
                 />
                 </View>
                 <View style={styles.slide3}>
                 <Image 
-                  source={require('../sources/img/guayaquil-3.jpg')}
+                  source={require('../sources/img/daule-3.jpg')}
                   style={{width:"100%",height:"100%",resizeMode:'cover'}} 
                 />
                 </View>
@@ -50,4 +50,4 @@ export const SliderCiudad = () => {
     )
 }
 
-AppRegistry.registerComponent('myproject', () => SliderCiudad)
+AppRegistry.registerComponent('myproject', () => SliderSector)

@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
 import { Locales } from '../components/locales';
-import { SwiperComponent } from '../components/slider';
+
 import { useNavigation } from '@react-navigation/native';
+import { SliderCiudad } from '../components/slider';
 
 
 export const SubcategoriasScreen = () => {
@@ -11,10 +12,10 @@ export const SubcategoriasScreen = () => {
             <ScrollView>
         <View style={styles.banner}>
             <Text style={styles.textbanner}>
-            km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
+                km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
             </Text>
         </View>
-        <SwiperComponent />
+        <SliderCiudad />
         <View style={styles.buscador}>
         </View>
         <View style={styles.titulo}>

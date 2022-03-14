@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
-import { SwiperComponent } from '../components/slider';
+import { SliderCiudad } from '../components/slider';
 import Select  from '../components/Select';
 import { Slider } from 'react-native-elements/dist/slider/Slider';
 import { useNavigation } from '@react-navigation/native';
@@ -15,11 +15,11 @@ export const CategoriasScreen = () => {
       <ScrollView>
             <View style={styles.banner}>
                 <Text style={styles.textbanner}>
-                    Guayaquil
+                    km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
                 </Text>
             </View>
             <View>
-                <SwiperComponent />
+                <SliderCiudad />
             </View>
             <View style={styles.buscador}> 
                 
@@ -187,10 +187,10 @@ const styles = StyleSheet.create({
     },
     textbanner:{
         color:'#ffffff',
-        fontSize:25, 
+        fontSize:17, 
         fontWeight:'bold',
         textAlign:'center',
-        marginVertical:8
+        marginVertical:13
     },
     container: {
       flex: 1,
