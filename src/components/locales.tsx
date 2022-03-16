@@ -4,10 +4,13 @@ import { useNavigation } from '@react-navigation/native';
 
 
 
+
 export const Locales = () =>{
     
     const navigator = useNavigation()
     const [ acordionShow, setacordionShow ] = useState(false)
+
+
 
     return(
         <View>
@@ -76,7 +79,6 @@ export const Locales = () =>{
             }
 
 
-            
         </View>
         
         
