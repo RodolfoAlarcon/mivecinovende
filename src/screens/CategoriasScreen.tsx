@@ -24,7 +24,7 @@ export const CategoriasScreen = () => {
             <View style={styles.buscador}> 
                 
             </View>
-            <View style={{flexDirection:'row',flex:1}}>
+            <View style={{width:'100%'}}>
             <View style={styles.cajaCategoria}>
                 <TouchableOpacity style={[styles.botoncaja, styles.alimentos]} onPress={()=>{goToScreen('SubcategoriasScreen')}}>
                     <View style={styles.contenidoboton}>
@@ -96,9 +96,7 @@ export const CategoriasScreen = () => {
                         </Text>
                     </View>
                 </TouchableOpacity>
-            </View>
-            <View style={styles.cajaCategoria}>
-            <TouchableOpacity style={[styles.botoncaja, styles.servicios]}>
+                <TouchableOpacity style={[styles.botoncaja, styles.servicios]}>
                 <View style={styles.contenidoboton}>
                         <Image 
                             source={require('../sources/img/ICONOS-07.png')}
@@ -113,65 +111,62 @@ export const CategoriasScreen = () => {
                             PROFESIONALES
                         </Text>
                     </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.botoncaja, styles.cursos]}>
-            <View style={styles.contenidoboton}>
-                        <Image 
-                            source={require('../sources/img/ICONOS-04.png')}
-                            style={{width:60,height:50,resizeMode:'contain'}} 
-                        />
-                    </View>
-                    <View style={styles.contenidobotontext}>
-                        <Text style={styles.textboton}>
-                            CURSOS
-                        </Text>
-                        <Text style={styles.textboton}>
-                            Y APRENDISAJE
-                        </Text>
-                    </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.botoncaja, styles.venta]}>
-            <View style={styles.contenidoboton}>
-                        <Image 
-                            source={require('../sources/img/ICONOS-05.png')}
-                            style={{width:60,height:50,resizeMode:'contain'}} 
-                        />
-                    </View>
-                    <View style={styles.contenidobotontext}>
-                        <Text style={styles.textboton}>
-                            VENTA
-                        </Text>
-                        <Text style={styles.textboton}>
-                            DE EQUIPOS
-                        </Text>
-                        <Text style={styles.textboton}>
-                            Y PRODUCTOS
-                        </Text>
-                    </View>
-            </TouchableOpacity>
-            <TouchableOpacity style={[styles.botoncaja, styles.transporte]}>
-            <View style={styles.contenidoboton}>
-                        <Image 
-                            source={require('../sources/img/ICONOS-01.png')}
-                            style={{width:60,height:50,resizeMode:'contain'}} 
-                        />
-                    </View>
-                    <View style={styles.contenidobotontext}>
-                        <Text style={styles.textboton}>
-                            TRASNPORTE
-                        </Text>
-                        <Text style={styles.textboton}>
-                            DE EPERSONAS
-                        </Text>
-                        <Text style={styles.textboton}>
-                            O MERCADERÍA
-                        </Text>
-                    </View>
-            </TouchableOpacity>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.botoncaja, styles.cursos]}>
+                <View style={styles.contenidoboton}>
+                            <Image 
+                                source={require('../sources/img/ICONOS-04.png')}
+                                style={{width:60,height:50,resizeMode:'contain'}} 
+                            />
+                        </View>
+                        <View style={styles.contenidobotontext}>
+                            <Text style={styles.textboton}>
+                                CURSOS
+                            </Text>
+                            <Text style={styles.textboton}>
+                                Y APRENDISAJE
+                            </Text>
+                        </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.botoncaja, styles.venta]}>
+                <View style={styles.contenidoboton}>
+                            <Image 
+                                source={require('../sources/img/ICONOS-05.png')}
+                                style={{width:60,height:50,resizeMode:'contain'}} 
+                            />
+                        </View>
+                        <View style={styles.contenidobotontext}>
+                            <Text style={styles.textboton}>
+                                VENTA
+                            </Text>
+                            <Text style={styles.textboton}>
+                                DE EQUIPOS
+                            </Text>
+                            <Text style={styles.textboton}>
+                                Y PRODUCTOS
+                            </Text>
+                        </View>
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.botoncaja, styles.transporte]}>
+                <View style={styles.contenidoboton}>
+                            <Image 
+                                source={require('../sources/img/ICONOS-01.png')}
+                                style={{width:60,height:50,resizeMode:'contain'}} 
+                            />
+                        </View>
+                        <View style={styles.contenidobotontext}>
+                            <Text style={styles.textboton}>
+                                TRASNPORTE
+                            </Text>
+                            <Text style={styles.textboton}>
+                                DE EPERSONAS
+                            </Text>
+                            <Text style={styles.textboton}>
+                                O MERCADERÍA
+                            </Text>
+                        </View>
+                </TouchableOpacity>
             </View>
-        </View>
-        <View style={{backgroundColor:'#007ba4',height:15}}>
-
         </View>
       </ScrollView>
   )
@@ -194,7 +189,7 @@ const styles = StyleSheet.create({
     },
     container: {
       flex: 1,
-      flexDirection: 'column'
+      flexDirection: 'row'
     },
     buscador:{
         height:60,
@@ -202,16 +197,16 @@ const styles = StyleSheet.create({
         width:'100%'
     },
     cajaCategoria: {
-        flexDirection: 'column',
-        width:'50%',
+        width:'100%',
         paddingHorizontal:'2%',
-        paddingVertical:15
+        paddingVertical:15,
     },
     botoncaja:{
-        width:'100%',
+        width:'46%',
         height:100,
         marginVertical:10,
-        flexDirection:'row'
+        marginHorizontal:2,
+        flexDirection:'row',
     },
     contenidoboton:{
         width:'35%',
