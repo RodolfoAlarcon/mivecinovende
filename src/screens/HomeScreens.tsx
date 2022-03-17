@@ -12,21 +12,18 @@ export const HomeScreens = () => {
   return (
         <ScrollView>
             <View style={styles.container}>
-                <View style={styles.banner}>
-
-                </View>
                 <Image 
                 source={require('../sources/img/icono.png')}
-                style={{width:'70%',marginVertical:30,alignItems:'center'}} 
+                style={{width:220,marginVertical:10,alignItems:'center',resizeMode:'contain'}} 
                 />
                 <Text style={styles.boxtext}> 
-                SELECIONA LA CIUDAD
+                    SELECIONA LA CIUDAD
                 </Text>
                 <View style={styles.select}>
                     <Select />
                 </View>
                 <Text style={[styles.boxtext, styles.boxtextmargin]}> 
-                ESCRIBE EL SECTOR
+                    SELECIONA EL SECTOR
                 </Text>
                 <View style={styles.select}>
                     <SelectSector />
@@ -59,7 +56,7 @@ const styles = StyleSheet.create({
     },
     boxtext:{
         fontWeight:'bold',
-        fontSize:20,
+        fontSize:16,
         color:'#007ba4'
     },
     boxtextmargin:{
@@ -69,19 +66,21 @@ const styles = StyleSheet.create({
         alignItems: "center",
         backgroundColor: "#dfa71b",
         padding: 10,
-        marginTop:30,
-        width:'70%',
+        marginTop:40,
+        width:150,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
+        marginBottom:50,
+        justifyContent:'center'
     },
     textboton:{
         fontWeight:'bold',
-        fontSize:25,
+        fontSize:20,
         color:'#007ba4'
     },
     select:{
-        width:'70%'
+        width:'60%'
     }
   });

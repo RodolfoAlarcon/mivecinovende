@@ -10,7 +10,7 @@ export const NegocioScreen = () => {
     const [ contactenosShow, setcontactenosShow ] = useState(false)
 
   return (
-        <SafeAreaView style={{flex:1,backgroundColor:'#e5e7ea'}}>
+        <ScrollView style={{flex:1,backgroundColor:'#e5e7ea'}}>
             <View style={{width:'100%',justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
                 <Image 
                     source={require('../sources/img/restaurante.png')}
@@ -126,7 +126,30 @@ export const NegocioScreen = () => {
                 }
             </View>
 
-    </SafeAreaView>
+            <View style={{backgroundColor:"white",marginVertical:7,width:'100%',paddingVertical:15,paddingHorizontal:20,justifyContent:'space-between',flexDirection:'row'}}>
+                <Image 
+                    source={require('../sources/img/web.png')}
+                    style={{width:50,height:50,borderRadius:50}} 
+                />
+                <Image 
+                    source={require('../sources/img/facebook.png')}
+                    style={{width:50,height:50,borderRadius:50}} 
+                />
+                <Image 
+                    source={require('../sources/img/instagram.png')}
+                    style={{width:50,height:50,borderRadius:50}} 
+                />
+                <Image 
+                    source={require('../sources/img/youtube.png')}
+                    style={{width:50,height:50,borderRadius:50}} 
+                />
+                <Image 
+                    source={require('../sources/img/tiktok.png')}
+                    style={{width:50,height:50,borderRadius:50}} 
+                />
+            </View>
+
+    </ScrollView>
 
   )
 }

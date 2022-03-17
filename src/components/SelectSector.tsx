@@ -15,18 +15,9 @@ function SelectSector(props:any){
   return (
 
     <SearchableDropdown
-      multi
-      onTextChange={(text: any) => console.log(text)}
-      // Listner on the searchable input
-      onItemSelect={(item: any) => {
-        const newitems:any[] = items
-        newitems.push(items)
-        setItems(newitems)
-        console.log(items);
-      }}
-      selectedItems={
-        items
-      }
+    onTextChange={(text: any) => (text)}
+    // Listner on the searchable input
+    onItemSelect={(items: any) => { (items) }}
       // Called after the selection
       containerStyle={{ padding: 5 }}
       // Suggestion container style
@@ -46,8 +37,6 @@ function SelectSector(props:any){
         // Single dropdown item style
         padding: 10,
         marginTop: 2,
-        borderColor: '#007ba4',
-        borderWidth:1,
       }}
       itemTextStyle={{
         // Text style of a single dropdown item
@@ -60,9 +49,11 @@ function SelectSector(props:any){
         backgroundColor: '#fff',
         position:'absolute',
         zIndex:9,
-        top:70,
+        top:65,
         width:'100%',
-        left:7
+        left:7,
+        borderColor: '#007ba4',
+        borderWidth:1,
       }}
       nestedScrollEnabled={true}
       items={CiudadesActuales}
