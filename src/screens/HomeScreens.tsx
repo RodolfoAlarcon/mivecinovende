@@ -1,14 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Select from '../components/Select';
 import SelectSector from '../components/SelectSector'
-
+import { useCategorias } from '../hook/useCategorias';
+import { Categoriascom } from '../components/preba'
+import { Datum } from '../interfaces/categoriaInterface';
 
 export const HomeScreens = () => {
 
     const navigator = useNavigation()
-    
+
+    const { Categorias } = useCategorias(); 
+
+
   return (
         <ScrollView>
             <View style={styles.container}>
@@ -37,7 +42,11 @@ export const HomeScreens = () => {
                 </Text>
                 </TouchableOpacity>
             </View>
-
+            <View>
+                <Categoriascom 
+                    data={Categorias[0]}
+                />
+            </View>
         </ScrollView>
   )
   function goToScreen(routeName: any) {
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 20,
         borderBottomRightRadius: 20,
         marginBottom:50,
-        justifyContent:'center'
+        
     },
     textboton:{
         fontWeight:'bold',

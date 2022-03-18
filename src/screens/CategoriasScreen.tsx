@@ -4,12 +4,17 @@ import { SliderCiudad } from '../components/slider';
 import Select  from '../components/Select';
 import { Slider } from 'react-native-elements/dist/slider/Slider';
 import { useNavigation } from '@react-navigation/native';
+import { Searchbar } from 'react-native-paper';
 
 
 
 export const CategoriasScreen = () => {
 
     const navigator = useNavigation()
+
+    const [searchQuery, setSearchQuery] = React.useState('');
+
+    const onChangeSearch = (query:any) => setSearchQuery(query);
 
   return (
       <ScrollView>
@@ -22,9 +27,14 @@ export const CategoriasScreen = () => {
                 <SliderCiudad />
             </View>
             <View style={styles.buscador}> 
-                
+                <Searchbar
+                    placeholder="¿Que estas buscando?"
+                    onChangeText={onChangeSearch}
+                    value={searchQuery}
+                    style={{width:'90%',height:45,fontSize:16,borderRadius:50}}
+                />
             </View>
-            <View style={{width:'100%'}}>
+            <View style={{flex:1}}>
             <View style={styles.cajaCategoria}>
                 <TouchableOpacity style={[styles.botoncaja, styles.alimentos]} onPress={()=>{goToScreen('SubcategoriasScreen')}}>
                     <View style={styles.contenidoboton}>
@@ -194,18 +204,21 @@ const styles = StyleSheet.create({
     buscador:{
         height:60,
         backgroundColor:'#dfa71b',
-        width:'100%'
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
     },
     cajaCategoria: {
         width:'100%',
-        paddingHorizontal:'2%',
         paddingVertical:15,
+        flexDirection:'row',
+        flexWrap:'wrap'
     },
     botoncaja:{
-        width:'46%',
+        width:'48%',
         height:100,
-        marginVertical:10,
-        marginHorizontal:2,
+        marginVertical:7,
+        marginHorizontal:4,
         flexDirection:'row',
     },
     contenidoboton:{
