@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView 
 import { Locales } from '../components/locales';
 
 import { useNavigation } from '@react-navigation/native';
-import { SliderCiudad } from '../components/slider';
 
 
 export const SubcategoriasScreen = () => {
@@ -15,7 +14,6 @@ export const SubcategoriasScreen = () => {
                 km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
             </Text>
         </View>
-        <SliderCiudad />
         <View style={styles.buscador}>
         </View>
         <View style={styles.titulo}>

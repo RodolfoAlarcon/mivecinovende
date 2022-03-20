@@ -3,15 +3,10 @@ import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, Scro
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Select from '../components/Select';
 import SelectSector from '../components/SelectSector'
-import { useCategorias } from '../hook/useCategorias';
-import { Categoriascom } from '../components/preba'
-import { Datum } from '../interfaces/categoriaInterface';
 
 export const HomeScreens = () => {
 
-    const navigator = useNavigation()
-
-    const { Categorias } = useCategorias(); 
+    const navigator = useNavigation() 
 
 
   return (
@@ -43,9 +38,6 @@ export const HomeScreens = () => {
                 </TouchableOpacity>
             </View>
             <View>
-                <Categoriascom 
-                    data={Categorias[0]}
-                />
             </View>
         </ScrollView>
   )

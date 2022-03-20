@@ -1,46 +1,34 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
-import Select  from '../components/Select';
-import { Slider } from 'react-native-elements/dist/slider/Slider';
-import { useNavigation } from '@react-navigation/native';
-import { useCategorias } from '../hook/useCategorias';
-import { Categoriascom } from '../components/cajaCategorias'
+import React from "react";
+import { Text, View,TouchableOpacity, Image,StyleSheet } from "react-native";
 import { Datum } from '../interfaces/categoriaInterface';
-import { SliderSector } from '../components/SliderSector';
-import { useSlider } from '../hook/useSlider' 
+import { useNavigation } from '@react-navigation/native';
 
+interface Props{
+    data: Datum;
+}
 
-export const CategoriasScreen = () => {
+export const Categoriascom = ({data}: Props) => {
 
     const navigator = useNavigation()
-
-    const { Categorias } = useCategorias();
-
-    const { SliderActuales } = useSlider();
-    
-    console.log(SliderActuales)
-
-  return (
-      <ScrollView>
-            <View style={styles.banner}>
-                <Text style={styles.textbanner}>
-                    km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
+    const uri =  data.url_imagen ;
+    return(
+        <TouchableOpacity style={[styles.botoncaja, styles.alimentos]} onPress={()=>{goToScreen('SubcategoriasScreen')}}>
+            <View style={styles.contenidoboton}>
+                <Image 
+                    source={{uri}}
+                    style={{width:60,height:50,resizeMode:'contain'}} 
+                />
+            </View>
+            <View style={styles.contenidobotontext}>
+                <Text style={styles.textboton}>
+                {data.name}
                 </Text>
             </View>
-            <View>
-                <SliderSector />
-            </View>
-            <View style={styles.buscador}> 
-            </View>
-            <View style={{flex:1}}>
-            <View style={styles.cajaCategoria}>
-            </View>
-        </View>
-      </ScrollView>
-  )
-  function goToScreen(routeName: any) {
-    navigator.navigate(routeName);
-  }
+        </TouchableOpacity>
+    )
+    function goToScreen(routeName: any) {
+        navigator.navigate(routeName);
+      }
 }
 
 const styles = StyleSheet.create({
@@ -89,7 +77,7 @@ const styles = StyleSheet.create({
         justifyContent:'center',
     },
     textboton:{
-        fontSize:14,
+        fontSize:17,
         fontWeight:'bold',
         color:'#000',
         textAlign:'center',
