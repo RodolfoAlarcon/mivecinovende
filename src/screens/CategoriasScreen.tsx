@@ -17,8 +17,9 @@ export const CategoriasScreen = () => {
     const { Categorias } = useCategorias();
 
     const { SliderActuales } = useSlider();
+
+    console.log(SliderActuales[0].url_imagen)
     
-    console.log(SliderActuales)
 
   return (
       <ScrollView>
@@ -28,7 +29,7 @@ export const CategoriasScreen = () => {
                 </Text>
             </View>
             <View>
-                <SliderSector />
+
             </View>
             <View style={styles.buscador}> 
             </View>

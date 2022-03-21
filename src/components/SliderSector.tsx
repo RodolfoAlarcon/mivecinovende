@@ -22,11 +22,11 @@ interface Props{
   data: Datum;
 }
 
+
 export const SliderSector = ({data}: Props) => {
 
   const { SliderActuales } = useSlider();
-  const uriUno = data.url_imagen;
-  console.log(SliderActuales[0].url_imagen)
+  const  uriUno = data.url_imagen[0];
 
     return (
         <View style={{height:190}}>
