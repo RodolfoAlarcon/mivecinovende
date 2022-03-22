@@ -1,34 +1,64 @@
-import React from "react";
-import { Text, View,TouchableOpacity, Image,StyleSheet } from "react-native";
-import { Datum } from '../interfaces/categoriaInterface';
-import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState, Component } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 
-interface Props{
-    data: Datum;
-}
+export default class Categoria extends Component{
 
-export const Categoriascom = ({data}: Props) => {
+    constructor(props:any){
+        super(props);
+        this.state = {
+            dataBanner:[]
+        }
+    }
+    
+    componentDidMount(){
+        const url = 'https://04.contenedoresnolvis.com/api/categorias';
+        return fetch(url)
+        .then((response) => response.json())
+        .then((responseJson)=> {       
+            this.setState({
+                isLoading:false,
+                dataBanner: responseJson.data
+            })
+        })
+        .catch((error:any)=> {
+            console.log(error)
+        })
+    }
 
-    const navigator = useNavigation()
-    const uri =  data.url_imagen ;
-    return(
-        <TouchableOpacity style={[styles.botoncaja, styles.alimentos]} onPress={()=>{goToScreen('SubcategoriasScreen')}}>
+
+    render(){
+        return(
+            <View>
+                <FlatList
+                    numColumns={2}
+                    data={this.state.dataBanner}
+                    renderItem={({item})=>this._renderItem(item)}
+                    keyExtractor ={(item:any,index)=>index.toString()}
+                    style={{width:'100%',paddingVertical:15}}
+                />
+            </View>
+        )
+    }
+
+    _renderItem(item:any){ 
+        return(
+            <TouchableOpacity 
+                style={[styles.botoncaja, styles.alimentos]} 
+            >
             <View style={styles.contenidoboton}>
                 <Image 
-                    source={{uri}}
+                source={{uri:item.url_imagen}}
                     style={{width:60,height:50,resizeMode:'contain'}} 
                 />
             </View>
             <View style={styles.contenidobotontext}>
               <Text style={styles.textboton}>
-                {data.name}  
+                  {item.name}
                 </Text>
             </View>
         </TouchableOpacity>
-    )
-    function goToScreen(routeName: any) {
-        navigator.navigate(routeName);
-      }
+        )
+    }
 }
 
 const styles = StyleSheet.create({
@@ -54,18 +84,13 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
     },
-    cajaCategoria: {
-        width:'100%',
-        paddingVertical:15,
-        flexDirection:'row',
-        flexWrap:'wrap'
-    },
     botoncaja:{
         width:'48%',
         height:100,
         marginVertical:7,
         marginHorizontal:4,
         flexDirection:'row',
+        padding:10
     },
     contenidoboton:{
         width:'35%',
@@ -75,6 +100,7 @@ const styles = StyleSheet.create({
     contenidobotontext:{
         width:'65%',
         justifyContent:'center',
+        alignItems:'center'
     },
     textboton:{
         fontSize:17,

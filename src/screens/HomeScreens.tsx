@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, Scro
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Select from '../components/Select';
 import SelectSector from '../components/SelectSector'
+import Categoria from '../components/catego'
 
 export const HomeScreens = () => {
 
@@ -36,8 +37,6 @@ export const HomeScreens = () => {
                     BUSCAR
                 </Text>
                 </TouchableOpacity>
-            </View>
-            <View>
             </View>
         </ScrollView>
   )

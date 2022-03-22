@@ -3,24 +3,14 @@ import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView 
 import Select  from '../components/Select';
 import { Slider } from 'react-native-elements/dist/slider/Slider';
 import { useNavigation } from '@react-navigation/native';
-import { useCategorias } from '../hook/useCategorias';
-import { Categoriascom } from '../components/cajaCategorias'
-import { Datum } from '../interfaces/categoriaInterface';
-import { SliderSector } from '../components/SliderSector';
-import { useSlider } from '../hook/useSlider' 
-
+import  Carousel  from '../components/Carousel' 
+import Categoria from '../components/catego'
+import AccordionView from '../components/acordeon'
 
 export const CategoriasScreen = () => {
 
     const navigator = useNavigation()
-
-    const { Categorias } = useCategorias();
-
-    const { SliderActuales } = useSlider();
-
-    console.log(SliderActuales[0].url_imagen)
     
-
   return (
       <ScrollView>
             <View style={styles.banner}>
@@ -28,21 +18,21 @@ export const CategoriasScreen = () => {
                     km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
                 </Text>
             </View>
-            <View>
-
+            <View style={{height:200}}>
+                <Carousel />
             </View>
             <View style={styles.buscador}> 
             </View>
-            <View style={{flex:1}}>
-            <View style={styles.cajaCategoria}>
+            <View style={{width:'100%'}}>
+                <AccordionView />
             </View>
-        </View>
       </ScrollView>
   )
   function goToScreen(routeName: any) {
     navigator.navigate(routeName);
   }
 }
+
 
 const styles = StyleSheet.create({
     banner:{
@@ -118,5 +108,15 @@ const styles = StyleSheet.create({
     },
     transporte:{
         backgroundColor:'#ededc9'
-    }
+    },
+    wrapper: {},
+    slide1: {
+      flex: 1,
+    },
+    slide2: {
+      flex: 1,
+    },
+    slide3: {
+      flex: 1,
+    },
   });
