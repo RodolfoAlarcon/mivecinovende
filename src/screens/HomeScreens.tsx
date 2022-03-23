@@ -30,7 +30,7 @@ export const HomeScreens = () => {
                     <SelectSector />
                 </View>
                 <TouchableOpacity
-                onPress={()=>{goToScreen('CategoriasScreen')}}
+                onPress={()=>{goToScreen('ListNegocioScreens')}}
                 style={styles.button}
                 >
                 <Text style={styles.textboton}>

@@ -24,7 +24,7 @@ export const CategoriasScreen = () => {
             <View style={styles.buscador}> 
             </View>
             <View style={{width:'100%'}}>
-                <AccordionView />
+                <Categoria />
             </View>
       </ScrollView>
   )

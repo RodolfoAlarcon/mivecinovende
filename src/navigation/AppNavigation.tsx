@@ -5,6 +5,8 @@ import {HomeScreens} from '../screens/HomeScreens'
 import {CategoriasScreen} from '../screens/CategoriasScreen' 
 import {SubcategoriasScreen} from '../screens/SubcategoriasScreen'
 import {NegocioScreen} from "../screens/NegocioScreen"
+import {ListNegocioScreens} from '../screens/ListNegocioScreens'
+import Component from 'react';
 
 const Stack = createStackNavigator();
 
@@ -26,6 +28,7 @@ export const Navigation = () => {
           <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
           <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />
           <Stack.Screen name="NegocioScreen" component={NegocioScreen} />
+          <Stack.Screen name="ListNegocioScreens" component={ListNegocioScreens} />
 
         </Stack.Navigator>
     );

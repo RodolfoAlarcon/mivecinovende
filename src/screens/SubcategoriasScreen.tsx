@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useState, Component } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { Locales } from '../components/locales';
 
 import { useNavigation } from '@react-navigation/native';
@@ -26,7 +26,7 @@ export const SubcategoriasScreen = () => {
             </Text>
         </View>
         <View style={{flex:1,width:'100%',paddingHorizontal:'2%',paddingVertical:'3%'}}>
-        <Locales />
+            
         </View>
     </ScrollView>
 

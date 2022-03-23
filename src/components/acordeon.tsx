@@ -1,61 +1,110 @@
-import React, { Component } from 'react';
-import Accordion from 'react-native-collapsible/Accordion';
-import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
+import React, {useEffect, useState} from "react";
+import {
+  SafeAreaView, StyleSheet, View, Text, ScrollView, TouchableOpacity
+} from 'react-native'
 
-const SECTIONS = [
+const CONTENT = [
   {
-    title: 'First',
-    content: 'Lorem ipsum...',
+    isExpande : false,
+    category_name: 'Item 1',
+    subcategory: [
+      {id: 1, val:'Sub 1'},
+      {id: 2, val:'Sub 2'},
+      {id: 3, val:'Sub 3'},
+    ]
   },
   {
-    title: 'Second',
-    content: 'Lorem ipsum...',
+    isExpande : false,
+    category_name: 'Item 2',
+    subcategory: [
+      {id: 4, val:'Sub 4'},
+      {id: 5, val:'Sub 5'},
+      {id: 6, val:'Sub 6'},
+    ]
   },
+
 ];
 
-class AccordionView extends Component {
-  state = {
-    activeSections: [],
-  };
+const ExpandableComonent = () => {
+  const [layoutHeight, setlayoutHeight] = useState(0);
 
-  _renderSectionTitle = (section:any) => {
-    return (
-      <View>
-        <Text>{section.content}</Text>
-      </View>
-    );
-  };
+  return(
+    <View>
+      <TouchableOpacity
+        style={styles.item}
+      >
+        <Text style={styles.itemText}>
 
-  _renderHeader = (section:any) => {
-    return (
-      <View>
-        <Text >{section.title}</Text>
-      </View>
-    );
-  };
-
-  _renderContent = (section:any) => {
-    return (
-      <View>
-        <Text>{section.content}</Text>
-      </View>
-    );
-  };
-
-  _updateSections = (activeSections:any) => {
-    this.setState({ activeSections });
-  };
-
-  render() {
-    return (
-      <Accordion
-        sections={SECTIONS}
-        activeSections={this.state.activeSections}
-        renderSectionTitle={this._renderSectionTitle}
-        renderHeader={this._renderHeader}
-        renderContent={this._renderContent}
-        onChange={this._updateSections}
-      />
-    );
-  }
+        </Text>
+      </TouchableOpacity>
+    </View>
+  )
 }
+
+const Acordeon = () => {
+
+  const [multiSelect, setmultiSelect] = useState(false);
+
+  return(
+    <SafeAreaView style={{flex:1}}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.titleText}>
+            Expandible List View
+          </Text>
+          <TouchableOpacity
+              onPress={
+                () => setmultiSelect(!multiSelect)
+              }
+            >
+              <Text style={styles.headerButton}>
+                {
+                  multiSelect
+                  ? 'Enable Single \n Expand'
+                  : 'Enable Multiple \n Expand' 
+                }
+              </Text>
+            </TouchableOpacity>
+        </View>
+        <ScrollView>
+           {
+             listDataSource.map((item:any, key:any) =>(
+               <ExpandableComonent />
+             ))
+           }     
+        </ScrollView>
+      </View>
+    </SafeAreaView>
+  )
+}
+
+const styles = StyleSheet.create({
+
+  container:{
+    flex:1
+  },
+  header:{
+    flexDirection: 'row',
+    padding: 10
+  },
+  titleText:{
+    flex:1,
+    fontSize:22,
+    fontWeight:'bold'
+  },
+  headerButton:{
+    textAlign: 'center',
+    justifyContent: 'center',
+    fontSize:18,
+  },
+  item:{
+    backgroundColor: 'orange',
+    padding: 20,
+  },
+  itemText:{
+    fontSize:16,
+    fontWeight: '500',
+  }
+});
+
+export default Acordeon;
