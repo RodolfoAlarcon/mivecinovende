@@ -11,7 +11,7 @@ export default class Listnegocios extends Component{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/categorias';
+        const url = 'https://04.contenedoresnolvis.com/api/negocios/95e7eb7a-634e-45a5-882c-671c11dce54c';
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       
@@ -29,8 +29,8 @@ export default class Listnegocios extends Component{
     render(){
         return(
             <View>
-                <FlatList
-                    numColumns={2}
+                <FlatList  
+                    numColumns={1}
                     data={this.state.dataBanner}
                     renderItem={({item})=>this._renderItem(item)}
                     keyExtractor ={(item:any,index)=>index.toString()}
@@ -43,18 +43,18 @@ export default class Listnegocios extends Component{
     _renderItem(item:any){ 
         return(
             <TouchableOpacity>
-                <View style={{alignItems:'flex-end'}}>
-                    <View style={{flexDirection:'row',height:70,backgroundColor:'#e4e5e4',marginBottom:5,width:'95%',}}>
+                <View>
+                    <View style={{flexDirection:'row',height:70,backgroundColor:'#e4e5e4',marginBottom:5,width:'100%',}}>
                         <View style={{width:'3%',backgroundColor:'#f979ae'}}>
 
                         </View>
                         <View style={{width:'70%',flexDirection:'row'}}>
                             <Image 
-                                source={require('../sources/img/restaurante.png')}
+                                source={{uri:item.url_logo}}
                                 style={{width:50,height:50,marginVertical:12,marginHorizontal:10,borderRadius: 50}} 
                             />
                             <Text style={{color:'#000',fontWeight:'bold',fontSize:16,marginVertical:26}}>
-                                Comidas "Victor"
+                                {item.name + console.log(item.id)}
                             </Text>
                         </View>
                         <View style={{width:'27%',flexDirection:'row'}}>

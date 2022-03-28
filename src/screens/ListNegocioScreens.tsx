@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
+import Listnegocios from '../components/Listnegocios'
+
 
 export const ListNegocioScreens = () => {
 
@@ -20,6 +22,9 @@ export const ListNegocioScreens = () => {
                 <Text style={styles.texttitulo}>
                     ALIMENTOS CASEROS
                 </Text>
+            </View>
+            <View style={{width:'100%', paddingHorizontal:10}}>
+            <Listnegocios />
             </View>
         </ScrollView>
   )
