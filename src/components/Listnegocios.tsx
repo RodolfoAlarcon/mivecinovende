@@ -1,5 +1,6 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 export default class Listnegocios extends Component{
 
@@ -24,9 +25,9 @@ export default class Listnegocios extends Component{
             console.log(error)
         })
     }
+    
 
-
-    render(){
+    render(){ 
         return(
             <View>
                 <FlatList  
@@ -40,9 +41,12 @@ export default class Listnegocios extends Component{
         )
     }
 
-    _renderItem(item:any){ 
+    _renderItem(item:any){
+        const navigator = useNavigation() 
         return(
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={()=>{goToScreen('ListNegocioScreens')}}
+            >
                 <View>
                     <View style={{flexDirection:'row',height:70,backgroundColor:'#e4e5e4',marginBottom:5,width:'100%',}}>
                         <View style={{width:'3%',backgroundColor:'#f979ae'}}>
@@ -54,7 +58,7 @@ export default class Listnegocios extends Component{
                                 style={{width:50,height:50,marginVertical:12,marginHorizontal:10,borderRadius: 50}} 
                             />
                             <Text style={{color:'#000',fontWeight:'bold',fontSize:16,marginVertical:26}}>
-                                {item.name + console.log(item.id)}
+                                {item.name}
                             </Text>
                         </View>
                         <View style={{width:'27%',flexDirection:'row'}}>
@@ -71,5 +75,8 @@ export default class Listnegocios extends Component{
                 </View>
             </TouchableOpacity>
         )
+        function goToScreen(routeName: any) {
+            navigator.navigate(routeName);
+          }
     }
 }
