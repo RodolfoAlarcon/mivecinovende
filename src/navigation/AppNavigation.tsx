@@ -4,7 +4,7 @@ import { AuthContex } from '../context/UsuarioContext';
 import {HomeScreens} from '../screens/HomeScreens'
 import {CategoriasScreen} from '../screens/CategoriasScreen' 
 import {SubcategoriasScreen} from '../screens/SubcategoriasScreen'
-import {NegocioScreen} from "../screens/NegocioScreen"
+import NegocioScreen from "../screens/NegocioScreen"
 import {ListNegocioScreens} from '../screens/ListNegocioScreens'
 import Component from 'react';
 

@@ -42,10 +42,8 @@ export default class Listnegocios extends Component{
     }
 
     _renderItem(item:any){
-        const navigator = useNavigation() 
         return(
             <TouchableOpacity
-            onPress={()=>{goToScreen('ListNegocioScreens')}}
             >
                 <View>
                     <View style={{flexDirection:'row',height:70,backgroundColor:'#e4e5e4',marginBottom:5,width:'100%',}}>
@@ -75,8 +73,5 @@ export default class Listnegocios extends Component{
                 </View>
             </TouchableOpacity>
         )
-        function goToScreen(routeName: any) {
-            navigator.navigate(routeName);
-          }
     }
 }

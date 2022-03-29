@@ -1,8 +1,12 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 
+const [ informacionShow, setinformacionShow ] = useState(false)
+const [ serviciosShow, setserviciosShow ] = useState(false)
+const [ productosShow, setproductosShow ] = useState(false)
+const [ contactenosShow, setcontactenosShow ] = useState(false)
 
-export default class NegocioScreen extends Component{
+export default class Negociosss extends Component{
 
     constructor(props:any){
         super(props);
@@ -25,32 +29,14 @@ export default class NegocioScreen extends Component{
             console.log(error)
         })
     }
-
-    render(){ 
-        return(
-            <View>
-                <FlatList  
-                    numColumns={1}
-                    data={this.state.dataBanner}
-                    renderItem={({item})=>this._renderItem(item)}
-                    keyExtractor ={(item:any,index)=>index.toString()}
-                    style={{width:'100%',paddingVertical:15}}
-                />
-            </View>
-        )
-    }
     
 
-    _renderItem(item:any){ 
-        const [ informacionShow, setinformacionShow ] = useState(false)
-        const [ serviciosShow, setserviciosShow ] = useState(false)
-        const [ productosShow, setproductosShow ] = useState(false)
-        const [ contactenosShow, setcontactenosShow ] = useState(false)
+    render(){ 
         return(
             <ScrollView style={{flex:1,backgroundColor:'#e5e7ea'}}>
             <View style={{width:'100%',justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
                 <Image 
-                    source={{uri:item.url_logo}}
+                    source={require('../sources/img/restaurante.png')}
                     style={{width:100,height:100,borderRadius:200,marginHorizontal:20,marginVertical:20}} 
                 />
                 <Text style={{fontSize:20,color:'black',paddingVertical:10}}>
