@@ -2,14 +2,28 @@ import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 
 
+
+
 export default class NegocioScreen extends Component{
 
-    constructor(props:any){
+    constructor(props:String){
         super(props);
-        this.state = {
-            dataBanner:[]
+        this.state= {
+            dataBanner:[],
+            informacionShow: true,
+            serviciosShow:false,
+            productosShow:false,
+            contactenosShow:false,
         }
     }
+    _onPressListItem() {
+        this.setState((previousState) => {
+            return ({
+                informacionShow: !previousState.informacionShow,
+            })
+        });
+    }
+    
     
     componentDidMount(){
         const url = 'https://04.contenedoresnolvis.com/api/negocios/95e7eb7a-634e-45a5-882c-671c11dce54c';
@@ -42,10 +56,7 @@ export default class NegocioScreen extends Component{
     
 
     _renderItem(item:any){ 
-        const [ informacionShow, setinformacionShow ] = useState(false)
-        const [ serviciosShow, setserviciosShow ] = useState(false)
-        const [ productosShow, setproductosShow ] = useState(false)
-        const [ contactenosShow, setcontactenosShow ] = useState(false)
+        
         return(
             <ScrollView style={{flex:1,backgroundColor:'#e5e7ea'}}>
             <View style={{width:'100%',justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
@@ -78,14 +89,14 @@ export default class NegocioScreen extends Component{
                 <TouchableOpacity
                     style={{backgroundColor:'white',marginVertical:7,width:'100%',paddingVertical:15,paddingLeft:10}}
                     onPress={
-                        () => setinformacionShow( !informacionShow )
+                        () => { this.componentHideAndShowInformacion}
                     }
                 >
                     <Text style={{color:'black',fontSize:18}}>
                         Informacion
                     </Text>
                 </TouchableOpacity>
-                { informacionShow? (
+                { this.state.informacionShow? (
                     <View style={{backgroundColor:'white',padding:10,marginTop:-7}}>
                         <Text style={{textAlign:'justify'}}>
                         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
