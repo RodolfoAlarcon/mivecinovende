@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 
-export default class Categoria extends Component{
+export default class Categoria extends Component<{},any>{
 
     constructor(props:any){
         super(props);

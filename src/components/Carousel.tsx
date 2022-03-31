@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper'
 import { Datum } from '../interfaces/categoriaInterface';
 
-export default class Carousel extends Component{
+export default class Carousel extends Component<{},any>{
     constructor(props:any){
         super(props);
         this.state = {

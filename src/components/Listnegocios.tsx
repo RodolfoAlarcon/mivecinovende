@@ -1,8 +1,9 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import {HomeScreens} from '../screens/HomeScreens'
 
-export default class Listnegocios extends Component{
+export default class Listnegocios extends Component<{},any>{
 
     constructor(props:any){
         super(props);
@@ -41,9 +42,13 @@ export default class Listnegocios extends Component{
         )
     }
 
-    _renderItem(item:any){
+    _renderItem(item:any,navigation:any){
+        
         return(
             <TouchableOpacity
+                onPress={() =>
+                this.props.navigation.navigate('HomeScreens')
+              }
             >
                 <View>
                     <View style={{flexDirection:'row',height:70,backgroundColor:'#e4e5e4',marginBottom:5,width:'100%',}}>
