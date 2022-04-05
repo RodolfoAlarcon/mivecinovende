@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
 import Listnegocios from '../components/Listnegocios'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
+const navigator = useNavigation()
 
 
-export const ListNegocioScreens = () => {
+export const ListNegocioScreens = (props: any) => {
 
-
+    const { params } = props.route;
 
   return (
         <ScrollView style={{flex:1}}>
@@ -24,10 +27,13 @@ export const ListNegocioScreens = () => {
                 </Text>
             </View>
             <View style={{width:'100%', paddingHorizontal:10}}>
-            <Listnegocios />
+                <Listnegocios id={params.id}/>
             </View>
         </ScrollView>
   )
+  function goToScreen(routeName: any, id : any) {
+    navigator.navigate(routeName as never, {idsector:id} as never);
+}
 
 }
 

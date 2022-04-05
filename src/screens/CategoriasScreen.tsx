@@ -28,9 +28,9 @@ export const CategoriasScreen = () => {
             </View>
       </ScrollView>
   )
-  function goToScreen(routeName: any) {
-    navigator.navigate(routeName);
-  }
+  function goToScreen(routeName: any, id : any) {
+    navigator.navigate(routeName as never, {idsector:id} as never);
+}
 }
 
 

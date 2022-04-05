@@ -1,5 +1,13 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
+
+const navigator = useNavigation()
+
+function goToScreen(routeName: any, id : any) {
+    navigator.navigate(routeName as never, {id:id} as never);
+}
 
 export default class Categoria extends Component<{},any>{
 
@@ -43,6 +51,9 @@ export default class Categoria extends Component<{},any>{
     _renderItem(item:any){ 
         return(
             <TouchableOpacity 
+            onPress={
+                () => {goToScreen('SubcategoriasScreen', item.id)}
+            }
                 style={[styles.botoncaja, styles.alimentos]} 
             >
             <View style={styles.contenidoboton}>

@@ -1,17 +1,28 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-export default class Subcategocaja extends Component<{},any>{
+
+const navigator = useNavigation()
+
+function goToScreen(routeName: any, id : any) {
+    navigator.navigate(routeName as never, {id:id} as never);
+}
+
+
+export default class Subcategocaja extends Component<{id:any},any>{
 
     constructor(props:any){
         super(props);
         this.state = {
             dataBanner:[]
+
         }
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/categorias';
+
+        const url = `https://04.contenedoresnolvis.com/api/subcategorias/${this.props.id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       
@@ -42,7 +53,11 @@ export default class Subcategocaja extends Component<{},any>{
 
     _renderItem(item:any){ 
         return(
-            <TouchableOpacity>
+            <TouchableOpacity
+            onPress={
+                () => {goToScreen('NegocioScreen', item.id)}
+            }
+            >
                 <View style={{flexDirection:'row',height:70,backgroundColor:'#fed1e5',marginBottom:5}}>
                     <View style={{width:'3%',backgroundColor:'#f979ae'}}></View>
                     <View style={{width:'77%',flexDirection:'row'}}>

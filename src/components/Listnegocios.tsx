@@ -1,9 +1,17 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, SafeAreaView, VirtualizedList } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import {HomeScreens} from '../screens/HomeScreens'
 
-export default class Listnegocios extends Component<{},any>{
+
+
+const navigator = useNavigation()
+
+function goToScreen(routeName: any, id : any) {
+    navigator.navigate(routeName as never, {id:id} as never);
+}
+
+export default class Listnegocios extends Component<{id:any},any>{
+
 
     constructor(props:any){
         super(props);
@@ -13,44 +21,51 @@ export default class Listnegocios extends Component<{},any>{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/negocios/95e7eb7a-634e-45a5-882c-671c11dce54c';
+  
+        const url = `https://04.contenedoresnolvis.com/api/negocios/${this.props.id}`;
         return fetch(url)
         .then((response) => response.json())
-        .then((responseJson)=> {       
-            this.setState({
-                isLoading:false,
-                dataBanner: responseJson.data
-            })
+        .then((responseJson)=> {  
+            if(typeof responseJson.data === 'object'){ 
+                this.setState({
+                    isLoading:false,
+                    dataBanner: responseJson.data
+                })
+            }else{
+                this.setState({
+                    isLoading:false,
+                    dataBanner: []
+                })
+            }    
         })
         .catch((error:any)=> {
             console.log(error)
         })
     }
-    
 
     render(){ 
         return(
-            <View>
-                <FlatList  
-                    numColumns={1}
-                    data={this.state.dataBanner}
-                    renderItem={({item})=>this._renderItem(item)}
-                    keyExtractor ={(item:any,index)=>index.toString()}
-                    style={{width:'100%',paddingVertical:15}}
-                />
-            </View>
+            <FlatList  
+                numColumns={1}
+                data={this.state.dataBanner}
+                renderItem={({item})=>this._renderItem(item)}                    
+                keyExtractor ={(item:any,index)=>index.toString()}
+                style={{width:'100%',paddingVertical:15}}
+            />
         )
     }
 
-    _renderItem(item:any,navigation:any){
+
+    
+    _renderItem(item:any){
         
         return(
+            <View>
             <TouchableOpacity
-                onPress={() =>
-                this.props.navigation.navigate('HomeScreens')
-              }
+                onPress={
+                    () => {goToScreen('NegocioScreen', item.id)}
+                }
             >
-                <View>
                     <View style={{flexDirection:'row',height:70,backgroundColor:'#e4e5e4',marginBottom:5,width:'100%',}}>
                         <View style={{width:'3%',backgroundColor:'#f979ae'}}>
 
@@ -75,8 +90,9 @@ export default class Listnegocios extends Component<{},any>{
                             />
                         </View>
                     </View>
-                </View>
             </TouchableOpacity>
+            </View>
+
         )
     }
 }

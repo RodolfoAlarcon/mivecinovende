@@ -1,11 +1,15 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
 import { Locales } from '../components/locales';
+import Subcategocaja from '../components/Subcategocaja'
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
-import { useNavigation } from '@react-navigation/native';
+const navigator = useNavigation()
 
+export const SubcategoriasScreen = (props: any) => {
 
-export const SubcategoriasScreen = () => {
+    const { params } = props.route;
+
   return (
     <View style={{flex:1}}>
             <ScrollView>
@@ -26,12 +30,17 @@ export const SubcategoriasScreen = () => {
             </Text>
         </View>
         <View style={{flex:1,width:'100%',paddingHorizontal:'2%',paddingVertical:'3%'}}>
-            
+            <Subcategocaja
+                id={params.id}
+            />
         </View>
     </ScrollView>
 
     </View>
   )
+  function goToScreen(routeName: any, id : any) {
+    navigator.navigate(routeName as never, {idsector:id} as never);
+}
 }
 
 const styles = StyleSheet.create({

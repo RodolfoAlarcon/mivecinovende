@@ -3,7 +3,6 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, 
 
 
 
-
 export default class NegocioScreen extends Component<{},any>{
 
 
@@ -31,14 +30,23 @@ export default class NegocioScreen extends Component<{},any>{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/data-negocio/95f1e4bf-17e6-4fdf-aad9-125c58f42765';
+        const { id } = this.props.route.params;
+        console.log(id)
+        const url = `https://04.contenedoresnolvis.com/api/data-negocio/${id}`;
         return fetch(url)
         .then((response) => response.json())
-        .then((responseJson)=> {      
-            this.setState({
-                isLoading:false,
-                dataBanner: responseJson.data
-            })
+        .then((responseJson)=> {  
+            if(typeof responseJson.data === 'object'){ 
+                this.setState({
+                    isLoading:false,
+                    dataBanner: responseJson.data
+                })
+            }else{
+                this.setState({
+                    isLoading:false,
+                    dataBanner: []
+                })
+            }    
         })
         .catch((error:any)=> {
             console.log(error)
@@ -66,12 +74,6 @@ export default class NegocioScreen extends Component<{},any>{
     
 
     _renderItem(item:any){ 
-        var facebook = false;
-        for (let i = 0; i < item.redes_sociales.map((n:any) => n).length; i++) {
-            const element = item.redes_sociales.map((n:any) => n)[i];
-            console.log(element)
-        }
-
         return(
             <ScrollView style={{flex:1,backgroundColor:'#e5e7ea'}}>
             <View style={{width:'100%',justifyContent:'center',alignItems:'center',backgroundColor:'white'}}>
@@ -151,7 +153,12 @@ export default class NegocioScreen extends Component<{},any>{
                         {
                             item.servicios.map((n:any) => 
 
-                            <View style={{width:'33.3%'}}>
+                            <View
+                                key={
+                                    n.id
+                                } 
+                                style={{width:'33.3%'}}
+                            >
                                 <Text
                                     style={{fontSize:17,marginBottom:5}}
                                 >
@@ -237,7 +244,9 @@ export default class NegocioScreen extends Component<{},any>{
             {
                             item.redes_sociales.map((n:any) => 
 
-                            <View>
+                            <View
+                                key={n.id}
+                            >
                                 <Text
                                     style={{fontSize:17,marginBottom:5}}
                                 >
