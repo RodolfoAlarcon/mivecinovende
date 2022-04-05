@@ -19,7 +19,7 @@ export default class Categoria extends Component<{},any>{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/categorias';
+        const url = 'https://04.contenedoresnolvis.com/api/categorias/95e7e977-fdb7-424c-bcfe-5fd9db8441d8';
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       
