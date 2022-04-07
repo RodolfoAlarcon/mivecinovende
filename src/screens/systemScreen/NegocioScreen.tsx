@@ -96,7 +96,7 @@ export default class NegocioScreen extends Component<{},any>{
                     }
                 >
                     <Image 
-                        source={require('../sources/img/pdf.png')}
+                        source={require('../../sources/img/pdf.png')}
                         style={{width:110,height:55, resizeMode:'contain',marginVertical:4}} 
                     />
                 </TouchableOpacity>
@@ -108,7 +108,7 @@ export default class NegocioScreen extends Component<{},any>{
                     }
                 >
                     <Image 
-                        source={require('../sources/img/whatsapp.png')}
+                        source={require('../../sources/img/whatsapp.png')}
                         style={{width:110,height:55, resizeMode:'contain',marginVertical:4}} 
                     />
                 </TouchableOpacity>
@@ -263,24 +263,24 @@ export default class NegocioScreen extends Component<{},any>{
             <View style={{backgroundColor:"white",marginVertical:7,width:'100%',paddingVertical:15,paddingHorizontal:20,justifyContent:'space-between',flexDirection:'row'}}>
 
                 <Image 
-                    source={require('../sources/img/webfalse.png')}
+                    source={require('../../sources/img/webfalse.png')}
                     style={{width:50,height:50,borderRadius:50}} 
                 />
                 <Image 
-                    source={require('../sources/img/facebook.png')}
+                    source={require('../../sources/img/facebook.png')}
                     style={{width:50,height:50,borderRadius:50}} 
                 />
 
                 <Image 
-                    source={require('../sources/img/instagramfalse.png')}
+                    source={require('../../sources/img/instagramfalse.png')}
                     style={{width:50,height:50,borderRadius:50}} 
                 />
                 <Image 
-                    source={require('../sources/img/youtube.png')}
+                    source={require('../../sources/img/youtube.png')}
                     style={{width:50,height:50,borderRadius:50}} 
                 />
                 <Image 
-                    source={require('../sources/img/tiktokfalse.png')}
+                    source={require('../../sources/img/tiktokfalse.png')}
                     style={{width:50,height:50,borderRadius:50}} 
                 />
 

@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, ScrollView } from 'react-native';
-import Select  from '../components/Select';
+import Select  from '../../components/Select';
 import { Slider } from 'react-native-elements/dist/slider/Slider';
 import { useNavigation } from '@react-navigation/native';
-import  Carousel  from '../components/Carousel' 
-import Categoria from '../components/catego'
-import AccordionView from '../components/acordeon'
+import  Carousel  from '../../components/Carousel' 
+import Categoria from '../../components/catego'
+import AccordionView from '../../components/acordeon'
 
 export const CategoriasScreen = () => {
 

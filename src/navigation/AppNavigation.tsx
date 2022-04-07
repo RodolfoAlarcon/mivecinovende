@@ -1,11 +1,18 @@
 import React, { useContext } from 'react'
+
+import RegisterScreen from '../screens/RegisterScreen'
+import IngresarNumeroScreen from '../screens/IngresarNumeroScreen'
+import ValidacionNumeroScreen from '../screens/ValidacionNumeroScreen';
+import SplashScreen from '../screens/SplashScreens'
+
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthContex } from '../context/UsuarioContext';
-import {HomeScreens} from '../screens/HomeScreens'
-import {CategoriasScreen} from '../screens/CategoriasScreen' 
-import {SubcategoriasScreen} from '../screens/SubcategoriasScreen'
-import NegocioScreen from "../screens/NegocioScreen"
-import {ListNegocioScreens} from '../screens/ListNegocioScreens'
+import { HomeScreens } from '../screens/systemScreen/HomeScreens'
+import { CategoriasScreen } from '../screens/systemScreen/CategoriasScreen'
+import { SubcategoriasScreen } from '../screens/systemScreen/SubcategoriasScreen'
+import NegocioScreen from "../screens/systemScreen/NegocioScreen"
+import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
+
 import Component from 'react';
 
 const Stack = createStackNavigator();
@@ -23,12 +30,44 @@ export const Navigation = () => {
                 }
             }}
         >
-          
-          <Stack.Screen name="HomeScreens" component={HomeScreens} />
-          <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
-          <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />
-          <Stack.Screen name="NegocioScreen" component={NegocioScreen} />
-          <Stack.Screen name="ListNegocioScreens" component={ListNegocioScreens} />
+            { 
+                (function () {
+
+                    if (status === 'authenticated') {
+                        return (
+                            <>
+                                <Stack.Screen name="HomeScreens" component={HomeScreens} />
+                                <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
+                                <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />
+                                <Stack.Screen name="NegocioScreen" component={NegocioScreen} />
+                                <Stack.Screen name="ListNegocioScreens" component={ListNegocioScreens} />
+
+
+                            </>
+
+                        )
+                    } else if (status === 'registered-phone') {
+                        return (
+                            <>
+                            <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                            </>
+                        )
+                    } else {
+                        return (
+                            <>
+                                <Stack.Screen name="SplashScreen" component={SplashScreen} />
+                                <Stack.Screen name="IngresarNumeroScreen" component={IngresarNumeroScreen} />
+                                <Stack.Screen name="ValidacionNumeroScreen" component={ValidacionNumeroScreen} />
+                            </>
+                        )
+                    }
+
+
+
+                })()
+            }
+
+
 
         </Stack.Navigator>
     );

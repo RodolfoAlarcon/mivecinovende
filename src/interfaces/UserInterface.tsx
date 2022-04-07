@@ -1,46 +1,47 @@
 import { Anuncio } from './AnuncioInterface';
+import { DataForm } from './DataFormInterface';
 
-export interface LoginResponse {
-    status:       number;
-    access_token: string;
-    token_type:   string;
-    expires_at:   Date;
-    user:         User[];
 
-}
-
-export interface RegisterResponse {
+export interface confirmNumberResponse {
     status:       number;
     access_token: string;
     token_type:   string;
     expires_at:   Date;
     user:         User;
+    anuncios:      Anuncio[];
+
+    dataForm : DataForm[];
 }
 
-
-export interface LoginResponse {
+export interface sendCodeResponse {
     status:       number;
-    access_token: string;
+
+}
+
+export interface RegisterResponse {
+    status:       number;
     token_type:   string;
     expires_at:   Date;
-    user:         User[];
-    groups:       Group[];
+    user:         User;
     anuncios:      Anuncio[];
-}
+    dataForm : DataForm[];
 
-export interface Group {
-    name: string;
 }
 
 export interface User {
     id:                string;
-    name:              string;
-    email:             string;
-    dni:             string;
+    name:              null;
+    email:             null;
     phone:             string;
-    birth:             string;
-    email_verified_at?: null;
-    deleted_at?:        null;
-    created_at?:        Date;
-    updated_at?:        Date;
+    dni:               null;
+    birth:             null;
+    rol:               string;
+    email_verified_at: null;
+    phone_verified:    string;
+    register_verified: string;
+    code_phone:        string;
+    access_token:     string;
+    deleted_at:        null;
+    created_at:        Date;
+    updated_at:        Date;
 }

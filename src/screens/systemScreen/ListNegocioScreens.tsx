@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
-import Listnegocios from '../components/Listnegocios'
+import Listnegocios from '../../components/Listnegocios'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const navigator = useNavigation()
@@ -19,7 +19,7 @@ export const ListNegocioScreens = (props: any) => {
             </View>
             <View style={styles.titulo}>
                 <Image 
-                    source={require('../sources/img/ICONOS-06.png')}
+                    source={require('../../sources/img/ICONOS-06.png')}
                     style={{width:70,height:60,resizeMode:'contain',marginRight:10}} 
                 />
                 <Text style={styles.texttitulo}>

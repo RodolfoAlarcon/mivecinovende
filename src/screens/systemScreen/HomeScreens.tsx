@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image,TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import Select from '../components/Select';
-import SelectSector from '../components/SelectSector'
-import Categoria from '../components/catego'
+import Select from '../../components/Select';
+import SelectSector from '../../components/SelectSector'
+import Categoria from '../../components/catego'
+import { AuthContex } from '../../context/UsuarioContext'
 
 export const HomeScreens = () => {
+    const { user, logOut } = useContext(AuthContex)
 
     const navigator = useNavigation() 
 
@@ -14,9 +16,12 @@ export const HomeScreens = () => {
         <ScrollView>
             <View style={styles.container}>
                 <Image 
-                source={require('../sources/img/icono.png')}
+                source={require('../../sources/img/icono.png')}
                 style={{width:220,marginVertical:10,alignItems:'center',resizeMode:'contain'}} 
                 />
+                <Text style={styles.boxtext}> 
+                    Bienbenido {user.name}
+                </Text>
                 <Text style={styles.boxtext}> 
                     SELECIONA LA CIUDAD
                 </Text>
@@ -38,11 +43,37 @@ export const HomeScreens = () => {
                 </Text>
                 </TouchableOpacity>
             </View>
+            <View style={{alignItems: 'center'}}>
+
+            <TouchableOpacity
+                onPress={()=>{cerrarSesion()}}
+                style={styles.button}
+                >
+                <Text style={styles.textboton}>
+                    Cerrar Session
+                </Text>
+                </TouchableOpacity>
+            </View>
         </ScrollView>
   )
   function goToScreen(routeName: any) {
     navigator.navigate(routeName);
   }
+  function cerrarSesion() {
+    Alert.alert("Salir", "Seguro de \n Salir de La Sesion?",
+        [
+            {
+                text: "Si", onPress: () => {
+                    logOut()
+                    //,goToScreen('LoginScreen')
+                }
+            },
+            {
+                text: "No", onPress: () => { }, style: 'cancel'
+            }
+        ]
+    )
+}
 }
 
 const styles = StyleSheet.create({

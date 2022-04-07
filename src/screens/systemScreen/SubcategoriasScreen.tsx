@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView } from 'react-native';
-import { Locales } from '../components/locales';
-import Subcategocaja from '../components/Subcategocaja'
+import { Locales } from '../../components/locales';
+import Subcategocaja from '../../components/Subcategocaja'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const navigator = useNavigation()
@@ -22,7 +22,7 @@ export const SubcategoriasScreen = (props: any) => {
         </View>
         <View style={styles.titulo}>
             <Image 
-                source={require('../sources/img/ICONOS-06.png')}
+                source={require('../../sources/img/ICONOS-06.png')}
                 style={{width:70,height:60,resizeMode:'contain',marginRight:10}} 
             />
             <Text style={styles.texttitulo}>
