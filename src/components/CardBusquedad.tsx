@@ -2,8 +2,7 @@ import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Linking, ScrollView, SafeAreaView, VirtualizedList,ActivityIndicator, Dimensions } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ListItem } from 'react-native-elements';
-
-
+import axios from 'axios'
 
 const navigator = useNavigation()
 
@@ -11,7 +10,8 @@ function goToScreen(routeName: any, id : any) {
     navigator.navigate(routeName as never, {id:id} as never);
 }
 
-export default class Listnegocios extends Component<{id:any},any>{
+
+export default class CardBusquedad extends Component<{id:any},any>{
 
 
     constructor(props:any){
@@ -23,51 +23,28 @@ export default class Listnegocios extends Component<{id:any},any>{
     }
     
     componentDidMount(){
-  
-        const url = `https://04.contenedoresnolvis.com/api/negocios/${this.props.id}`;
-        return fetch(url)
-        .then((response) => response.json())
-        .then((responseJson)=> {  
-            if(typeof responseJson.data === 'object'){ 
+        const url = "https://04.contenedoresnolvis.com/api/queryAll?field_query="
+        const element = {
+            field_query:this.props.id
+        }
+        fetch(url,{
+            method:'POST',
+            headers:{
+                "Content-Type":"application/json",
+                "Accept":"application/json"
+            },
+            body:JSON.stringify(element)
+        }).then((result)=>{
+            result.json().then((resp)=>{
                 this.setState({
                     isLoading:false,
-                    dataBanner: responseJson.data
+                    dataBanner: resp
                 })
-            }else{
-                this.setState({
-                    isLoading:false,
-                    dataBanner: []
-                })
-            }    
-        })
-        .catch((error:any)=> {
-            console.log(error)
+            })
         })
     }
 
     render(){
-
-        let ScreenHeight = Dimensions.get("window").height;
-
-        if (this.state.isLoading) {
-            return(
-                <View 
-                    style={{
-                        justifyContent:"center",
-                        alignItems:"center",
-                        height: ScreenHeight,
-                        width:"100%",
-                        marginTop: -200,
-                        backgroundColor:"white"
-                    }}
-                >
-                    <Image
-                        source={require('../sources/img/icono.png')}
-                    />
-                </View>
-            )
-        }else{
-
             return(
                 <FlatList  
                     numColumns={1}
@@ -77,7 +54,6 @@ export default class Listnegocios extends Component<{id:any},any>{
                     style={{width:'100%',paddingVertical:15}}
                 />
             )
-        }
     }
 
     _delivery(item:any){

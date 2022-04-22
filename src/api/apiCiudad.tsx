@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const ciudadesApi = axios.create ({
-    baseURL:'http://directorio-profesional.devrossdigital.es/api',
+    baseURL:'https://04.contenedoresnolvis.com/api',
 });
 
 export default ciudadesApi;

@@ -12,8 +12,10 @@ import { CategoriasScreen } from '../screens/systemScreen/CategoriasScreen'
 import { SubcategoriasScreen } from '../screens/systemScreen/SubcategoriasScreen'
 import NegocioScreen from "../screens/systemScreen/NegocioScreen"
 import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
+import {ResultadoBusquedadScreen}  from '../screens/systemScreen/ResultadoBusquedadScreen'
+import {Result} from '../screens/systemScreen/Result'
 
-import Component from 'react';
+
 
 const Stack = createStackNavigator();
 
@@ -37,12 +39,12 @@ export const Navigation = () => {
                         return (
                             <>
                                 <Stack.Screen name="HomeScreens" component={HomeScreens} />
+                                <Stack.Screen name="ResultadoBusquedadScreen " component={ResultadoBusquedadScreen } />
                                 <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
                                 <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />
                                 <Stack.Screen name="NegocioScreen" component={NegocioScreen} />
                                 <Stack.Screen name="ListNegocioScreens" component={ListNegocioScreens} />
-
-
+                                <Stack.Screen name="Result" component={Result} />
                             </>
 
                         )

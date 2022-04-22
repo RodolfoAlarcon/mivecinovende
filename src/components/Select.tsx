@@ -6,16 +6,22 @@ import { useCiudades } from '../hook/useCiudades';
 import { Datum } from '../interfaces/ciudadesInterface';
 
 
+
 function Select(props:any){
 
-  const { CiudadesActuales } = useCiudades();  
 
-  return (
+
+  const { CiudadesActuales } = useCiudades();
+  console.log(CiudadesActuales)  
+
+
+
+   return (
 
     <SearchableDropdown
     onTextChange={(text: any) => (text)}
     // Listner on the searchable input
-    onItemSelect={(items: any) => { console.log(items) }}
+    onItemSelect={(items: any) => { (items) }}
       // Called after the selection
       containerStyle={{ padding: 5 }}
       // Suggestion container style
@@ -58,7 +64,7 @@ function Select(props:any){
       // Mapping of item array
       defaultIndex={2}
       // Default selected item index
-      placeholder="Ciudad"
+      placeholder="Sector"
       // place holder for the search input
       resPtValue={false}
       // Reset textInput Value with true and false state

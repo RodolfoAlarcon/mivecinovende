@@ -1,12 +1,12 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList,ActivityIndicator,Dimensions } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
 const navigator = useNavigation()
 
-function goToScreen(routeName: any, id : any) {
-    navigator.navigate(routeName as never, {id:id} as never);
+function goToScreen(routeName: any, id : any, name: string) {
+    navigator.navigate(routeName as never, {id:id, name:name} as never,);
 }
 
 export default class Categoria extends Component<{},any>{
@@ -14,6 +14,7 @@ export default class Categoria extends Component<{},any>{
     constructor(props:any){
         super(props);
         this.state = {
+            isLoading:true,
             dataBanner:[]
         }
     }
@@ -35,26 +36,46 @@ export default class Categoria extends Component<{},any>{
 
 
     render(){
-        return(
-            <View>
-                <FlatList
-                    numColumns={2}
-                    data={this.state.dataBanner}
-                    renderItem={({item})=>this._renderItem(item)}
-                    keyExtractor ={(item:any,index)=>index.toString()}
-                    style={{width:'100%',paddingVertical:15}}
-                />
-            </View>
-        )
+        let ScreenHeight = Dimensions.get("window").height;
+        if (this.state.isLoading) {
+            return(
+                <View 
+                    style={{
+                        justifyContent:"center",
+                        alignItems:"center",
+                        height: ScreenHeight,
+                        width:"100%",
+                        marginTop: -353,
+                        backgroundColor:"white"
+                    }}
+                >
+                    <Image
+                        source={require('../sources/img/icono.png')}
+                    />
+                </View>
+            )
+        }else{
+            return(
+                <View>
+                    <FlatList
+                        numColumns={2}
+                        data={this.state.dataBanner}
+                        renderItem={({item})=>this._renderItem(item)}
+                        keyExtractor ={(item:any,index)=>index.toString()}
+                        style={{width:'100%',paddingVertical:15}}
+                    />
+                </View>
+            )
+        }
     }
 
     _renderItem(item:any){ 
         return(
             <TouchableOpacity 
             onPress={
-                () => {goToScreen('SubcategoriasScreen', item.id)}
+                () => {goToScreen('SubcategoriasScreen', item.id, item.name)}
             }
-                style={[styles.botoncaja, styles.alimentos]} 
+                style={styles.botoncaja} 
             >
             <View style={styles.contenidoboton}>
                 <Image 
@@ -96,12 +117,17 @@ const styles = StyleSheet.create({
         alignItems:'center',
     },
     botoncaja:{
-        width:'48%',
+        width:'47.5%',
         height:100,
         marginVertical:7,
-        marginHorizontal:4,
+        marginHorizontal:5,
         flexDirection:'row',
-        padding:10
+        padding:10,
+        backgroundColor: '#007ba4',
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
     },
     contenidoboton:{
         width:'35%',
@@ -116,31 +142,7 @@ const styles = StyleSheet.create({
     textboton:{
         fontSize:17,
         fontWeight:'bold',
-        color:'#000',
+        color:'#fff',
         textAlign:'center',
-    },
-    alimentos:{
-        backgroundColor:'#fed1e5'
-    },
-    oficios:{
-        backgroundColor:'#f8ebd1'
-    },
-    locales:{
-        backgroundColor:'#dbe9d9'
-    },
-    propiedades:{
-        backgroundColor:'#fdebdc'
-    },
-    servicios:{
-        backgroundColor:'#dcf0d7'
-    },
-    cursos:{
-        backgroundColor:'#e1e6f1'
-    },
-    venta:{
-        backgroundColor:'#baf2e6'
-    },
-    transporte:{
-        backgroundColor:'#ededc9'
     }
   });

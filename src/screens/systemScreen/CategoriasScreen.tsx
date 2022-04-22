@@ -6,6 +6,8 @@ import { useNavigation } from '@react-navigation/native';
 import  Carousel  from '../../components/Carousel' 
 import Categoria from '../../components/catego'
 import AccordionView from '../../components/acordeon'
+import { Searchbar } from 'react-native-paper';
+import { Buscador } from '../../components/buscador';
 
 export const CategoriasScreen = () => {
 
@@ -21,7 +23,8 @@ export const CategoriasScreen = () => {
             <View style={{height:200}}>
                 <Carousel />
             </View>
-            <View style={styles.buscador}> 
+            <View style={styles.buscador}>
+                <Buscador />
             </View>
             <View style={{width:'100%'}}>
                 <Categoria />
@@ -29,7 +32,7 @@ export const CategoriasScreen = () => {
       </ScrollView>
   )
   function goToScreen(routeName: any, id : any) {
-    navigator.navigate(routeName as never, {idsector:id} as never);
+    navigator.navigate(routeName as never, {id:id} as never);
 }
 }
 
@@ -56,6 +59,7 @@ const styles = StyleSheet.create({
         width:'100%',
         justifyContent:'center',
         alignItems:'center',
+        paddingHorizontal:"5%",
     },
     cajaCategoria: {
         width:'100%',

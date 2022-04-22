@@ -35,7 +35,8 @@ console.log(user)
     })
 
     return (
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{flex:1}}>
+                    <View style={{ flex: 1 }}>
             <StatusBar backgroundColor={color.WHITE} translucent={true} />
 
 
@@ -181,6 +182,7 @@ console.log(user)
 
             </View>
         </View>
+        </ScrollView>
     )
 
 }

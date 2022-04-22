@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking } from 'react-native';
-
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions } from 'react-native';
+import { Searchbar } from 'react-native-paper';
 
 
 export default class NegocioScreen extends Component<{},any>{
@@ -9,6 +9,7 @@ export default class NegocioScreen extends Component<{},any>{
     constructor(props:any){
         super(props);
         this.state= {
+            isLoading:true,
             dataBanner:[],
             informacionShow: false,
             serviciosShow:false,
@@ -31,7 +32,6 @@ export default class NegocioScreen extends Component<{},any>{
     
     componentDidMount(){
         const { id } = this.props.route.params;
-        console.log(id)
         const url = `https://04.contenedoresnolvis.com/api/data-negocio/${id}`;
         return fetch(url)
         .then((response) => response.json())
@@ -53,21 +53,53 @@ export default class NegocioScreen extends Component<{},any>{
         })
     }
 
+    _RedesSociales(item:any){
+        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
+        console.log(redsocial)
+        if (redsocial == "facebook"){
+            return(
+                <Text>
+                    Hola Mundo
+                </Text>
+            )
+        } 
+    }
+
 
 
 
     render(){ 
-        return(
-            <View style={{flex:1,backgroundColor:'#e5e7ea'}}>
-                <FlatList  
-                    numColumns={1}
-                    data={this.state.dataBanner}
-                    renderItem={({item})=>this._renderItem(item)}
-                    keyExtractor ={(item:any,index)=>index.toString()}
-                    style={{width:'100%',paddingVertical:15}}
-                />
-            </View>
-        )
+        let ScreenHeight = Dimensions.get("window").height;
+
+        if (this.state.isLoading) {
+            return(
+                <View 
+                    style={{
+                        justifyContent:"center",
+                        alignItems:"center",
+                        height: ScreenHeight,
+                        width:"100%",
+                        backgroundColor:"white"
+                    }}
+                >
+                    <Image
+                        source={require('../../sources/img/icono.png')}
+                    />
+                </View>
+            )
+        }else{
+            return(
+                <View style={{flex:1,backgroundColor:'#e5e7ea'}}>
+                    <FlatList  
+                        numColumns={1}
+                        data={this.state.dataBanner}
+                        renderItem={({item})=>this._renderItem(item)}
+                        keyExtractor ={(item:any,index)=>index.toString()}
+                        style={{width:'100%',paddingVertical:15}}
+                    />
+                </View>
+            )
+        }
     }
 
 
@@ -84,11 +116,11 @@ export default class NegocioScreen extends Component<{},any>{
                 <Text style={{fontSize:20,color:'black',paddingVertical:10}}>
                     {item.name}
                 </Text>
-                <Text style={{paddingBottom:10}}>
+                <Text style={{paddingBottom:10,color:"#000"}}>
                     Lunes a Viernes 9:00 - 18:00
                 </Text>
             </View>
-            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:'white',paddingBottom:10}}>
+            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center',backgroundColor:'white',paddingBottom:10,marginBottom:5}}>
             <View style={{width:'40%', alignItems:'center', justifyContent:'center'}}>
                 <TouchableOpacity
                     onPress={
@@ -126,8 +158,8 @@ export default class NegocioScreen extends Component<{},any>{
                     </Text>
                 </TouchableOpacity>
                 { this.state.informacionShow? (
-                    <View style={{backgroundColor:'white',padding:10,marginTop:-7}}>
-                        <Text style={{textAlign:'justify'}}>
+                    <View style={{backgroundColor:'white',padding:10,marginTop:-8}}>
+                        <Text style={{textAlign:'justify',color:"#000"}}>
                             {item.description}
                         </Text>
                     </View>
@@ -148,7 +180,7 @@ export default class NegocioScreen extends Component<{},any>{
                     </Text>
                 </TouchableOpacity>
                 { this.state.serviciosShow? (
-                    <View style={{backgroundColor:'white',padding:10,marginTop:-7,flexDirection:'row',flexWrap:'wrap'}}>
+                    <View style={{backgroundColor:'white',padding:10,marginTop:-8,flexDirection:'row',flexWrap:'wrap'}}>
 
                         {
                             item.servicios.map((n:any) => 
@@ -160,7 +192,7 @@ export default class NegocioScreen extends Component<{},any>{
                                 style={{width:'33.3%'}}
                             >
                                 <Text
-                                    style={{fontSize:17,marginBottom:5}}
+                                    style={{fontSize:17,marginBottom:5,color:"#000"}}
                                 >
                                     • {n.servicio}
                                 </Text>
@@ -187,9 +219,9 @@ export default class NegocioScreen extends Component<{},any>{
                     </Text>
                 </TouchableOpacity>
                 { this.state.productosShow? (
-                    <View style={{backgroundColor:'white',padding:10,marginTop:-7}}>
-                        <Text style={{textAlign:'justify'}}>
-                        
+                    <View style={{backgroundColor:'white',padding:10,marginTop:-8}}>
+                        <Text style={{textAlign:'justify',color:"#000"}}>
+
                         </Text>
                     </View>
                 ):null
@@ -210,29 +242,29 @@ export default class NegocioScreen extends Component<{},any>{
                     </Text>
                 </TouchableOpacity>
                 { this.state.contactenosShow? (
-                    <View style={{backgroundColor:'white',padding:10,marginTop:-7}}>
-                        <Text style={{textAlign:'justify',fontWeight:'bold'}}>
+                    <View style={{backgroundColor:'white',padding:10,marginTop:-8}}>
+                        <Text style={{textAlign:'justify',fontWeight:'bold',color:"#000"}}>
                             Dirección:
                         </Text>
-                        <Text style={{textAlign:'justify',marginBottom:10}}>
+                        <Text style={{textAlign:'justify',marginBottom:10,color:"#000"}}>
                             {item.direccion}
                         </Text>
-                        <Text style={{textAlign:'justify',fontWeight:'bold'}}>
+                        <Text style={{textAlign:'justify',fontWeight:'bold',color:"#000"}}>
                             Teléfono:
                         </Text>
-                        <Text style={{textAlign:'justify',marginBottom:10}}>
+                        <Text style={{textAlign:'justify',marginBottom:10,color:"#000"}}>
                             {item.phone}
                         </Text>
-                        <Text style={{textAlign:'justify',fontWeight:'bold'}}>
+                        <Text style={{textAlign:'justify',fontWeight:'bold',color:"#000"}}>
                             Email:
                         </Text>
-                        <Text style={{textAlign:'justify',marginBottom:10}}>
+                        <Text style={{textAlign:'justify',marginBottom:10,color:"#000"}}>
                             {item.email}
                         </Text>
-                        <Text style={{textAlign:'justify',fontWeight:'bold'}}>
+                        <Text style={{textAlign:'justify',fontWeight:'bold',color:"#000"}}>
                             Sitio Web:
                         </Text>
-                        <Text style={{textAlign:'justify',marginBottom:10}}>
+                        <Text style={{textAlign:'justify',marginBottom:10,color:"#000"}}>
                             {item.sitio_web}
                         </Text>
                     </View>
@@ -240,23 +272,9 @@ export default class NegocioScreen extends Component<{},any>{
                 }
             </View>
             <View style={{backgroundColor:"white",marginVertical:7,width:'100%',paddingVertical:15,paddingHorizontal:20,justifyContent:'space-between',flexDirection:'row'}}>
-
-            {
-                            item.redes_sociales.map((n:any) => 
-
-                            <View
-                                key={n.id}
-                            >
-                                <Text
-                                    style={{fontSize:17,marginBottom:5}}
-                                >
-                                    {n.red_social}
-                                </Text>
-                            </View>
-
-                            )
-                        }
-
+                {
+                    this._RedesSociales(item)
+                }
             </View>
 
 

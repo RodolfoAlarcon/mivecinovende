@@ -26,10 +26,10 @@ export const SubcategoriasScreen = (props: any) => {
                 style={{width:70,height:60,resizeMode:'contain',marginRight:10}} 
             />
             <Text style={styles.texttitulo}>
-                ALIMENTOS CASEROS
+                {params.name}
             </Text>
         </View>
-        <View style={{flex:1,width:'100%',paddingHorizontal:'2%',paddingVertical:'3%'}}>
+        <View style={{flex:1,width:'100%',paddingVertical:'3%'}}>
             <Subcategocaja
                 id={params.id}
             />
@@ -63,14 +63,15 @@ const styles = StyleSheet.create({
     titulo:{
         height:100,
         width:'100%',
-        backgroundColor:'#fed1e5',
+        backgroundColor:'#d5d4ff',
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center'
     },
     texttitulo:{
-        fontSize:17,
+        fontSize:20,
         fontWeight:'bold',
-        color:'#000'
+        color:'#000',
+        textTransform: 'uppercase'
     },
   });

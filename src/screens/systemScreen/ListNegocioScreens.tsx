@@ -23,16 +23,16 @@ export const ListNegocioScreens = (props: any) => {
                     style={{width:70,height:60,resizeMode:'contain',marginRight:10}} 
                 />
                 <Text style={styles.texttitulo}>
-                    ALIMENTOS CASEROS
+                    {params.name}
                 </Text>
             </View>
-            <View style={{width:'100%', paddingHorizontal:10}}>
+            <View style={{width:'100%'}}>
                 <Listnegocios id={params.id}/>
             </View>
         </ScrollView>
   )
   function goToScreen(routeName: any, id : any) {
-    navigator.navigate(routeName as never, {idsector:id} as never);
+    navigator.navigate(routeName as never, {id:id} as never);
 }
 
 }
@@ -41,15 +41,16 @@ const styles = StyleSheet.create({
     titulo:{
         height:100,
         width:'100%',
-        backgroundColor:'#fed1e5',
+        backgroundColor:'#d5d4ff',
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'center'
     },
     texttitulo:{
-        fontSize:17,
+        fontSize:20,
         fontWeight:'bold',
-        color:'#000'
+        color:'#000',
+        textTransform: 'uppercase'
     },
     banner:{
         height:50,
