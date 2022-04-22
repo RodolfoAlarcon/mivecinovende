@@ -6,10 +6,14 @@ export const useCiudades = () =>{
 
     const [CiudadesActuales, setCiudadesActuales] = useState<Datum[]>([]);
 
+    const [SectoresActuales, setSectoresActuales] = useState<Datum[]>([]);
+
     const getCiudades = async() =>{
       
-        const resp = await ciudadesApi.get<Ciudades>('/ciudades');
-        setCiudadesActuales(resp.data.data); 
+        const resp = await ciudadesApi.get<any>('/getCountry');
+        setCiudadesActuales(resp.data.citys); 
+
+        setSectoresActuales(resp.data.sectors); 
 
     }
 
@@ -18,7 +22,8 @@ export const useCiudades = () =>{
     }, [])
     
     return{
-        CiudadesActuales
+        CiudadesActuales,
+        SectoresActuales
     }
 
 }
