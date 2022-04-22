@@ -26,7 +26,7 @@ export type AuthAction =
 | { type: 'removeError', payload: string }
 | { type: 'addErrorsistem', payload: string }
 | { type: 'notAuthenticated' }
-| { type: 'logaout' }
+| { type: 'logaout' } 
 | { type: 'numberTemporal', payload: string }
 | { type: 'getCountry', payload: { address: Address } }
 | { type: 'recoveryCountry', payload: { address: Address } }
@@ -38,8 +38,6 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
     
 
         case 'sing-in':
-            deleteUsuario().then((msg) => {
-            })
             let status_user = '';
             if(parseInt(action.payload.user.register_verified) !== 0){
                 status_user = 'authenticated'
