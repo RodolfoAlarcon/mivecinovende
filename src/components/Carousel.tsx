@@ -3,7 +3,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper'
 import { Datum } from '../interfaces/categoriaInterface';
 
-export default class Carousel extends Component<{},any>{
+export default class Carousel extends Component<{id:any},any>{
     constructor(props:any){
         super(props);
         this.state = {
@@ -12,7 +12,8 @@ export default class Carousel extends Component<{},any>{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/galeria-de-imagenes-de-sector/95df9f72-2ab4-4d3c-a5ef-7105dec742e0';
+        const id = this.props.id;
+        const url = `https://04.contenedoresnolvis.com/api/galeria-de-imagenes-de-sector/${id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {

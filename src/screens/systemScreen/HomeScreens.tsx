@@ -44,7 +44,7 @@ export const HomeScreens = () => {
 
                 <View style={styles.select}>
                 <SearchableDropdown
-                        onTextChange={(text: any) => (text)}
+                        onTextChange={(text: any) => sectorsFilter(items.name)}
                         // Listner on the searchable input
                         onItemSelect={(items: any) => { sectorsFilter(items.id) }}
                         // Called after the selection
@@ -89,7 +89,7 @@ export const HomeScreens = () => {
                         // Mapping of item array
                         defaultIndex={2}
                         // Default selected item index
-                        placeholder="Sector"
+                        placeholder="Ciudad"
                         // place holder for the search input
                         resPtValue={false}
                         // Reset textInput Value with true and false state

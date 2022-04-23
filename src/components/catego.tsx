@@ -9,7 +9,7 @@ function goToScreen(routeName: any, id : any, name: string) {
     navigator.navigate(routeName as never, {id:id, name:name} as never,);
 }
 
-export default class Categoria extends Component<{},any>{
+export default class Categoria extends Component<{lol:any},any>{
 
     constructor(props:any){
         super(props);
@@ -20,7 +20,9 @@ export default class Categoria extends Component<{},any>{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/categorias/95e7e977-fdb7-424c-bcfe-5fd9db8441d8';
+        const id = this.props.lol;
+        console.log(this.props.lol)
+        const url = `https://04.contenedoresnolvis.com/api/categorias/${id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       

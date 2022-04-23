@@ -19,7 +19,7 @@ function Select(props:any){
    return (
 
     <SearchableDropdown
-    onTextChange={(text: any) => (text)}
+    onTextChange={(items: any) => console.log({items})}
     // Listner on the searchable input
     onItemSelect={(items: any) => { (items) }}
       // Called after the selection
@@ -64,7 +64,7 @@ function Select(props:any){
       // Mapping of item array
       defaultIndex={2}
       // Default selected item index
-      placeholder="Sector"
+      placeholder="Ciudad"
       // place holder for the search input
       resPtValue={false}
       // Reset textInput Value with true and false state

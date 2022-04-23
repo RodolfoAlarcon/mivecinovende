@@ -9,9 +9,11 @@ import AccordionView from '../../components/acordeon'
 import { Searchbar } from 'react-native-paper';
 import { Buscador } from '../../components/buscador';
 
-export const CategoriasScreen = () => {
+export const CategoriasScreen = (props: any) => {
 
     const navigator = useNavigation()
+    const { params } = props.route;
+    const paramsid = params.id
     
   return (
       <ScrollView>
@@ -21,7 +23,9 @@ export const CategoriasScreen = () => {
                 </Text>
             </View>
             <View style={{height:200}}>
-                <Carousel />
+                <Carousel 
+                    id={paramsid}
+                />
             </View>
             <View style={styles.buscador}>
                 <Buscador />
