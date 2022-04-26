@@ -5,12 +5,12 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const navigator = useNavigation()
 
-function goToScreen(routeName: any, id : any, name: any) {
-    navigator.navigate(routeName as never, {id:id , name:name} as never);
+function goToScreen(routeName: any, id : any, name: string, sector: any) {
+    navigator.navigate(routeName as never, {id:id, name:name, sector:sector } as never,);
 }
 
 
-export default class Subcategocaja extends Component<{id:any},any>{
+export default class Subcategocaja extends Component<{id:any, sector:any},any>{
 
     constructor(props:any){
         super(props);
@@ -72,12 +72,13 @@ export default class Subcategocaja extends Component<{id:any},any>{
         }
     }
 
-    _renderItem(item:any){ 
+    _renderItem(item:any){
+        const sector = this.props.sector 
         return(
             <View>
                             <TouchableOpacity
             onPress={
-                () => {goToScreen('ListNegocioScreens', item.id, item.name)}
+                () => {goToScreen('ListNegocioScreens', item.id, item.name, sector)}
             }
             style={{
                 marginHorizontal:5

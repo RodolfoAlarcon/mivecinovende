@@ -13,13 +13,17 @@ export const CategoriasScreen = (props: any) => {
 
     const navigator = useNavigation()
     const { params } = props.route;
+    console.log(params)
     const paramsid = params.id
-    
+    const paramsname = params.name
+
+
+
   return (
       <ScrollView>
             <View style={styles.banner}>
                 <Text style={styles.textbanner}>
-                    km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
+                    {paramsname}
                 </Text>
             </View>
             <View style={{height:200}}>
@@ -31,7 +35,10 @@ export const CategoriasScreen = (props: any) => {
                 <Buscador />
             </View>
             <View style={{width:'100%'}}>
-                <Categoria />
+                <Categoria  
+                    sector={paramsname}
+                    id={paramsid}
+                />
             </View>
       </ScrollView>
   )
@@ -51,7 +58,8 @@ const styles = StyleSheet.create({
         fontSize:17, 
         fontWeight:'bold',
         textAlign:'center',
-        marginVertical:13
+        marginVertical:13,
+        textTransform:"uppercase"
     },
     container: {
       flex: 1,

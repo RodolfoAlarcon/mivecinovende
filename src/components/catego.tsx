@@ -5,30 +5,30 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 const navigator = useNavigation()
 
-function goToScreen(routeName: any, id : any, name: string) {
-    navigator.navigate(routeName as never, {id:id, name:name} as never,);
+function goToScreen(routeName: any, id : any, name: string, sector: any) {
+    navigator.navigate(routeName as never, {id:id, name:name, sector:sector } as never,);
 }
 
-export default class Categoria extends Component<{lol:any},any>{
+export default class Categoria extends Component<{id:any, sector:any},any>{
 
     constructor(props:any){
         super(props);
         this.state = {
             isLoading:true,
-            dataBanner:[]
+            dataBanner:[],
+            sectorTitulo:""
         }
     }
     
     componentDidMount(){
-        const id = this.props.lol;
-        console.log(this.props.lol)
+        const id = this.props.id;
         const url = `https://04.contenedoresnolvis.com/api/categorias/${id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       
             this.setState({
                 isLoading:false,
-                dataBanner: responseJson.data
+                dataBanner: responseJson.data,
             })
         })
         .catch((error:any)=> {
@@ -71,11 +71,14 @@ export default class Categoria extends Component<{lol:any},any>{
         }
     }
 
-    _renderItem(item:any){ 
+    _renderItem(item:any){
+
+        const sector = this.props.sector
+
         return(
             <TouchableOpacity 
             onPress={
-                () => {goToScreen('SubcategoriasScreen', item.id, item.name)}
+                () => {goToScreen('SubcategoriasScreen', item.id, item.name, sector)}
             }
                 style={styles.botoncaja} 
             >

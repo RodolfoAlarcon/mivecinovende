@@ -13,8 +13,11 @@ export const HomeScreens = () => {
     const { CiudadesActuales,SectoresActuales } = useCiudades();
     const navigator = useNavigation()
     const [items,setItems] = useState<any[]>([]);
+    const [nombre,setNombre] = useState<any[]>([]);
     const [idSector,setIdSector] = useState('');
+    const [nameSector,setnameSector] = useState('');
     const [disableTouch,setDisableTouch] = useState(true);
+    const rodolfo = "rodolfo";
 
     function sectorsFilter(id:any){
         let array = [];
@@ -27,6 +30,18 @@ export const HomeScreens = () => {
         })
   
         setItems(array);
+    }
+    function nombreFilter(id:any){
+        let array = [];
+        SectoresActuales.map(n => {
+           if(n.name == name){
+            array.push(n)
+           }
+            
+            
+        })
+  
+        setNombre(array);
     }
     return (
         <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
@@ -44,7 +59,7 @@ export const HomeScreens = () => {
 
                 <View style={styles.select}>
                 <SearchableDropdown
-                        onTextChange={(text: any) => sectorsFilter(items.name)}
+                        onTextChange={(text:any) => console.log(text)}
                         // Listner on the searchable input
                         onItemSelect={(items: any) => { sectorsFilter(items.id) }}
                         // Called after the selection
@@ -112,9 +127,9 @@ export const HomeScreens = () => {
 
                 <View style={styles.select}>
                     <SearchableDropdown
-                        onTextChange={(text: any) => (text)}
+                        onTextChange={(items: any) => console.log(items)}
                         // Listner on the searchable input
-                        onItemSelect={(items: any) => { setIdSector(items.id);  setDisableTouch(false)}}
+                        onItemSelect={(items: any) => { setIdSector(items.id);  setDisableTouch(false), setnameSector(items.name)}}
                         // Called after the selection
                         containerStyle={{ padding: 5 }}
                         // Suggestion container style
@@ -176,7 +191,7 @@ export const HomeScreens = () => {
 
                 <TouchableOpacity
                     disabled={disableTouch}
-                    onPress={() => { goToScreen('CategoriasScreen', idSector) }}
+                    onPress={() => { goToScreen('CategoriasScreen', idSector, nameSector ) }}
                     style={styles.button}
                 >
                     <Text style={styles.textboton}>
@@ -197,8 +212,8 @@ export const HomeScreens = () => {
             </View>
         </ScrollView>
     )
-    function goToScreen(routeName: any, idSector:any) {
-        navigator.navigate(routeName as never, {id:idSector} as never);
+    function goToScreen(routeName: any, idSector:any, name:any) {
+        navigator.navigate(routeName as never, {id:idSector, name:nameSector} as never);
     }
     function cerrarSesion() {
         Alert.alert("Salir", "Seguro de \n Salir de La Sesion?",

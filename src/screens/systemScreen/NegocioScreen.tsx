@@ -55,14 +55,19 @@ export default class NegocioScreen extends Component<{},any>{
 
     _RedesSociales(item:any){
         const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-        console.log(redsocial)
-        if (redsocial == "facebook"){
-            return(
-                <Text>
-                    Hola Mundo
-                </Text>
-            )
-        } 
+        item.redes_sociales.map((n:any) => {
+            if(n.red_social === "facebook"){
+                return(
+                    <View>
+                        <Text>
+                            Hola Mundo
+                        </Text>
+                    </View>
+                )
+            }
+            
+            
+        })
     }
 
 

@@ -10,11 +10,12 @@ export const ListNegocioScreens = (props: any) => {
 
     const { params } = props.route;
 
+
   return (
         <ScrollView style={{flex:1}}>
             <View style={styles.banner}>
                 <Text style={styles.textbanner}>
-                    km. 23.5 VÍA A DAULE / LAGO DE CAPEIRA
+                    {params.sector}
                 </Text>
             </View>
             <View style={styles.titulo}>
@@ -50,7 +51,7 @@ const styles = StyleSheet.create({
         fontSize:20,
         fontWeight:'bold',
         color:'#000',
-        textTransform: 'uppercase'
+        textTransform: 'uppercase',
     },
     banner:{
         height:50,
@@ -61,6 +62,7 @@ const styles = StyleSheet.create({
         fontSize:17, 
         fontWeight:'bold',
         textAlign:'center',
-        marginVertical:13
+        marginVertical:13,
+        textTransform:"uppercase"
     },
 });
