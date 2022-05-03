@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions } from 'react-native';
 import { Searchbar } from 'react-native-paper';
-
+import RedSocial from '../../components/RedSocial';
 
 export default class NegocioScreen extends Component<{},any>{
 
@@ -15,6 +15,7 @@ export default class NegocioScreen extends Component<{},any>{
             serviciosShow:false,
             productosShow:false,
             contactenosShow:false,
+            tiktok:false
         }
     }
     componentHideAndoShowInfomacion = () => {
@@ -53,22 +54,145 @@ export default class NegocioScreen extends Component<{},any>{
         })
     }
 
-    _RedesSociales(item:any){
+    _RedesSocialesWeb(item:any){
         const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-        item.redes_sociales.map((n:any) => {
-            if(n.red_social === "facebook"){
-                return(
-                    <View>
-                        <Text>
-                            Hola Mundo
-                        </Text>
-                    </View>
-                )
-            }
-            
-            
-        })
+        return(
+            item.redes_sociales.map((n:any) => {
+                if(n.red_social == "web"){
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/web.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity>
+                    );
+                }
+                else if(n.red_social.indexOf("web") == -1){
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/webfalse.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity> 
+                    );
+                }
+            })
+        )
     }
+    _RedesSocialesFacebook(item:any){
+        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
+
+        return(  item.redes_sociales.map((n:any) => {
+                if(n.red_social === "facebook"){
+
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/facebook.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity>
+                    )
+
+                }
+            })
+        )
+    }
+    _RedesSocialesInstagram(item:any){
+        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
+
+        return(
+            item.redes_sociales.map((n:any) => { 
+                if(n.red_social == "instagram"){
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/instagram.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity>
+                    )
+                }else{
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/instagramfalse.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity>
+                    )
+                }
+
+            })
+        )
+    }
+    _RedesSocialesYoutube(item:any){
+        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
+
+        return(
+            item.redes_sociales.map((n:any) => {
+                if(n.red_social == "youtube"){
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/youtube.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity>
+                    )
+                }else{
+                    return(
+                        <TouchableOpacity>
+                            <Image 
+                                source={require('../../sources/img/youtubefalse.png')}
+                                style={{width:50,height:50,borderRadius:50}} 
+                            />
+                        </TouchableOpacity>
+                    )
+                }
+
+            })
+        )
+    }
+    _RedesSocialesTiktok(item:any){
+        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
+
+        return(  item.redes_sociales.map((n:any) => {
+            if(n.red_social === "tiktok"){
+
+                return(
+                    <TouchableOpacity>
+                        <Image 
+                            source={require('../../sources/img/tiktok.png')}
+                            style={{width:50,height:50,borderRadius:50}} 
+                        />
+                    </TouchableOpacity>
+                )
+
+            }else{
+                this.setState({
+                    tiktok:true
+                })
+            }
+        })
+    )
+    }
+    _RedesSocialesTiktokFalse(){
+        const falso = this.state.tiktok
+        if(falso === true){
+            return(
+                <TouchableOpacity>
+                    <Image 
+                        source={require('../../sources/img/tiktok.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }
+    }
+
 
 
 
@@ -276,38 +400,13 @@ export default class NegocioScreen extends Component<{},any>{
                 ):null
                 }
             </View>
-            <View style={{backgroundColor:"white",marginVertical:7,width:'100%',paddingVertical:15,paddingHorizontal:20,justifyContent:'space-between',flexDirection:'row'}}>
-                {
-                    this._RedesSociales(item)
-                }
-            </View>
 
-
-            <View style={{backgroundColor:"white",marginVertical:7,width:'100%',paddingVertical:15,paddingHorizontal:20,justifyContent:'space-between',flexDirection:'row'}}>
-
-                <Image 
-                    source={require('../../sources/img/webfalse.png')}
-                    style={{width:50,height:50,borderRadius:50}} 
-                />
-                <Image 
-                    source={require('../../sources/img/facebook.png')}
-                    style={{width:50,height:50,borderRadius:50}} 
-                />
-
-                <Image 
-                    source={require('../../sources/img/instagramfalse.png')}
-                    style={{width:50,height:50,borderRadius:50}} 
-                />
-                <Image 
-                    source={require('../../sources/img/youtube.png')}
-                    style={{width:50,height:50,borderRadius:50}} 
-                />
-                <Image 
-                    source={require('../../sources/img/tiktokfalse.png')}
-                    style={{width:50,height:50,borderRadius:50}} 
-                />
-
-            </View>
+            {
+                this._RedesSocialesFacebook(item)
+            }
+            {
+                this._RedesSocialesTiktokFalse()
+            }
 
     </ScrollView>
         )
