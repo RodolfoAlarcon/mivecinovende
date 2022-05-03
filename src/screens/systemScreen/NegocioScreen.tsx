@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions, _ScrollView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 import RedSocial from '../../components/RedSocial';
 
@@ -15,7 +15,7 @@ export default class NegocioScreen extends Component<{},any>{
             serviciosShow:false,
             productosShow:false,
             contactenosShow:false,
-            tiktok:false
+            facebook:""
         }
     }
     componentHideAndoShowInfomacion = () => {
@@ -55,144 +55,165 @@ export default class NegocioScreen extends Component<{},any>{
     }
 
     _RedesSocialesWeb(item:any){
-        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-        return(
-            item.redes_sociales.map((n:any) => {
-                if(n.red_social == "web"){
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/web.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity>
-                    );
-                }
-                else if(n.red_social.indexOf("web") == -1){
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/webfalse.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity> 
-                    );
+        const redsocial = item.redes_sociales.filter((n:any) => n.red_social == "web")
+        let link = ""
+        if(redsocial.length > 0){
+            const url = item.redes_sociales.filter((n:any) => {
+                if(n.red_social == "facebook"){
+                    link = n.redsocial_url
                 }
             })
-        )
-    }
-    _RedesSocialesFacebook(item:any){
-        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-
-        return(  item.redes_sociales.map((n:any) => {
-                if(n.red_social === "facebook"){
-
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/facebook.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity>
-                    )
-
-                }
-            })
-        )
-    }
-    _RedesSocialesInstagram(item:any){
-        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-
-        return(
-            item.redes_sociales.map((n:any) => { 
-                if(n.red_social == "instagram"){
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/instagram.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity>
-                    )
-                }else{
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/instagramfalse.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity>
-                    )
-                }
-
-            })
-        )
-    }
-    _RedesSocialesYoutube(item:any){
-        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-
-        return(
-            item.redes_sociales.map((n:any) => {
-                if(n.red_social == "youtube"){
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/youtube.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity>
-                    )
-                }else{
-                    return(
-                        <TouchableOpacity>
-                            <Image 
-                                source={require('../../sources/img/youtubefalse.png')}
-                                style={{width:50,height:50,borderRadius:50}} 
-                            />
-                        </TouchableOpacity>
-                    )
-                }
-
-            })
-        )
-    }
-    _RedesSocialesTiktok(item:any){
-        const redsocial = item.redes_sociales.map((n:any) => n.red_social)
-
-        return(  item.redes_sociales.map((n:any) => {
-            if(n.red_social === "tiktok"){
-
-                return(
-                    <TouchableOpacity>
-                        <Image 
-                            source={require('../../sources/img/tiktok.png')}
-                            style={{width:50,height:50,borderRadius:50}} 
-                        />
-                    </TouchableOpacity>
-                )
-
-            }else{
-                this.setState({
-                    tiktok:true
-                })
-            }
-        })
-    )
-    }
-    _RedesSocialesTiktokFalse(){
-        const falso = this.state.tiktok
-        if(falso === true){
+            return(
+                <TouchableOpacity
+                    onPress={
+                        () => Linking.openURL('https://'+link)
+                    }
+                >
+                    <Image 
+                        source={require('../../sources/img/web.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }else{
             return(
                 <TouchableOpacity>
                     <Image 
-                        source={require('../../sources/img/tiktok.png')}
+                        source={require('../../sources/img/webfalse.png')}
                         style={{width:50,height:50,borderRadius:50}} 
                     />
                 </TouchableOpacity>
             )
         }
     }
-
+    _RedesSocialesFacebook(item:any){
+        const redsocial = item.redes_sociales.filter((n:any) => n.red_social == "facebook")
+        let link = ""
+        if(redsocial.length > 0){
+            const url = item.redes_sociales.filter((n:any) => {
+                if(n.red_social == "facebook"){
+                    link = n.redsocial_url
+                }
+            })
+            return(
+                <TouchableOpacity
+                    onPress={
+                        () => Linking.openURL('https://'+link)
+                    }
+                >
+                    <Image 
+                        source={require('../../sources/img/facebook.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity>
+                    <Image 
+                        source={require('../../sources/img/facebookfalse.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }
+    }
+    _RedesSocialesInstagram(item:any){
+        const redsocial = item.redes_sociales.filter((n:any) => n.red_social == "instagram")
+        let link = ""
+        if(redsocial.length > 0){
+            const url = item.redes_sociales.filter((n:any) => {
+                if(n.red_social == "facebook"){
+                    link = n.redsocial_url
+                }
+            })
+            return(
+                <TouchableOpacity
+                    onPress={
+                        () => Linking.openURL('https://'+link)
+                    }
+                >
+                    <Image 
+                        source={require('../../sources/img/instagram.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity>
+                    <Image 
+                        source={require('../../sources/img/instagramfalse.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }
+    }
+    _RedesSocialesYoutube(item:any){
+        const redsocial = item.redes_sociales.filter((n:any) => n.red_social == "youtube")
+        let link = ""
+        if(redsocial.length > 0){
+            const url = item.redes_sociales.filter((n:any) => {
+                if(n.red_social == "facebook"){
+                    link = n.redsocial_url
+                }
+            })
+            return(
+                <TouchableOpacity
+                    onPress={
+                        () => Linking.openURL('https://'+link)
+                    }
+                >
+                    <Image 
+                        source={require('../../sources/img/youtube.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity>
+                    <Image 
+                        source={require('../../sources/img/youtubefalse.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }
+    }
+    _RedesSocialesTiktok(item:any){
+        const redsocial = item.redes_sociales.filter((n:any) => n.red_social == "tiktok")
+        let link = ""
+        if(redsocial.length > 0){
+            const url = item.redes_sociales.filter((n:any) => {
+                if(n.red_social == "facebook"){
+                    link = n.redsocial_url
+                }
+            })
+            return(
+                <TouchableOpacity
+                    onPress={
+                        () => Linking.openURL('https://'+link)
+                    }
+                >
+                    <Image 
+                        source={require('../../sources/img/tiktok.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity>
+                    <Image 
+                        source={require('../../sources/img/tiktokfalse.png')}
+                        style={{width:50,height:50,borderRadius:50}} 
+                    />
+                </TouchableOpacity>
+            )
+        }
+    }
 
 
 
@@ -400,13 +421,25 @@ export default class NegocioScreen extends Component<{},any>{
                 ):null
                 }
             </View>
+            <View style={{backgroundColor:"white",marginVertical:7,width:'100%',paddingVertical:15,paddingHorizontal:20,justifyContent:'space-between',flexDirection:'row',marginBottom:14}}>
+                {
+                    this._RedesSocialesWeb(item)
+                }
+                {
+                    this._RedesSocialesFacebook(item)
+                }
+                {
+                    this._RedesSocialesInstagram(item)
+                }
+                {
+                    this._RedesSocialesYoutube(item)
+                }
+                {
+                    this._RedesSocialesTiktok(item)
+                }
+            </View>
 
-            {
-                this._RedesSocialesFacebook(item)
-            }
-            {
-                this._RedesSocialesTiktokFalse()
-            }
+         
 
     </ScrollView>
         )
