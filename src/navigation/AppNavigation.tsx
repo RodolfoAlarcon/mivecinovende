@@ -5,6 +5,8 @@ import IngresarNumeroScreen from '../screens/IngresarNumeroScreen'
 import ValidacionNumeroScreen from '../screens/ValidacionNumeroScreen';
 import SplashScreen from '../screens/SplashScreens'
 
+import PrincipalScreens from '../screens/PrincipalScreens'
+
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthContex } from '../context/UsuarioContext';
 import { HomeScreens } from '../screens/systemScreen/HomeScreens'
@@ -38,7 +40,8 @@ export const Navigation = () => {
                     if (status === 'authenticated') {
                         return (
                             <>
-                                <Stack.Screen name="HomeScreens" component={HomeScreens} />
+                                <Stack.Screen name="PrincipalScreen" component={PrincipalScreens} />
+                            
                                 <Stack.Screen name="ResultadoBusquedadScreen " component={ResultadoBusquedadScreen } />
                                 <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
                                 <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />

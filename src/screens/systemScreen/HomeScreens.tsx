@@ -8,8 +8,8 @@ import { AuthContex } from '../../context/UsuarioContext'
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { useCiudades } from '../../hook/useCiudades';
 
-export const HomeScreens = () => {
-    const { user, logOut } = useContext(AuthContex)
+export const HomeScreens = (props : any) => {
+    //const { user, logOut } = useContext(AuthContex) 
     const { CiudadesActuales,SectoresActuales } = useCiudades();
     const navigator = useNavigation()
     const [items,setItems] = useState<any[]>([]);

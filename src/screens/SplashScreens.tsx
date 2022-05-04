@@ -40,9 +40,6 @@ const SplashScreen = () => {
     async function fetchSession(singl:any) {
         const responseUser = await getUsuario();
         let responseAddress = await getAddress();
-
-        
-
       
         if (responseAddress == null) {
             
@@ -59,12 +56,14 @@ const SplashScreen = () => {
             }, 3000)
             return
         }
+
         await sing(responseUser,responseAddress)
+        
         setTimeout(() => {
             if (status === 'registered-phone') {
                 goToScreen('RegisterScreen')
             } else if (status === 'authenticated') {
-                goToScreen('HomeScreens')
+                goToScreen('PrincipalScreen')
             }
 
         }, 500)
