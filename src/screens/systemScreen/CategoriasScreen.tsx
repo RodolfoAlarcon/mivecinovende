@@ -40,6 +40,38 @@ export const CategoriasScreen = (props: any) => {
                     id={paramsid}
                 />
             </View>
+            <View style={{width:"100%",flexDirection:"row"}}>
+            <TouchableOpacity 
+                        style={styles.botoncajaS} 
+                    >
+                    <View style={styles.contenidoboton}>
+                        <Image 
+                        source={require('../../sources/img/ICONOS-08.png')}
+                            style={{width:60,height:50,resizeMode:'contain'}} 
+                        />
+                    </View>
+                    <View style={styles.contenidobotontext}>
+                        <Text style={styles.textboton}>
+                            NO ESTA DISPONIBLE EN ESTOS MOMENTOS
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                <TouchableOpacity 
+                        style={styles.botoncajaS} 
+                    >
+                    <View style={styles.contenidoboton}>
+                        <Image 
+                        source={require('../../sources/img/ICONOS-08.png')}
+                            style={{width:60,height:50,resizeMode:'contain'}} 
+                        />
+                    </View>
+                    <View style={styles.contenidobotontext}>
+                        <Text style={styles.textboton}>
+                            NO ESTA DISPONIBLE EN ESTOS MOMENTOS
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+            </View>
       </ScrollView>
   )
   function goToScreen(routeName: any, id : any) {
@@ -85,6 +117,20 @@ const styles = StyleSheet.create({
         marginVertical:7,
         marginHorizontal:4,
         flexDirection:'row',
+    },
+    botoncajaS:{
+        width:'47.5%',
+        height:100,
+        marginVertical:7,
+        marginHorizontal:5,
+        flexDirection:'row',
+        padding:10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        backgroundColor:'#dddddd',
+        
     },
     contenidoboton:{
         width:'35%',
