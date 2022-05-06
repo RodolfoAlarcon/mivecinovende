@@ -3,6 +3,7 @@ import { View, StatusBar } from 'react-native'
 import * as Animateable from 'react-native-animatable'
 import { getUsuario } from '../storage/UsuarioAsyncStorage'
 import { getDataForm, getAddress } from '../storage/FormDataAsyncStorage'
+import { getNotifications } from '../storage/NotificationsAsyncStorage'
 import { splashStyles } from '../styles/styles'
 import { AuthContex } from '../context/UsuarioContext'
 import { useNavigation } from '@react-navigation/native'
@@ -13,7 +14,7 @@ const SplashScreen = () => {
 
     const navigator = useNavigation()
 
-    const { sing, status, getCountry, recoveryCountry} = useContext(AuthContex)
+    const { sing, status, getCountry, recoveryCountry, getNotificationsApi} = useContext(AuthContex)
 
     useEffect(() => {
         fetchSession(sing)
@@ -40,6 +41,7 @@ const SplashScreen = () => {
     async function fetchSession(singl:any) {
         const responseUser = await getUsuario();
         let responseAddress = await getAddress();
+        let responseNotifications = await getNotifications();
       
         if (responseAddress == null) {
             
@@ -50,14 +52,22 @@ const SplashScreen = () => {
 
 
         if (responseUser == null) {
+            
+            responseNotifications = [];
             await recoveryCountry(responseAddress)
             setTimeout(() => {
                 goToScreen('IngresarNumeroScreen',)
             }, 3000)
-            return
+            
+
+        }else{
+            console.log(responseUser);
+            await getNotificationsApi(responseUser['id']);
+            
+            responseNotifications = await getNotifications();
         }
 
-        await sing(responseUser,responseAddress)
+        await sing(responseUser,responseAddress, responseNotifications)
         
         setTimeout(() => {
             if (status === 'registered-phone') {

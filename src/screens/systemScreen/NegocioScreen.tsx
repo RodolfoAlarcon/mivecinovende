@@ -1,11 +1,15 @@
-import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions, _ScrollView } from 'react-native';
+import React, { useContext, useState, Component } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions, _ScrollView, Alert } from 'react-native';
+import apiApp from '../../api/api';
 import { Searchbar } from 'react-native-paper';
 import RedSocial from '../../components/RedSocial';
+import { AuthContex } from '../../context/UsuarioContext'
+import Snackbar from 'react-native-snackbar'
 
+const { user } = useContext(AuthContex) 
 export default class NegocioScreen extends Component<{},any>{
 
-
+    static contextType = AuthContex
     constructor(props:any){
         super(props);
         this.state= {
@@ -438,15 +442,67 @@ export default class NegocioScreen extends Component<{},any>{
                     this._RedesSocialesTiktok(item)
                 }
             </View>
+            <View
+            
+            >
+                <TouchableOpacity
+                style={{backgroundColor:'blue',marginVertical:7,width:'100%',paddingVertical:15,paddingLeft:10}}
+                onPress={()=>confirmToque(item.id, this.context.user )  }><Text style={{fontSize:20, textAlign:'center', color: "#fff"}} >Dar un Toque</Text></TouchableOpacity>
+            </View>
 
          
 
     </ScrollView>
         )
     }
-
 }
 
+function confirmToque(id: any, user:any) {
+    Alert.alert("Dar un Toque", "Seguro de \n enviar un toque?",
+            [
+                {
+                    text: "Si", onPress: () => {
+                        getNotificationsApi(id, user)
+                        
+                    }
+                },
+                {
+                    text: "No", onPress: () => { }, style: 'cancel'
+                }
+            ]
+        )
+}
+
+async function getNotificationsApi(id: any, user:any){
+
+
+    const datas = {
+        
+            business_id: id,
+            name: user.name,
+            phone: user.phone,
+            email: user.email,
+            address: user.direccion,
+        
+    }
+
+
+        try {
+            const resp = await apiApp.post('/create-notification', datas)
+    
+            Snackbar.show({
+                text: resp.data.message,
+                duration: Snackbar.LENGTH_LONG,
+            })
+    
+        } catch (error) {
+            Snackbar.show({
+                text: error.response.data.message,
+                duration: Snackbar.LENGTH_LONG,
+            })
+        }
+
+}
 const styles = StyleSheet.create({
     banner:{
         height:50,

@@ -1,29 +1,36 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, Alert, BackHandler, ScrollView, Image, Modal } from 'react-native'
-import { loginStyles } from '../../styles/styles'
 import { AuthContex } from '../../context/UsuarioContext'
 
-import {color} from '../../styles/colors'
-import Icon from 'react-native-vector-icons/';
-
 import { useNavigation } from '@react-navigation/native';
+import ElementListNotificacion from '../../components/ElementListNotificacion'
+import {color} from '../../styles/colors'
 
-
-export const  NotificationScreen = (props) => {
-
+export const  NotificationScreen = (props: any) => {
+    const {notifications} = useContext(AuthContex)
+    console.log(notifications);
         const[modalOpen, setModalOpen] = useState(false);
        
-        
+       
    
-    return (
-        <ScrollView>
-            <View style={{ flex: 1,}}>
-                <Text>Notficaiones</Text>
-              
+        return (
+            <View style={{ flex: 1, alignItems: 'center' , marginTop: 80 }}>
+                <StatusBar
+                    backgroundColor={color.WHITE}
+                    barStyle='dark-content'
+                    translucent={true}
+                />
+      
+              <ElementListNotificacion 
+                    notifications = {notifications}
+                    colorIcon= {color.BLACK}
+                />
+                
+               
                 
             </View>
-        </ScrollView>
-    )
-   
+    
+        )
+       
 
 }

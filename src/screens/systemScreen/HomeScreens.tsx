@@ -1,16 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import Select from '../../components/Select';
-import SelectSector from '../../components/SelectSector'
-import Categoria from '../../components/catego'
 import { AuthContex } from '../../context/UsuarioContext'
 import SearchableDropdown from 'react-native-searchable-dropdown';
-import { useCiudades } from '../../hook/useCiudades';
+
 
 export const HomeScreens = (props : any) => {
-    //const { user, logOut } = useContext(AuthContex) 
-    const { CiudadesActuales,SectoresActuales } = useCiudades();
+
+    const { user, logOut, address } = useContext(AuthContex) 
+
     const navigator = useNavigation()
     const [items,setItems] = useState<any[]>([]);
     const [nombre,setNombre] = useState<any[]>([]);
@@ -21,7 +19,7 @@ export const HomeScreens = (props : any) => {
 
     function sectorsFilter(id:any){
         let array = [];
-        SectoresActuales.map(n => {
+        address.sectors.map(n => {
            if(n.ciudades_id == id){
             array.push(n)
            }
@@ -31,18 +29,7 @@ export const HomeScreens = (props : any) => {
   
         setItems(array);
     }
-    function nombreFilter(id:any){
-        let array = [];
-        SectoresActuales.map(n => {
-           if(n.name == name){
-            array.push(n)
-           }
-            
-            
-        })
-  
-        setNombre(array);
-    }
+
     return (
         <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
             <View style={styles.container}>
@@ -100,7 +87,7 @@ export const HomeScreens = (props : any) => {
                             borderWidth: 1,
                         }}
                         nestedScrollEnabled={true}
-                        items={CiudadesActuales}
+                        items={address.citys}
                         // Mapping of item array
                         defaultIndex={2}
                         // Default selected item index

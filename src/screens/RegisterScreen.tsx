@@ -18,7 +18,7 @@ import {Formik}  from 'formik';
 import BotonNumero from '../components/BotonNumero'
 import SelectRegisterUser from '../components/SelectRegisterUser'
 
-
+ 
 export default function RegisterScreen(props:any) {
 
     const { singUp, user, address } = useContext(AuthContex)
