@@ -7,7 +7,7 @@ import { getNotifications } from '../storage/NotificationsAsyncStorage'
 import { splashStyles } from '../styles/styles'
 import { AuthContex } from '../context/UsuarioContext'
 import { useNavigation } from '@react-navigation/native'
-
+import OneSignal from 'react-native-onesignal';
 
 
 const SplashScreen = () => {
@@ -63,11 +63,15 @@ const SplashScreen = () => {
         }else{
             console.log(responseUser);
             await getNotificationsApi(responseUser['id']);
-            
+            OneSignal.setExternalUserId(responseUser['id']);
+            await OneSignal.promptForPushNotificationsWithUserResponse(response => {
+                console.log("Prompt response:", response);
+              });
             responseNotifications = await getNotifications();
+            await sing(responseUser,responseAddress, responseNotifications)
         }
 
-        await sing(responseUser,responseAddress, responseNotifications)
+       
         
         setTimeout(() => {
             if (status === 'registered-phone') {
@@ -76,7 +80,7 @@ const SplashScreen = () => {
                 goToScreen('PrincipalScreen')
             }
 
-        }, 500)
+        }, 3000)
     }
 
 }
