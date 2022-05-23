@@ -30,9 +30,10 @@ const SplashScreen = () => {
                 easing="ease-out"
                 iterationCount="infinite"
                 style={{
-                    width: 200,
-                    height: 113,
-                    margin: 100
+                    width: 300,
+                    height: 213,
+                    margin: 100,
+                    resizeMode:'contain'
                 }}
                 source={require('../sources/img/icono.png')}
             />

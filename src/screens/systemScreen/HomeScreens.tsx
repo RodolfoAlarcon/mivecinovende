@@ -29,7 +29,7 @@ export const HomeScreens = (props : any) => {
   
         setItems(array);
     }
-
+    console.log(user.id)
     return (
         <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
             <View style={styles.container}>
@@ -186,6 +186,14 @@ export const HomeScreens = (props : any) => {
                 </Text>
                 </TouchableOpacity>
             </View>
+            <TouchableOpacity
+                    onPress={() => { goToScreen('CleinteScreen', idSector, nameSector ) }}
+                    style={styles.button}
+                >
+                    <Text style={styles.textboton}>
+                        BUSCAR
+                </Text>
+                </TouchableOpacity>
         </ScrollView>
     )
     function goToScreen(routeName: any, idSector:any, name:any) {

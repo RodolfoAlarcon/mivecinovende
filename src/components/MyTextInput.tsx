@@ -20,6 +20,7 @@ export default function MyTextInput(props: any){
           onChangeText={props.onChangeText}
           value={props.value}
           keyboardType={props.type}
+          style={{width:'100%'}}
         />
             
     )
