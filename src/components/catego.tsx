@@ -1,153 +1,143 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList,ActivityIndicator,Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, Dimensions } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+
 
 
 const navigator = useNavigation()
 
-function goToScreen(routeName: any, id : any, name: string, sector: any) {
-    navigator.navigate(routeName as never, {id:id, name:name, sector:sector } as never,);
+function goToScreen(routeName: any, id: any, name: string, sector: any, icono: any) {
+    navigator.navigate(routeName as never, { id: id, name: name, sector: sector, icono:icono} as never,);
 }
 
-export default class Categoria extends Component<{id:any, sector:any},any>{
+export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
-    constructor(props:any){
+    constructor(props: any) {
         super(props);
         this.state = {
-            isLoading:true,
-            dataBanner:[],
-            sectorTitulo:""
+            isLoading: true,
+            dataBanner: [],
+            sectorTitulo: ""
         }
     }
-    
-    componentDidMount(){
+
+    componentDidMount() {
         const id = this.props.id;
         const url = `https://04.contenedoresnolvis.com/api/categorias/${id}`;
         return fetch(url)
-        .then((response) => response.json())
-        .then((responseJson)=> {       
-            this.setState({
-                isLoading:false,
-                dataBanner: responseJson.data,
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    dataBanner: responseJson.data,
+                })
             })
-        })
-        .catch((error:any)=> {
-            console.log(error)
-        })
+            .catch((error: any) => {
+                console.log(error)
+            })
     }
 
 
-    render(){
+
+    render() {
         let ScreenHeight = Dimensions.get("window").height;
         if (this.state.isLoading) {
-            return(
-                <View 
+            return (
+                <View
                     style={{
-                        justifyContent:"center",
-                        alignItems:"center",
+                        justifyContent: "center",
+                        alignItems: "center",
                         height: ScreenHeight,
-                        width:"100%",
-                        marginTop: -353,
-                        backgroundColor:"white"
+                        width: "100%",
+                        backgroundColor: "#f1f2f3",
+                        top: -330,
+                        position: 'relative',
+                        zIndex: 999
                     }}
                 >
-                    <Image
-                        source={require('../sources/img/icono.png')}
-                    />
+
+                    <Image source={require('../sources/img/loading.gif')}
+                        style={{ width: 200, height: 200 }} />
                 </View>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <View>
                     <FlatList
-                        numColumns={2}
+                        numColumns={1}
                         data={this.state.dataBanner}
-                        renderItem={({item})=>this._renderItem(item)}
-                        keyExtractor ={(item:any,index)=>index.toString()}
-                        style={{width:'100%',paddingVertical:15}}
+                        renderItem={({ item }) => this._renderItem(item)}
+                        keyExtractor={(item: any, index) => index.toString()}
+                        style={{ width: '100%' }}
                     />
                 </View>
             )
         }
     }
 
-    _renderItem(item:any){
-
+    _renderItem(item: any) {
         const sector = this.props.sector
-
-        return(
-            <TouchableOpacity 
+        console.log(item.url_imagen)
+        let itemImg = item.url_imagen;
+        return (
+            <TouchableOpacity
             onPress={
-                () => {goToScreen('SubcategoriasScreen', item.id, item.name, sector)}
+                () => { goToScreen('SubcategoriasScreen', item.id, item.name, sector, itemImg) }
             }
-                style={styles.botoncaja} 
+                style={{
+                    width: '100%',
+                    height: 70,
+                    flexDirection: 'row',
+                    backgroundColor: "white",
+                    borderTopWidth:1,
+                    borderColor:'#cecece',
+                    paddingHorizontal:5
+                }}
             >
-            <View style={styles.contenidoboton}>
-                <Image 
-                source={{uri:item.url_imagen}}
-                    style={{width:60,height:50,resizeMode:'contain'}} 
-                />
-            </View>
-            <View style={styles.contenidobotontext}>
-              <Text style={styles.textboton}>
-                  {item.name}
-                </Text>
-            </View>
-        </TouchableOpacity>
+                <View style={styles.contenidoboton}>
+                    <Image
+                        source={{ uri: itemImg }}
+                        style={{ width: 45, height: 45, resizeMode: 'contain'}}
+                    />
+                </View>
+                <View style={styles.contenidobotontext}>
+                    <Text style={styles.textboton}>
+                        {item.name}
+                    </Text>
+                </View>
+                <View
+                    style={{
+                        width:'10%',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
+                >
+                    <Image 
+                        source={require('../sources/img/arrow.png')}
+                        style={{ width: 20, height: 20, resizeMode: 'contain'}}
+                    />
+                </View>
+            </TouchableOpacity>
         )
+
     }
 }
 
 const styles = StyleSheet.create({
-    banner:{
-        height:50,
-        backgroundColor: '#007ba4',
-    },
-    textbanner:{
-        color:'#ffffff',
-        fontSize:17, 
-        fontWeight:'bold',
-        textAlign:'center',
-        marginVertical:13
-    },
-    container: {
-      flex: 1,
-      flexDirection: 'row'
-    },
-    buscador:{
-        height:60,
-        backgroundColor:'#dfa71b',
-        width:'100%',
-        justifyContent:'center',
-        alignItems:'center',
-    },
-    botoncaja:{
-        width:'47.5%',
-        height:100,
-        marginVertical:7,
-        marginHorizontal:5,
-        flexDirection:'row',
-        padding:10,
-        backgroundColor: '#007ba4',
-        borderTopLeftRadius: 10,
-        borderTopRightRadius: 10,
-        borderBottomLeftRadius: 10,
-        borderBottomRightRadius: 10,
-    },
-    contenidoboton:{
-        width:'35%',
-        justifyContent:'center',
+    contenidoboton: {
+        width: '20%',
+        justifyContent: 'center',
         alignItems: 'center'
     },
-    contenidobotontext:{
-        width:'65%',
-        justifyContent:'center',
-        alignItems:'center'
+    contenidobotontext: {
+        width: '70%',
+        justifyContent: 'center',
     },
-    textboton:{
-        fontSize:17,
-        fontWeight:'bold',
-        color:'#fff',
-        textAlign:'center',
+    textboton: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: '#000',
     }
-  });
+});
+
+

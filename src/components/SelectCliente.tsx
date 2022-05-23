@@ -1,23 +1,26 @@
-import React from "react";
+import React ,{ useState  }from "react";
 import { View, StyleSheet } from "react-native";
 import { color } from "../styles/colors";
 import RNPickerSelect from 'react-native-picker-select';
 //import { reduce } from "core-js/core/array";
 
 
-function SelectRegisterUser(props:any){
-
+function SelectCliente(props:any){
+	let array:any = [];
+    
     return( 
 
 		<View style={styles.container}>
 			<RNPickerSelect	
-
-				placeholder={props.placeholder}
-				
-				items={props.data}
-				disabled={props.disabled}
 				value={props.value}
+				placeholder={{
+					label: 'selecione',
+					value: 'Selecionar',
+				}}
+
 				onValueChange={props.onValueChange}
+				items={array}
+
 
 			/>
 		</View>
@@ -37,7 +40,8 @@ const styles = StyleSheet.create({
 		borderTopRightRadius: 4,
 		borderBottomLeftRadius: 4,
 		borderBottomRightRadius: 4,
+        width:'100%'
 	},
 });
 
-export default SelectRegisterUser
+export default SelectCliente

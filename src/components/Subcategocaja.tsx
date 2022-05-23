@@ -1,126 +1,147 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList,ActivityIndicator, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, Dimensions } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 
 const navigator = useNavigation()
 
-function goToScreen(routeName: any, id : any, name: string, sector: any) {
-    navigator.navigate(routeName as never, {id:id, name:name, sector:sector } as never,);
+function goToScreen(routeName: any, id: any, name: string, sector: any) {
+    navigator.navigate(routeName as never, { id: id, name: name, sector: sector } as never,);
 }
 
 
-export default class Subcategocaja extends Component<{id:any, sector:any},any>{
+export default class Subcategocaja extends Component<{ id: any, sector: any }, any>{
 
-    constructor(props:any){
+    constructor(props: any) {
         super(props);
         this.state = {
-            isLoading:true,
-            dataBanner:[]
+            isLoading: true,
+            dataBanner: []
         }
     }
-    
-    componentDidMount(){
+
+    componentDidMount() {
 
         const url = `https://04.contenedoresnolvis.com/api/subcategorias/${this.props.id}`;
         return fetch(url)
-        .then((response) => response.json())
-        .then((responseJson)=> {       
-            this.setState({
-                isLoading:false,
-                dataBanner: responseJson.data
+            .then((response) => response.json())
+            .then((responseJson) => {
+                this.setState({
+                    isLoading: false,
+                    dataBanner: responseJson.data
+                })
             })
-        })
-        .catch((error:any)=> {
-            console.log(error)
-        })
+            .catch((error: any) => {
+                console.log(error)
+            })
     }
 
 
-    render(){
+    render() {
         let ScreenHeight = Dimensions.get("window").height;
 
         if (this.state.isLoading) {
-            return(
-                <View 
+            return (
+                <View
                     style={{
-                        justifyContent:"center",
-                        alignItems:"center",
+                        justifyContent: "center",
+                        alignItems: "center",
                         height: ScreenHeight,
-                        width:"100%",
+                        width: "100%",
                         marginTop: -210,
-                        backgroundColor:"white"
+                        backgroundColor: "#f1f2f3"
                     }}
                 >
                     <Image
-                        source={require('../sources/img/icono.png')}
+                        source={require('../sources/img/loading.gif')}
                     />
                 </View>
             )
-        }else{
-            return(
+        } else {
+            return (
                 <View>
                     <FlatList
                         numColumns={2}
                         data={this.state.dataBanner}
-                        renderItem={({item})=>this._renderItem(item)}
-                        keyExtractor ={(item:any,index)=>index.toString()}
-                        style={{width:'100%',paddingVertical:15}}
+                        renderItem={({ item }) => this._renderItem(item)}
+                        keyExtractor={(item: any, index) => index.toString()}
+                        style={{ width: '100%' }}
                     />
                 </View>
             )
         }
     }
 
-    _renderItem(item:any){
-        const sector = this.props.sector 
-        return(
-            <View>
-                            <TouchableOpacity
-            onPress={
-                () => {goToScreen('ListNegocioScreens', item.id, item.name, sector)}
-            }
-            style={{
-                marginHorizontal:5
-            }}
+    _renderItem(item: any) {
+        const sector = this.props.sector
+        return (
+
+            <TouchableOpacity
+                onPress={
+                    () => { goToScreen('ListNegocioScreens', item.id, item.name, sector) }
+                }
+                style={{
+                    width: '100%',
+                    height: 70,
+                    flexDirection: 'row',
+                    backgroundColor: "white",
+                    borderBottomWidth: 1,
+                    borderColor: '#cecece',
+                    paddingHorizontal: 5
+                }}
             >
+                <View style={styles.contenidoboton}>
+                    <Image
+                        source={{ uri: item.url_imagen }}
+                        style={{ width: 45, height: 45, resizeMode: 'contain' }}
+                    />
+                </View>
+                <View style={styles.contenidobotontext}>
+                    <Text style={styles.textboton}>
+                        {item.name}
+                    </Text>
+                </View>
                 <View
-                    style={styles.botton}
+                    style={{
+                        width: '10%',
+                        justifyContent: 'center',
+                        alignItems: 'center'
+                    }}
                 >
-                    <View style={{width:'3%',backgroundColor:'#dfa71b'}}></View>
-                    <View style={{width:'75%',flexDirection:'row'}}>
-                        <Image 
-                            source={require('../sources/img/ICONOS-06.png')}
-                            style={{width:50,height:40,resizeMode:'contain',marginVertical:12,marginHorizontal:10}} 
-                        />
-                        <Text style={{color:'#fff',fontWeight:'bold',fontSize:16,marginVertical:26}}>
-                            {item.name}
-                        </Text>
-                    </View>
-                    <View style={{width:'20%',flexDirection:'row',justifyContent:'flex-end',marginRight:'2%'}}>
-                        <Image 
-                            source={require('../sources/img/ojo.png')}
-                            style={{width:30,height:30,resizeMode:'contain',marginVertical:23,marginRight:7}} 
-                        />
-                        <Text style={{color:'#fff',fontWeight:'bold',fontSize:15,marginVertical:27,textAlign:'center'}}>
-                            1
-                        </Text>
-                    </View>
+                    <Image
+                        source={require('../sources/img/arrow.png')}
+                        style={{ width: 20, height: 20, resizeMode: 'contain' }}
+                    />
                 </View>
             </TouchableOpacity>
-            </View>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    botton:{
-        flexDirection:'row',
-        height:70,
-        backgroundColor:'#007ba4',
-        marginBottom:5,
-        width:'100%',
+    botton: {
+        flexDirection: 'row',
+        height: 70,
+        backgroundColor: '#007ba4',
+        marginBottom: 5,
+        width: '100%',
         borderTopRightRadius: 10,
         borderBottomRightRadius: 10,
+    },
+
+    contenidoboton: {
+        width: '20%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    contenidobotontext: {
+        width: '70%',
+        justifyContent: 'center',
+    },
+    textboton: {
+        fontSize: 17,
+        fontWeight: 'bold',
+        color: '#000',
     }
+
 })
