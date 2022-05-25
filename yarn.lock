@@ -5889,7 +5889,7 @@ react-native-material-bottom-navigation@^1.0.5:
 
 react-native-onesignal@^4.3.9:
   version "4.3.9"
-  resolved "https://registry.yarnpkg.com/react-native-onesignal/-/react-native-onesignal-4.3.9.tgz#8ebe2e144d0484481f097b839d43cec95a19968e"
+  resolved "https://registry.npmjs.org/react-native-onesignal/-/react-native-onesignal-4.3.9.tgz"
   integrity sha512-hRxJuqkX9xGXX4CmHie7x5t8AIVH17T5bY+h/i19Ac0xWpuRWtZWqZJALJo841G+Bheaoj8+8CStoRjror67yA==
   dependencies:
     invariant "^2.2.2"
@@ -6972,7 +6972,7 @@ to-regex@^3.0.1, to-regex@^3.0.2:
 
 toggle-switch-react-native@^3.3.0:
   version "3.3.0"
-  resolved "https://registry.yarnpkg.com/toggle-switch-react-native/-/toggle-switch-react-native-3.3.0.tgz#4c7ef67576154adb7f118d18d19dc9b1caece51c"
+  resolved "https://registry.npmjs.org/toggle-switch-react-native/-/toggle-switch-react-native-3.3.0.tgz"
   integrity sha512-DE0UjTOvUpUXjrRjF5r06dqzp/XrbDvJ6hYAwTp6ZgNrxn5Z7bDqe9Rs7axaRbWr7MXe5FdSGkCmfmK6tL7esw==
   dependencies:
     prop-types "^15.5.7"

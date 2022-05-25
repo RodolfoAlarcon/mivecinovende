@@ -60,17 +60,20 @@ const SplashScreen = () => {
                 goToScreen('IngresarNumeroScreen',)
             }, 3000)
             
-
+ 
+        }else{
+            console.log(responseUser['id'])
+            await getNotificationsApi(responseUser['id']);
+             OneSignal.setExternalUserId(responseUser['id']);
+             await OneSignal.promptForPushNotificationsWithUserResponse(response => {
+                 console.log("Prompt response:", response);
+               });
+             responseNotifications = await getNotifications();
+             
+             
+             sing(responseUser,responseAddress, responseNotifications)
         }
-           await getNotificationsApi(responseUser['id']);
-            OneSignal.setExternalUserId(responseUser['id']);
-            await OneSignal.promptForPushNotificationsWithUserResponse(response => {
-                console.log("Prompt response:", response);
-              });
-            responseNotifications = await getNotifications();
-            
-            
-            sing(responseUser,responseAddress, responseNotifications)
+
         
 
        
