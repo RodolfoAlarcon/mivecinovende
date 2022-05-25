@@ -21,7 +21,7 @@ function SelectPaisNumero(props:any){
 			<RNPickerSelect	
 				value={props.value}
 				placeholder={{
-					label: 'selecione',
+					label: 'Pais',
 					value: 'Selecionar',
 				}}
 

@@ -8,7 +8,7 @@ import SettingScreen from './systemScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
 
-export default class PrincipalScreens extends Component<{}, any>{
+export default class PrincipalSellerScreens extends Component<{}, any>{
 
   static contextType = AuthContex
   constructor(props: any) {
@@ -33,6 +33,15 @@ export default class PrincipalScreens extends Component<{}, any>{
           barColor: '#ffff',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
+        {
+          key: 'SettingNotificacion',
+          icon: 'codesandbox',
+          label: '',
+          screen: <SettingScreen navigation={this.props.children} />,
+          barColor: '#ffff',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+
         {
           key: 'SettingNotificacion',
           icon: 'settings',

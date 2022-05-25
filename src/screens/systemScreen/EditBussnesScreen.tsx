@@ -7,7 +7,7 @@ import TextClient from '../../components/TextClient';
 import MyTextInput from '../../components/MyTextInput';
 import { text } from 'stream/consumers';
 
-export const CleinteScreen = (props: any) => {
+export const EditBussnesScreen = (props: any) => {
 
     const navigator = useNavigation()
     const nombre = ''

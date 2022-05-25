@@ -1,4 +1,4 @@
-import React, { useContext, useState, Component } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, Linking,ActivityIndicator, Dimensions, _ScrollView, Alert } from 'react-native';
 import apiApp from '../../api/api';
 import { Searchbar } from 'react-native-paper';
@@ -6,7 +6,6 @@ import RedSocial from '../../components/RedSocial';
 import { AuthContex } from '../../context/UsuarioContext'
 import Snackbar from 'react-native-snackbar'
 
-const { user } = useContext(AuthContex) 
 export default class NegocioScreen extends Component<{},any>{
 
     static contextType = AuthContex

@@ -29,7 +29,7 @@ export const HomeScreens = (props : any) => {
   
         setItems(array);
     }
-    console.log(user.id)
+
     return (
         <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
             <View style={styles.container}>

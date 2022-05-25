@@ -6,6 +6,7 @@ import ValidacionNumeroScreen from '../screens/ValidacionNumeroScreen';
 import SplashScreen from '../screens/SplashScreens'
 
 import PrincipalScreens from '../screens/PrincipalScreens'
+import PrincipalSellerScreens from '../screens/PrincipalSellerScreens'
 
 import { createStackNavigator } from '@react-navigation/stack';
 import { AuthContex } from '../context/UsuarioContext';
@@ -15,7 +16,7 @@ import { SubcategoriasScreen } from '../screens/systemScreen/SubcategoriasScreen
 import NegocioScreen from "../screens/systemScreen/NegocioScreen"
 import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
 import {Result} from '../screens/systemScreen/Result'
-import {CleinteScreen} from '../screens/systemScreen/CleinteScreen'
+import {EditBussnesScreen} from '../screens/systemScreen/EditBussnesScreen'
 
 import { NotificationDetailScreen } from '../screens/systemScreen/NotificationDetailScreen'
 
@@ -23,7 +24,7 @@ const Stack = createStackNavigator();
 
 export const Navigation = () => {
 
-    const { status } = useContext(AuthContex)
+    const { status, user } = useContext(AuthContex)
 
     return (
         <Stack.Navigator
@@ -40,14 +41,18 @@ export const Navigation = () => {
                     if (status === 'authenticated') {
                         return (
                             <>
-                                <Stack.Screen name="PrincipalScreen" component={PrincipalScreens} />
+                                {user.rol == "APPUSER"?
+                                    <Stack.Screen name="PrincipalScreen" component={PrincipalScreens} />
+                                :
+                                    <Stack.Screen name="PrincipalSellerScreens" component={PrincipalSellerScreens} />
+                                }
                                 <Stack.Screen name="CategoriasScreen" component={CategoriasScreen} />
                                 <Stack.Screen name="SubcategoriasScreen" component={SubcategoriasScreen} />
                                 <Stack.Screen name="NegocioScreen" component={NegocioScreen} />
                                 <Stack.Screen name="ListNegocioScreens" component={ListNegocioScreens} />
                                 <Stack.Screen name="NotificationDetailScreen" component={NotificationDetailScreen} />
                                 <Stack.Screen name="Result" component={Result} />
-                                <Stack.Screen name="CleinteScreen" component={CleinteScreen}/>
+                                <Stack.Screen name="EditBussnesScreen" component={EditBussnesScreen}/>
                             </>
 
                         )

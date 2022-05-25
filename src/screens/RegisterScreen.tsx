@@ -22,7 +22,7 @@ import SelectRegisterUser from '../components/SelectRegisterUser'
 export default function RegisterScreen(props:any) {
 
     const { singUp, user, address } = useContext(AuthContex)
-console.log(user)
+
     let arrayCountrys:any = [];
     let arrayCitys = [];
     address.citys.map((n:any) => {

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import OneSignal from 'react-native-onesignal';
 import {Navigation} from './src/navigation/AppNavigation'
 import { UserProvider } from "./src/context/UsuarioContext";
 import { NavigationContainer } from '@react-navigation/native';
@@ -18,6 +19,18 @@ export const AppState =({children}: {children: JSX.Element | JSX.Element[]}) => 
 }
 
 const App = () => {
+
+  useEffect(()=>{
+    OneSignal.setLogLevel(6, 0);
+ 
+    OneSignal.setAppId("f4e0f05a-e5de-4fac-b340-eba2b6c77b35");
+    OneSignal.setLanguage('es')
+
+    OneSignal.promptForPushNotificationsWithUserResponse(response => {
+      console.log("Prompt response:", response);
+    });
+  },[])
+  
   return (
     <NavigationContainer>
       <AppState>

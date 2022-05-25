@@ -1,18 +1,19 @@
 import React, { useState, useContext } from "react";
 import { color } from '../styles/colors';
 import { useNavigation, } from '@react-navigation/native';
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import BotonNumero from "../components/BotonNumero";
 import MyTextInput from "../components/MyTextInput";
-import  {Formik}  from 'formik';
+import { Formik } from 'formik';
 import SelectPaisNumero from "../components/SelectPaisNumero";
 import { AuthContex } from '../context/UsuarioContext'
+import RNPickerSelect from 'react-native-picker-select';
 
-function IngresarNumeroScreen(props:any) {
+function IngresarNumeroScreen(props: any) {
     const navigator = useNavigation()
     const { sendCode, address } = useContext(AuthContex)
-    const goToScreen = (routeName:any, phone:any) => {
-        navigator.navigate(routeName as never, {phone: phone} as never)
+    const goToScreen = (routeName: any, phone: any) => {
+        navigator.navigate(routeName as never, { phone: phone } as never)
     }
 
     return (
@@ -44,21 +45,26 @@ function IngresarNumeroScreen(props:any) {
                 flexWrap: "wrap",
                 paddingLeft: "10%",
                 paddingRight: "10%"
-            }}> 
+            }}>
                 <Formik
                     validateOnMount={true}
                     //validationSchema={loginValidationSchema}
-                    initialValues={{ phone: '', country: '', rol: 'APPUSER'}}
-                    onSubmit={ async (values:any)=> {
-                        const phone = values.country + values.phone;
-                        
-                        await sendCode(phone, values.rol, values.country);
+                    initialValues={{ phone: '', country: '', rol: '' }}
+                    onSubmit={async (values: any) => {
+                        if (values.phone !== '' && values.country !== '' && values.rol !== ''){
+                            const phone = values.country + values.phone;
 
-                        setTimeout(() => {
-                            goToScreen('ValidacionNumeroScreen', phone)
-                        }, 2000)
-                       
-           
+                            await sendCode(phone, values.rol, values.country);
+    
+                            setTimeout(() => {
+                                goToScreen('ValidacionNumeroScreen', phone)
+                            }, 2000)
+                        }else{
+                            alert('faltan campor por rellenar')
+                        }
+                   
+
+
                     }} >
                     {({
                         handleChange,
@@ -68,17 +74,35 @@ function IngresarNumeroScreen(props:any) {
                         errors,
                         touched,
                         isValid,
-                    }:any) => (
+                    }: any) => (
                         <>
                             <View style={{
                                 width: "100%",
                             }}>
-                                <SelectPaisNumero 
+
+                                <View style={styles.container}>
+                                    <RNPickerSelect
+                                        value={values.rol}
+                                        placeholder={{
+                                            label: 'Tipo de usaurio',
+                                            value: 'Selecionar',
+                                        }}
+
+                                        onValueChange={handleChange('rol')}
+                                        items={[
+                                            { label: 'Particular', value: 'APPUSER' },
+                                            { label: 'Negociante', value: 'USER' }
+                                        ]}
+
+
+                                    />
+                                </View>
+                                <SelectPaisNumero
                                     countrys={address}
                                     onValueChange={handleChange('country')}
                                     onBlur={handleBlur('country')}
                                     value={values.country}
-                                /> 
+                                />
                             </View>
                             <View style={{
                                 width: "40%",
@@ -90,8 +114,8 @@ function IngresarNumeroScreen(props:any) {
                                     value={values.country}
                                     onChangeText={handleChange('country')}
                                     onBlur={handleBlur('country')}
-                         
-                                   
+
+
                                 />
                             </View>
                             <View style={{
@@ -99,7 +123,7 @@ function IngresarNumeroScreen(props:any) {
                                 padding: 10,
                             }}>
                                 <MyTextInput
-                                
+
                                     keyboardType='numeric'
                                     onChangeText={handleChange('phone')}
                                     onBlur={handleBlur('phone')}
@@ -116,7 +140,7 @@ function IngresarNumeroScreen(props:any) {
                                     onPress={() => handleSubmit()}>
                                     <BotonNumero
                                         TituloNumero='Registrarse'
-                                        
+
                                     />
 
                                 </TouchableOpacity>
@@ -140,7 +164,7 @@ function IngresarNumeroScreen(props:any) {
                     @2021 Allavoy <Text style={{
                         color: color.SECONDARYCOLOR
                     }}
-                        onPress={() => {  }}
+                        onPress={() => { }}
                     >Politica y Privacidad</Text>
                 </Text>
             </View>
@@ -151,3 +175,16 @@ function IngresarNumeroScreen(props:any) {
 }
 
 export default IngresarNumeroScreen
+
+const styles = StyleSheet.create({
+    container: {
+        color: color.PRIMARYCOLOR,
+        borderColor: color.PRIMARYCOLOR,
+        borderWidth: 1,
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
+        borderBottomLeftRadius: 4,
+        borderBottomRightRadius: 4,
+        marginBottom: 15
+    },
+});

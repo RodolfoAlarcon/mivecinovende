@@ -61,16 +61,17 @@ const SplashScreen = () => {
             }, 3000)
             
 
-        }else{
-            console.log(responseUser);
-            await getNotificationsApi(responseUser['id']);
+        }
+           await getNotificationsApi(responseUser['id']);
             OneSignal.setExternalUserId(responseUser['id']);
             await OneSignal.promptForPushNotificationsWithUserResponse(response => {
                 console.log("Prompt response:", response);
               });
             responseNotifications = await getNotifications();
-            await sing(responseUser,responseAddress, responseNotifications)
-        }
+            
+            
+            sing(responseUser,responseAddress, responseNotifications)
+        
 
        
         
@@ -81,7 +82,7 @@ const SplashScreen = () => {
                 goToScreen('PrincipalScreen')
             }
 
-        }, 3000)
+        }, 500)
     }
 
 }
