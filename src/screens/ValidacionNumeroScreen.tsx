@@ -44,7 +44,7 @@ function ValidacionNumeroScreen(props: any) {
                 <Formik
                     validateOnMount={true}
                     //validationSchema={loginValidationSchema}
-                    initialValues={{ phone: params.phone, code: '',rol: 'APPUSER' }}
+                    initialValues={{ phone: params.phone, code: '',rol: params.rol }}
                     onSubmit={(values:any) => confirmCode(values)} >
                     {({
                         handleChange,

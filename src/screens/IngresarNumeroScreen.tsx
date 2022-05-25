@@ -12,8 +12,8 @@ import RNPickerSelect from 'react-native-picker-select';
 function IngresarNumeroScreen(props: any) {
     const navigator = useNavigation()
     const { sendCode, address } = useContext(AuthContex)
-    const goToScreen = (routeName: any, phone: any) => {
-        navigator.navigate(routeName as never, { phone: phone } as never)
+    const goToScreen = (routeName: any, phone: any, rol:any) => {
+        navigator.navigate(routeName as never, { phone: phone, rol:rol } as never)
     }
 
     return (
@@ -57,7 +57,7 @@ function IngresarNumeroScreen(props: any) {
                             await sendCode(phone, values.rol, values.country);
     
                             setTimeout(() => {
-                                goToScreen('ValidacionNumeroScreen', phone)
+                                goToScreen('ValidacionNumeroScreen', phone, values.rol)
                             }, 2000)
                         }else{
                             alert('faltan campor por rellenar')
