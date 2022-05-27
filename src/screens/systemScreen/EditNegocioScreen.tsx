@@ -165,7 +165,7 @@ export const EditNegocioScreen = (props: any) => {
                 <TouchableOpacity
                     onPress={
                         () => {
-                            goToScreen('')
+                            goToScreen('ListaRedSocialScreen')
                         }
                     }
                 >
