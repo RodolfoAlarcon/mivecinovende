@@ -17,6 +17,11 @@ import NegocioScreen from "../screens/systemScreen/NegocioScreen"
 import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
 import {Result} from '../screens/systemScreen/Result'
 import {EditBussnesScreen} from '../screens/systemScreen/EditBussnesScreen'
+import {EditNegocioScreen} from '../screens/systemScreen/EditNegocioScreen'
+import {ListRedesSocialesScreen} from '../screens/systemScreen/ListRedesSocialesScreen'
+import {CrearRedSocialScreen} from '../screens/systemScreen/CrearRedSocialScreen'
+import {EditarRedSocialScreen} from '../screens/systemScreen/EditarRedSocialScreen'
+
 
 import { NotificationDetailScreen } from '../screens/systemScreen/NotificationDetailScreen'
 
@@ -53,6 +58,9 @@ export const Navigation = () => {
                                 <Stack.Screen name="NotificationDetailScreen" component={NotificationDetailScreen} />
                                 <Stack.Screen name="Result" component={Result} />
                                 <Stack.Screen name="EditBussnesScreen" component={EditBussnesScreen}/>
+                                <Stack.Screen name="EditNegocioScreen" component={EditNegocioScreen}/>
+                                <Stack.Screen name="ListRedesSocialesScreen" component={ListRedesSocialesScreen} />
+                                <Stack.Screen name="CrearRedSocialScreen" component={CrearRedSocialScreen} />
                             </>
 
                         )

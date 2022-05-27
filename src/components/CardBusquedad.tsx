@@ -117,7 +117,7 @@ export default class CardBusquedad extends Component<{ id: any }, any>{
                         style={{ width: 50, height: 50, borderRadius: 50 }}
                     />
                 </View>
-                <View style={{width:'55%', justifyContent: 'center' }}>
+                <View style={{width:'55%', justifyContentg: 'center' }}>
                     <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16}}>
                         {item.name}
                     </Text>

@@ -4,6 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigation'
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
+import  ListaNegocioScreen  from './systemScreen/ListaNegocioScreen'
 import SettingScreen from './systemScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
@@ -34,10 +35,10 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
-          key: 'SettingNotificacion',
+          key: 'ListaNoegcios',
           icon: 'codesandbox',
           label: '',
-          screen: <SettingScreen navigation={this.props.children} />,
+          screen:<ListaNegocioScreen navigation={this.props.children} />,
           barColor: '#ffff',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
@@ -62,7 +63,8 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
   renderScreen = () => (
     this.state.activeTab == 'HomeScreens' && this.state.tabs[0].screen ||
     this.state.activeTab == 'NotificationScreen' && this.state.tabs[1].screen ||
-    this.state.tabs[2].screen
+    this.state.activeTab == 'ListaNoegcios' && this.state.tabs[2].screen ||
+    this.state.tabs[3].screen
 
   )
 
