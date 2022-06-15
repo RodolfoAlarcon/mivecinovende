@@ -3,19 +3,21 @@ import apiApp from '../api/api'
 import apiMesage from '../api/apiM'
 import { userReducer, Authstate } from './UserReducer';
 import { confirmNumberResponse, User, RegisterResponse } from '../interfaces/UserInterface';
-import { Anuncio, registerAnuncio, editAnuncio } from '../interfaces/AnuncioInterface';
 import { useNavigation } from '@react-navigation/native';
-import { DataForm, Address } from '../interfaces/DataFormInterface';
-import { getNotificationsResponse } from '../interfaces/NotificationsInterface';
+import { Address } from '../interfaces/DataFormInterface';
+import { Negocios, EditNegocioResponse } from '../interfaces/BusinessInterface';
+import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
+import { RegisterRedResponse } from '../interfaces/RedSocialInterface';
 
 type AuthContextProps = {
     errorMessage: string;
     status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates';
     access_token: string | null;
     user: User | null | '';
+    business: Negocios[] | null | '';
     address: Address | null | '';
     notifications: Notifications[] | null | '';
-    sing: (data: any, address: any, notifications:any) => void;
+    sing: (data: any, address: any, notifications:any, business:any) => void;
     singUp: (data: any) => void;
     logOut: () => void;
     sendCode: (phone: string, rol: string, country: any) => void;
@@ -23,6 +25,8 @@ type AuthContextProps = {
     getCountry: () => void;
     recoveryCountry: (address: any) => void;
     getNotificationsApi: (id: any) => void;
+    editNegocio: (data: any, negocios: any) => void;
+    createRed: (data: any, negocios: any) => void;
     //removeError: () => void;
 }
 
@@ -31,6 +35,7 @@ const initialSatate: Authstate = {
     errorMessage: '',
     access_token: null,
     address: null,
+    business: null,
     user: null,
     notifications: null
 
@@ -44,9 +49,9 @@ const UserProvider = ({ children }: any) => {
     const [login, dispatch] = useReducer(userReducer, initialSatate);
 
 
-    const sing = (user: any, address: any, notifications:any) => {
+    const sing = (user: any, address: any, notifications:any, business:any) => {
 
-        dispatch({ type: 'sing-in', payload: { user: user, address: address, notifications: notifications } })
+        dispatch({ type: 'sing-in', payload: { user: user, address: address, notifications: notifications, business: business } })
     }
 
     const singUp = async (data: any) => {
@@ -86,7 +91,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await apiApp.post<confirmNumberResponse>('/confirmCode', data)
 
-            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user[0] } })
+            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user[0], business: resp.data.business, notifications: resp.data.notifications} })
         } catch (error) {
 
             dispatch({ type: 'addError', payload: error.response.data.message })
@@ -139,6 +144,32 @@ const UserProvider = ({ children }: any) => {
 
     }
 
+    
+    const editNegocio = async (data:any, negocios:any) => {
+
+        try {
+            const resp = await apiApp.post<EditNegocioResponse>('/actualizar-negocio', data)
+
+           dispatch({ type: 'editNegocio', payload: { negocio: resp.data.negocio, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+  
+    const createRed = async (data:any, negocios:any) => {
+        try {
+            const resp = await apiApp.post<RegisterRedResponse>('/guardar-red', data)
+
+            dispatch({ type: 'createRed', payload: { red: resp.data.red, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+
 
     return (
         <AuthContex.Provider value={{
@@ -150,7 +181,9 @@ const UserProvider = ({ children }: any) => {
             logOut,
             getCountry,
             recoveryCountry,
-            getNotificationsApi
+            getNotificationsApi,
+            editNegocio,
+            createRed
 
         }} >
             {children}

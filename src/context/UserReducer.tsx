@@ -1,12 +1,15 @@
 import React, { createContext, useReducer, useState, useEffect } from 'react'
 import { saveUsuario, deleteUsuario } from '../storage/UsuarioAsyncStorage'
 import { saveDataForm, getDataForm, deleteDataForm, saveAddress, getAddress, deleteAddress } from '../storage/FormDataAsyncStorage'
+import { saveBusiness, getBusiness, deleteBusiness } from '../storage/BusnessAsyncStorage'
 import { saveNotifications, getNotifications, deleteNotifications } from '../storage/NotificationsAsyncStorage'
 import Snackbar from 'react-native-snackbar'
 import { User } from '../interfaces/UserInterface';
 import { Anuncio } from '../interfaces/AnuncioInterface';
-import { DataForm, Address } from '../interfaces/DataFormInterface';
+import { Address } from '../interfaces/DataFormInterface';
+import { Negocios } from '../interfaces/BusinessInterface';
 import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
+import { Red } from '../interfaces/RedSocialInterface';
 
 export interface Authstate {
     status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates';
@@ -15,13 +18,14 @@ export interface Authstate {
     errorMessage: string;
     address: Address | null | '';
     notifications: Notifications[] | null | '';
+    business: Negocios[] | null | '';
 
 
 }
 
 export type AuthAction =
-    | { type: 'sing-in', payload: { user: User, address: Address, notifications: Notifications[] } }
-    | { type: 'confirmedNumber', payload: { access_token: string, user: User } }
+    | { type: 'sing-in', payload: { user: User, address: Address, notifications: Notifications[], business: Negocios[] } }
+    | { type: 'confirmedNumber', payload: { access_token: string, user: User, business: Negocios[], notifications: Notifications[] } }
     | { type: 'sing-up', payload: { user: User } }
     | { type: 'sing-out', payload: { access_token: null, user: null } }
     | { type: 'addError', payload: string }
@@ -33,6 +37,8 @@ export type AuthAction =
     | { type: 'getCountry', payload: { address: Address } }
     | { type: 'recoveryCountry', payload: { address: Address } }
     | { type: 'getNotifications', payload: { notifications: Notifications[] } }
+    | { type: 'editNegocio', payload: { negocio: Negocios, negocios: Negocios[] } }
+    | { type: 'createRed', payload: { red: Red, negocios: Negocios[] } }
 
 export const userReducer = (state: Authstate, action: AuthAction): Authstate => {
 
@@ -49,7 +55,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 status_user = 'registered-phone'
             }
 
-            return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications }
+            return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications, business: action.payload.business }
 
         case 'confirmedNumber':
 
@@ -62,6 +68,14 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             }
 
             action.payload.user["access_token"] = action.payload.access_token;
+
+            saveBusiness(action.payload.business).then((msg) => {
+                console.log('user business')
+            })
+
+            saveNotifications(action.payload.notifications).then((msg) => {
+                console.log('address save')
+            })
 
             saveUsuario(action.payload.user).then((msg) => {
                 console.log('user save')
@@ -76,8 +90,10 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             return {
                 ...state,
                 user: action.payload.user,
+                business: action.payload.business,
                 status: status_user2,
                 access_token: action.payload.access_token,
+                notifications: action.payload.notifications,
             }
 
         case 'getCountry':
@@ -101,7 +117,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             }
 
         case 'sing-up':
-            console.log(action.payload.user)
+
             saveUsuario(action.payload.user).then((msg) => {
                 console.log('user save')
             })
@@ -126,6 +142,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 text: 'sesion Expirada',
                 duration: Snackbar.LENGTH_LONG,
             })
+
             return {
                 ...state,
                 user: '',
@@ -150,7 +167,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 ...state,
                 errorMessage: action.payload
             }
-            
+
         case 'removeError':
             return {
                 ...state,
@@ -177,6 +194,70 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 user: null
             }
 
+        case 'editNegocio':
+
+            let newArrayNegocios = action.payload.negocios;
+            let editNegocio = action.payload.negocio;
+
+            newArrayNegocios.forEach((data, key) => {
+
+                if (data['id'] == editNegocio['id']) {
+
+                    newArrayNegocios[key].sectores_id = editNegocio['sectores_id'];
+                    newArrayNegocios[key].name = editNegocio['name'];
+                    newArrayNegocios[key].description = editNegocio['description'];
+                    newArrayNegocios[key].phone = editNegocio['phone'];
+                    newArrayNegocios[key].delivery = editNegocio['delivery'];
+                    newArrayNegocios[key].delivery = editNegocio['delivery'];
+                    newArrayNegocios[key].direccion = editNegocio['direccion'];
+
+                }
+
+            })
+            saveBusiness(newArrayNegocios).then((msg) => {
+                console.log('user business')
+            })
+            Snackbar.show({
+                text: 'Negocio editado con exito',
+                duration: Snackbar.LENGTH_LONG,
+            })
+
+            return {
+                ...state,
+                business: newArrayNegocios,
+            }
+
+        case 'createRed':
+
+
+            let newArrayRedes = action.payload.negocios;
+            let newRed = action.payload.red;
+
+            newArrayRedes.forEach((data, key) => {
+
+                if (data['id'] == newRed['business_id']) {
+
+                    newArrayNegocios[key].redSocial.push(newRed)
+                    
+
+                }
+
+            })//hay error de parte de anlzar la nueva red al array, esta en el reducer el error acuerdate
+            saveBusiness(newArrayRedes).then((msg) => {
+                console.log('user business')
+            })
+
+
+
+            Snackbar.show({
+                text: 'Ununcio registrado con exito',
+                duration: Snackbar.LENGTH_LONG,
+            })
+
+            return {
+                ...state,
+                business: newArrayRedes,
+            }
 
 
         default:

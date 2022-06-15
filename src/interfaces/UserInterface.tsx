@@ -1,6 +1,5 @@
-import { Anuncio } from './AnuncioInterface';
-import { DataForm } from './DataFormInterface';
-
+import { Negocios } from './BusinessInterface';
+import { Notifications } from './NotificationsInterface';
 
 export interface confirmNumberResponse {
     status:       number;
@@ -8,9 +7,8 @@ export interface confirmNumberResponse {
     token_type:   string;
     expires_at:   Date;
     user:         User;
-    anuncios:      Anuncio[];
-
-    dataForm : DataForm[];
+    business:   Negocios[];
+    notifications: Notifications[];
 }
 
 export interface sendCodeResponse {
@@ -23,9 +21,6 @@ export interface RegisterResponse {
     token_type:   string;
     expires_at:   Date;
     user:         User;
-    anuncios:      Anuncio[];
-    dataForm : DataForm[];
-
 }
 
 export interface User {

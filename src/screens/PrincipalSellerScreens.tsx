@@ -4,7 +4,7 @@ import Icon from 'react-native-vector-icons/Feather';
 import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigation'
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
-import  ListaNegocioScreen  from './systemScreen/ListaNegocioScreen'
+import  ListaNegocioScreen  from './systemScreen/negocioScreen/ListaNegocioScreen'
 import SettingScreen from './systemScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 

@@ -2,9 +2,9 @@ import React, { useEffect, useState, useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
-import SelectCliente from "../../components/SelectCliente";
-import TextClient from '../../components/TextClient';
-import MyTextInput from '../../components/MyTextInput';
+import SelectCliente from "../../../components/SelectCliente";
+import TextClient from '../../../components/TextClient';
+import MyTextInput from '../../../components/MyTextInput';
 import { text } from 'stream/consumers';
 
 export const EditRedSocial= (props: any) => {

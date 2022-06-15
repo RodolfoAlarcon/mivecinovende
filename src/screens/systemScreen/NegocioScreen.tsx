@@ -36,7 +36,7 @@ export default class NegocioScreen extends Component<{},any>{
     
     componentDidMount(){
         const { id } = this.props.route.params;
-        const url = `https://04.contenedoresnolvis.com/api/data-negocio/${id}`;
+        const url = `https://01.metodolibio.com/api/data-negocio/${id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {  

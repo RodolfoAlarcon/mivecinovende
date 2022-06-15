@@ -8,17 +8,20 @@ import { type } from 'os';
 
 export default function MyTextInput(props: any){
 
-    const [onChangeText, setName] = React.useState('');
+    
 
     return(
         <TextInput
           mode={'outlined'}
+          editable={props.editable}
           label={props.label}
           placeholder={props.placeholder}
           outlineColor={color.PRIMARYCOLOR}
           activeOutlineColor={color.PRIMARYCOLOR}
           onChangeText={props.onChangeText}
           value={props.value}
+          numberOfLines={props.numberOfLines}
+          multiline={props.multiline}
           keyboardType={props.type}
           style={{width:'100%'}}
         />

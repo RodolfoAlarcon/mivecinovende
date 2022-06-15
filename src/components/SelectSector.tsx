@@ -3,7 +3,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import { SafeAreaView, StyleSheet, Text, View, ScrollView } from 'react-native';
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { useCiudades } from '../hook/useCiudades';
-import { Datum } from '../interfaces/ciudadesInterface';
+import { Datum } from '../interfaces/CiudadesInterface';
 
 
 function SelectSector(props:any){

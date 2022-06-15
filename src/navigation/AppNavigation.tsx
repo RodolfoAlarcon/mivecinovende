@@ -16,12 +16,14 @@ import { SubcategoriasScreen } from '../screens/systemScreen/SubcategoriasScreen
 import NegocioScreen from "../screens/systemScreen/NegocioScreen"
 import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
 import {Result} from '../screens/systemScreen/Result'
-import {EditBussnesScreen} from '../screens/systemScreen/EditBussnesScreen'
-import {EditNegocioScreen} from '../screens/systemScreen/EditNegocioScreen'
+import {EditBusinessScreen} from '../screens/systemScreen/negocioScreen/EditBusinessScreen'
+import {EditConfigNegocioScreen} from '../screens/systemScreen/negocioScreen/EditConfigNegocioScreen'
+import {CreateRedScreen} from '../screens/systemScreen/negocioScreen/CreateRedScreen'
 import {CrearRedSocialScreen} from '../screens/systemScreen/CrearRedSocialScreen'
-import {ListaRedSocialScreen} from '../screens/systemScreen/ListaRedSocialScreen'
-
-
+import {ListaRedSocialScreen} from '../screens/systemScreen/negocioScreen/ListaRedSocialScreen'
+import DetalleNegocioScreen from '../screens/systemScreen/negocioScreen/DetalleNegocioScreen'
+import {ListaProductoScreen} from '../screens/systemScreen/negocioScreen/ListaProductoScreen'
+import {ListaservicioScreen} from '../screens/systemScreen/negocioScreen/ListaServicioScreen'
 import { NotificationDetailScreen } from '../screens/systemScreen/NotificationDetailScreen'
 
 const Stack = createStackNavigator();
@@ -56,10 +58,14 @@ export const Navigation = () => {
                                 <Stack.Screen name="ListNegocioScreens" component={ListNegocioScreens} />
                                 <Stack.Screen name="NotificationDetailScreen" component={NotificationDetailScreen} />
                                 <Stack.Screen name="Result" component={Result} />
-                                <Stack.Screen name="EditBussnesScreen" component={EditBussnesScreen}/>
-                                <Stack.Screen name="EditNegocioScreen" component={EditNegocioScreen}/>
+                                <Stack.Screen name="EditBusinessScreen" component={EditBusinessScreen}/>
+                                <Stack.Screen name="EditConfigNegocioScreen" component={EditConfigNegocioScreen}/>
                                 <Stack.Screen name="CrearRedSocialScreen" component={CrearRedSocialScreen} />
                                 <Stack.Screen name='ListaRedSocialScreen' component={ListaRedSocialScreen}/>
+                                <Stack.Screen name='ListaProductoScreen' component={ListaProductoScreen}/>
+                                <Stack.Screen name='ListaservicioScreen' component={ListaservicioScreen}/>
+                                <Stack.Screen name='DetalleNegocioScreen' component={DetalleNegocioScreen} />
+                                <Stack.Screen name='createRedScreen' component={CreateRedScreen} />
                             </>
 
                         )

@@ -16,7 +16,7 @@ export default class Negociosss extends Component{
     }
     
     componentDidMount(){
-        const url = 'https://04.contenedoresnolvis.com/api/negocios/95e7eb7a-634e-45a5-882c-671c11dce54c';
+        const url = 'https://01.metodolibio.com/api/negocios/95e7eb7a-634e-45a5-882c-671c11dce54c';
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       

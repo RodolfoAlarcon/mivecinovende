@@ -1,61 +1,8 @@
-export interface DataForm {
-    marcas:       Marca[];
-    tipoVehiculo: TipoVehiculo[];
-    repuestos:    Repuesto[];
-    modeleos:     Modelos[];
-    motores:       Motores[];
-}
-
-export interface Marca {
-    id:         string;
-    nombre:     string;
-    created_at: Date;
-    updated_at: Date;
-}
-
-export interface TipoVehiculo {
-    id:         string;
-    nombre:     string;
-    created_at: Date;
-    updated_at: Date;
-}
-
-export interface Repuesto {
-    id:               string;
-    nombre:           string;
-    created_at:       Date;
-    updated_at:       Date;
-    marca_id:         string;
-    tipo_vehiculo_id: string;
-}
-export interface Modelos {
-id:               string;
-nombre:           string;
-created_at:       Date;
-updated_at:       Date;
-marca_id:         string;
-tipo_vehiculo_id: string;
-}
-
-export interface Motores {
-    id:         string;
-    nombre:     string;
-    created_at: Date;
-    updated_at: Date;
-}
-
-export interface Motores {
-    id:         string;
-    nombre:     string;
-    created_at: Date;
-    updated_at: Date;
-}
-
 export interface Address {
     countrys: Country[];
     citys:    City[];
     sectors: Sectors[];
-}
+} 
 
 export interface Country {
     id:           string;

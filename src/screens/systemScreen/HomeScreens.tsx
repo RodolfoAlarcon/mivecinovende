@@ -7,11 +7,12 @@ import SearchableDropdown from 'react-native-searchable-dropdown';
 
 export const HomeScreens = (props : any) => {
 
-    const { user, logOut, address } = useContext(AuthContex) 
+    const {  user, logOut, address } = useContext(AuthContex) 
 
     const navigator = useNavigation()
     const [items,setItems] = useState<any[]>([]);
-    const [nombre,setNombre] = useState<any[]>([]);
+    const [placeholderCity,setPlaceholderCity] = useState('ciudad');
+    const [placeholderSector,setPlaceholderSector] = useState('Sector');
     const [idSector,setIdSector] = useState('');
     const [nameSector,setnameSector] = useState('');
     const [disableTouch,setDisableTouch] = useState(true);
@@ -48,7 +49,7 @@ export const HomeScreens = (props : any) => {
                 <SearchableDropdown
                         onTextChange={(text:any) => console.log(text)}
                         // Listner on the searchable input
-                        onItemSelect={(items: any) => { sectorsFilter(items.id) }}
+                        onItemSelect={(items: any) => { sectorsFilter(items.id); setPlaceholderCity(items.name) }}
                         // Called after the selection
                         containerStyle={{ padding: 5 }}
                         // Suggestion container style
@@ -89,11 +90,11 @@ export const HomeScreens = (props : any) => {
                         nestedScrollEnabled={true}
                         items={address.citys}
                         // Mapping of item array
-                        defaultIndex={2}
+                        
                         // Default selected item index
-                        placeholder="Ciudad"
+                        placeholder={placeholderCity}
                         // place holder for the search input
-                        resPtValue={false}
+                        resPtValue={true}
                         // Reset textInput Value with true and false state
                         underlineColorAndroid="transparent"
                         // To remove the underline from the android input
@@ -116,7 +117,7 @@ export const HomeScreens = (props : any) => {
                     <SearchableDropdown
                         onTextChange={(items: any) => console.log(items)}
                         // Listner on the searchable input
-                        onItemSelect={(items: any) => { setIdSector(items.id);  setDisableTouch(false), setnameSector(items.name)}}
+                        onItemSelect={(items: any) => { setIdSector(items.id);  setDisableTouch(false), setnameSector(items.name); setPlaceholderSector(items.name)}}
                         // Called after the selection
                         containerStyle={{ padding: 5 }}
                         // Suggestion container style
@@ -157,9 +158,8 @@ export const HomeScreens = (props : any) => {
                         nestedScrollEnabled={true}
                         items={items}
                         // Mapping of item array
-                        defaultIndex={2}
                         // Default selected item index
-                        placeholder="Sector"
+                        placeholder={placeholderSector}
                         // place holder for the search input
                         resPtValue={false}
                         // Reset textInput Value with true and false state
@@ -186,14 +186,7 @@ export const HomeScreens = (props : any) => {
                 </Text>
                 </TouchableOpacity>
             </View>
-            <TouchableOpacity
-                    onPress={() => { goToScreen('CleinteScreen', idSector, nameSector ) }}
-                    style={styles.button}
-                >
-                    <Text style={styles.textboton}>
-                        BUSCAR
-                </Text>
-                </TouchableOpacity>
+           
         </ScrollView>
     )
     function goToScreen(routeName: any, idSector:any, name:any) {

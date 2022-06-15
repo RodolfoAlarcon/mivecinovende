@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import ciudadesApi from '../api/apiCiudad';
-import { Ciudades, Datum } from '../interfaces/ciudadesInterface';
+import { Ciudades, Datum } from '../interfaces/CiudadesInterface';
 
 export const useCiudades = () =>{
 

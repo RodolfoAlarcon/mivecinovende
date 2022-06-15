@@ -6,11 +6,11 @@ import { useNavigation } from '@react-navigation/native'
 
 
 
-export default function ToolBar(props){
+export default function ToolBar(props: any){
 
     const navigator = useNavigation()
     return(
-            <View style = { [props.style, {height: 64, marginTop: 60, backgroundColor: color.WHITE}] }>
+            <View style = { [props.style, {height: 64, backgroundColor: color.WHITE}] }>
            {
                props.titulo &&
                 <Text style={{ fontFamily:"fa-solid-900", marginTop:17, textAlign: 'center', fontSize: 23, color: color.GRAY }}>
@@ -19,7 +19,7 @@ export default function ToolBar(props){
            }
            {
                props.iconLeft && 
-               <TouchableOpacity style={{ position:'absolute', left: 20, top: 15 }} onPress={props.onPressLeft}>
+               <TouchableOpacity style={{ position:'absolute', left: 10, top: 15 }} onPress={props.onPressLeft}>
                    <Image style={{ tintColor: color.GRAY, width: 25, height: 27 }} source={ props.iconLeft } />
                </TouchableOpacity>
            }
@@ -27,7 +27,7 @@ export default function ToolBar(props){
             
             {
                props.iconRight && 
-               <TouchableOpacity style={{ position:'absolute', right: 30, top: 15 }} onPress={props.onPressRight}>
+               <TouchableOpacity style={{ position:'absolute', right: 10, top: 15 }} onPress={props.onPressRight}>
                    <Image style={{ tintColor: color.GRAY, width: 30, height: 30 }} source={ props.iconRight } />
                </TouchableOpacity>
            }
@@ -35,7 +35,7 @@ export default function ToolBar(props){
         
     )
 
-    function goToScreen(props, routeName){
+    function goToScreen(props:any, routeName:any){
         navigator.navigate(routeName);
     }
    

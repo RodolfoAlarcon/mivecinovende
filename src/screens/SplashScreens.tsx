@@ -4,6 +4,7 @@ import * as Animateable from 'react-native-animatable'
 import { getUsuario } from '../storage/UsuarioAsyncStorage'
 import { getDataForm, getAddress } from '../storage/FormDataAsyncStorage'
 import { getNotifications } from '../storage/NotificationsAsyncStorage'
+import { getBusiness } from '../storage/BusnessAsyncStorage'
 import { splashStyles } from '../styles/styles'
 import { AuthContex } from '../context/UsuarioContext'
 import { useNavigation } from '@react-navigation/native'
@@ -42,6 +43,7 @@ const SplashScreen = () => {
     async function fetchSession(singl:any) {
         const responseUser = await getUsuario();
         let responseAddress = await getAddress();
+        let responseBusiness = await getBusiness();
         let responseNotifications = await getNotifications();
       
         if (responseAddress == null) {
@@ -49,6 +51,10 @@ const SplashScreen = () => {
             await getCountry();
             responseAddress = await getAddress();
             
+        }
+
+        if (responseBusiness == null) {
+            responseBusiness = [];
         }
 
 
@@ -71,7 +77,7 @@ const SplashScreen = () => {
              responseNotifications = await getNotifications();
              
              
-             sing(responseUser,responseAddress, responseNotifications)
+             sing(responseUser,responseAddress, responseNotifications, responseBusiness)
         }
 
         

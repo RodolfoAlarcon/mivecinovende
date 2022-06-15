@@ -4,7 +4,7 @@ import { Searchbar } from 'react-native-paper';
 import axios from 'axios';
 import  {Formik}  from 'formik';
 import { useNavigation } from '@react-navigation/native';
-import { ResultadoBusquedadScreen } from "../screens/systemScreen/ResultadoBusquedadScreen";
+//import { ResultadoBusquedadScreen } from "../screens/systemScreen/ResultadoBusquedadScreen";
 
 
 export const Buscador = () =>{

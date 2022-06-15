@@ -24,7 +24,7 @@ export default class Listnegocios extends Component<{ id: any }, any>{
 
     componentDidMount() {
 
-        const url = `https://04.contenedoresnolvis.com/api/negocios/${this.props.id}`;
+        const url = `https://01.metodolibio.com/api/negocios/${this.props.id}`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

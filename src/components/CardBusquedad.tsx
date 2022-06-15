@@ -23,7 +23,7 @@ export default class CardBusquedad extends Component<{ id: any }, any>{
     }
 
     componentDidMount() {
-        const url = "https://04.contenedoresnolvis.com/api/queryAll?field_query="
+        const url = "https://01.metodolibio.com/api/queryAll?field_query="
         const element = {
             field_query: this.props.id
         }
