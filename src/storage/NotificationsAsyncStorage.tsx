@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage'
 
-const NOTIFICATIONS_KEY = '@notificartions:key'
+const NOTIFICATIONS_KEY = '@notifications:key'
 
 
-async function saveNotifications(notificartions:any){
+async function saveNotifications(notifications:any){
     try {
-        await AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notificartions))
-        return JSON.stringify(notificartions)
+        await AsyncStorage.setItem(NOTIFICATIONS_KEY, JSON.stringify(notifications))
+        return JSON.stringify(notifications)
     } catch (error) {
         //Error
         console.log('error al guardar: ' + error.message)
