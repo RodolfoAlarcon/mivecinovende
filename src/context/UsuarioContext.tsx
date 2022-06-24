@@ -7,8 +7,11 @@ import { useNavigation } from '@react-navigation/native';
 import { Address } from '../interfaces/DataFormInterface';
 import { Negocios, EditNegocioResponse } from '../interfaces/BusinessInterface';
 import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
-import { RegisterRedResponse } from '../interfaces/RedSocialInterface';
-
+import { EditRedResponse, RegisterRedResponse } from '../interfaces/RedSocialInterface';
+import { EditProductResponse, RegisterProductResponse } from '../interfaces/ProductInterface';
+import { RegisterServiceResponse } from '../interfaces/ServiceInterface';
+import Snackbar from 'react-native-snackbar'
+import axios from 'axios';
 type AuthContextProps = {
     errorMessage: string;
     status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates';
@@ -17,7 +20,7 @@ type AuthContextProps = {
     business: Negocios[] | null | '';
     address: Address | null | '';
     notifications: Notifications[] | null | '';
-    sing: (data: any, address: any, notifications:any, business:any) => void;
+    sing: (data: any, address: any, notifications: any, business: any) => void;
     singUp: (data: any) => void;
     logOut: () => void;
     sendCode: (phone: string, rol: string, country: any) => void;
@@ -27,6 +30,11 @@ type AuthContextProps = {
     getNotificationsApi: (id: any) => void;
     editNegocio: (data: any, negocios: any) => void;
     createRed: (data: any, negocios: any) => void;
+    editRed: (data: any, negocios: any) => void;
+    createProduct: (data: any, negocios: any) => void;
+    editProduct: (data: any, negocios: any) => void;
+    createService: (data: any, negocios: any) => void;
+    editService: (data: any, negocios: any) => void;
     //removeError: () => void;
 }
 
@@ -49,7 +57,7 @@ const UserProvider = ({ children }: any) => {
     const [login, dispatch] = useReducer(userReducer, initialSatate);
 
 
-    const sing = (user: any, address: any, notifications:any, business:any) => {
+    const sing = (user: any, address: any, notifications: any, business: any) => {
 
         dispatch({ type: 'sing-in', payload: { user: user, address: address, notifications: notifications, business: business } })
     }
@@ -91,7 +99,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await apiApp.post<confirmNumberResponse>('/confirmCode', data)
 
-            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user[0], business: resp.data.business, notifications: resp.data.notifications} })
+            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user[0], business: resp.data.business, notifications: resp.data.notifications } })
         } catch (error) {
 
             dispatch({ type: 'addError', payload: error.response.data.message })
@@ -126,10 +134,10 @@ const UserProvider = ({ children }: any) => {
     }
 
     const getNotificationsApi = async (id: any) => {
-    
+
         try {
             const resp = await apiApp.get<getNotificationsResponse>(`/notification-user/${id}`)
- 
+
             if (typeof resp === 'object') {
 
                 await dispatch({ type: 'getNotifications', payload: { notifications: resp.data.data } })
@@ -144,25 +152,158 @@ const UserProvider = ({ children }: any) => {
 
     }
 
-    
-    const editNegocio = async (data:any, negocios:any) => {
+
+    const editNegocio = async (data: any, negocios: any) => {
+
+        const formData = new FormData();
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('sectores_id', data.sectores_id);
+        formData.append('description', data.description);
+        formData.append('phone', data.phone);
+        formData.append('delivery', data.delivery,);
+        formData.append('direccion', data.direccion);
+        formData.append('email', data.email);
+        formData.append('url_logo',
+            {
+
+                name: data.url_logo.name,
+                type: data.url_logo.type,
+                size: data.url_logo.size,
+                uri: data.url_logo.uri
+
+            });
 
         try {
-            const resp = await apiApp.post<EditNegocioResponse>('/actualizar-negocio', data)
+            const resp = await axios({
+                method: "POST",
+                url: `https://01.metodolibio.com/api/actualizar-negocio`,
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                transformRequest: (data, error) => {
+                    return formData;
+                }
+            });
 
-           dispatch({ type: 'editNegocio', payload: { negocio: resp.data.negocio, negocios: negocios } })
+
+            dispatch({ type: 'editNegocio', payload: { negocio: resp.data.negocio, negocios: negocios } })
         } catch (error) {
 
             dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
         }
     }
 
-  
-    const createRed = async (data:any, negocios:any) => {
+
+    const createRed = async (data: any, negocios: any) => {
         try {
             const resp = await apiApp.post<RegisterRedResponse>('/guardar-red', data)
 
             dispatch({ type: 'createRed', payload: { red: resp.data.red, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+    const editRed = async (data: any, negocios: any) => {
+        try {
+            const resp = await apiApp.post<EditRedResponse>('/editar-red', data)
+
+            dispatch({ type: 'editRed', payload: { red: resp.data.red, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+    const createProduct = async (data: any, negocios: any) => {
+
+  
+        const formData = new FormData();
+        formData.append('negocio_id', data.negocio_id);
+        formData.append('producto', data.producto);
+        formData.append('url_imagen',
+            {
+                name: data.url_imagen.name,
+                type: data.url_imagen.type,
+                size: data.url_imagen.size,
+                uri: data.url_imagen.uri
+
+            });
+        
+        try {
+
+            const resp = await axios({
+                method: "POST",
+                url: `https://01.metodolibio.com/api/guardar-producto`,
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                transformRequest: (data, error) => {
+                    return formData;
+                }
+            });
+
+            dispatch({ type: 'createProduct', payload: { product: resp.data.product, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+    const editProduct = async (data: any, negocios: any) => {
+        const formData = new FormData();
+        formData.append('id', data.id);
+        formData.append('negocio_id', data.negocio_id);
+        formData.append('producto', data.producto);
+        formData.append('url_imagen',
+            {
+                name: data.url_imagen.name,
+                type: data.url_imagen.type,
+                size: data.url_imagen.size,
+                uri: data.url_imagen.uri
+
+            });
+        try {
+
+            const resp = await axios({
+                method: "POST",
+                url: `https://01.metodolibio.com/api/editar-producto`,
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                transformRequest: (data, error) => {
+                    return formData;
+                }
+            });
+
+            dispatch({ type: 'editProduct', payload: { product: resp.data.product, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+    const createService = async (data: any, negocios: any) => {
+        try {
+            const resp = await apiApp.post<RegisterServiceResponse>('/guardar-servicio', data)
+
+            dispatch({ type: 'createService', payload: { service: resp.data.service, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+    const editService = async (data: any, negocios: any) => {
+        try {
+            const resp = await apiApp.post<RegisterServiceResponse>('/editar-servicio', data)
+
+            dispatch({ type: 'editService', payload: { service: resp.data.service, negocios: negocios } })
         } catch (error) {
 
             dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
@@ -183,7 +324,12 @@ const UserProvider = ({ children }: any) => {
             recoveryCountry,
             getNotificationsApi,
             editNegocio,
-            createRed
+            createRed,
+            editRed,
+            createService,
+            editService,
+            createProduct,
+            editProduct
 
         }} >
             {children}

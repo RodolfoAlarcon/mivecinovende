@@ -7,7 +7,7 @@ import { DataTable } from 'react-native-paper';
 import ToolBar from '../../../components/Toolbar';
 
 
-export const ListaservicioScreen = (props: any) => {
+export const ListaServicioScreen = (props: any) => {
 
     const navigator = useNavigation()
 
@@ -15,16 +15,16 @@ export const ListaservicioScreen = (props: any) => {
 
     return (
         <View>
-                 <ToolBar titulo='Vista de negocio'
+                 <ToolBar titulo='Servicio del negocio'
                 onPressLeft={() => goToBackScreen()}
-                onPressRight={() => goToScreen('EditBusinessScreen', params.business)}
+                onPressRight={() => goToScreen('CreateServiceScreen', params.id_negocio)}
                 iconLeft={require('../../../sources/img/back.png')}
                 iconRight={require('../../../sources/img/edit.png')}
             />
             <DataTable>
                 { params.data.map((n:any) => (
                     <TouchableOpacity key={n.id} onPress={() => {
-                        goToScreen('DetalleNegocioScreen', n)
+                        goToEditScreen('EditServiceScreen', n, params.id_negocio)
                     }} >
 
                         <DataTable.Row style={{ height: 70, padding: 10 }}>
@@ -50,6 +50,9 @@ export const ListaservicioScreen = (props: any) => {
     } 
 
     function goToScreen(routeName: any, data:any) {
-        navigator.navigate(routeName as never, {data:data} as never);
+        navigator.navigate(routeName as never, {id_negocio:data} as never);
+    }
+    function goToEditScreen(routeName: any, data:any, id_negocio:any) {
+        navigator.navigate(routeName as never, {data:data, id_negocio:id_negocio} as never);
     }
 }

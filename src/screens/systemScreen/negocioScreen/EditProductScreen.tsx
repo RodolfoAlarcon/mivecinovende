@@ -8,12 +8,44 @@ import MyTextInput from '../../../components/MyTextInput';
 import ToolBar from '../../../components/Toolbar';
 import RNPickerSelect from 'react-native-picker-select';
 import BotonNumero from '../../../components/BotonNumero';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-export const CreateRedScreen = (props: any) => {
+export const EditProductScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, createRed } = useContext(AuthContex) 
+    const { business, editProduct } = useContext(AuthContex) 
+    const [ tempUri, setTempUri ] = useState<any>('')
 
+    const thakePhotoGallery = async () => {
+        await launchImageLibrary({
+            mediaType: 'photo',
+            quality: 0.5,
+        }, (resp) => {
+            if(resp.didCancel) return;
+            if( !resp.assets){
+                return
+            }else{
+                console.log(resp.assets)
+                let data = {
+                    
+                    name: resp.assets[0].fileName,
+                    type: resp.assets[0].type,
+                    size: resp.assets[0].fileSize,
+                    uri:resp.assets[0].uri
+                     /* Platform.OS === 'android'
+                      ? resp.assets[0].uri
+                      : resp.assets[0].uri.replace('file://', ''),*/
+                  };
+                  //editNegocio(data, []);
+                  setTempUri(data)
+            };           
+            //console.log(':V')
+
+
+            //uploadImage(resp, id)
+        })
+    }
+    console.log(params.data.id)
     return (
         <ScrollView>
             <ToolBar titulo='Crear Red Social'
@@ -23,24 +55,25 @@ export const CreateRedScreen = (props: any) => {
             />
             <Formik
                 initialValues={{
-                    negocio_id: params.id_negocio,
-                    red_social:'',
-                    redsocial_url:'',
+                    negocio_id: params.data.id_negocio,
+                    producto: params.data.producto,
+                    url_imagen: params.data.url_imagen,
+                    id: params.data.id
                  }}
                 onSubmit={async (values: any) => {
-
-                    await createRed(values, business)
+                    values.url_imagen = tempUri;
+                    await editProduct(values, business)
 
                     let arrayREd;
 
                     business.map((n:any) => {
                         if(n.id == params.id_negocio){
-                            arrayREd = n.redSocial;
+                            arrayREd = n.productos;
                         }else{
                             arrayREd = [];
                         }
                     })
-                    
+                                        
                     goToScreen(arrayREd, params.id_negocio)
                 }}
             >
@@ -55,45 +88,7 @@ export const CreateRedScreen = (props: any) => {
                 }: any) => (
                     <>
                
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%"
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Tipo de red
-                            </Text>
-                            <View style={styles.select}>
-                                <RNPickerSelect
-                                    value={values.red_social}
-                                    placeholder={{
-                                        label: 'Tipo de red social',
-                                        value: '',
-                                    }}
-
-                                    onValueChange={handleChange('red_social')}
-                                     items={[
-                                        { label: 'Facebook', value: 'facebook' },
-                                        { label: 'Instagram', value: 'instagram' },
-                                        { label: 'Youtube', value: 'youtube' },
-                                        { label: 'Tik Tok', value: 'tik-tok' }
-                                    ]}
-
-
-                                />
-                            </View>
-                        </View>
-
-                        <View
+               <View
                             style={{
                                 width: "100%",
                                 alignItems: 'center',
@@ -109,19 +104,46 @@ export const CreateRedScreen = (props: any) => {
                                     marginBottom: 5
                                 }}
                             >
-                                Url de la red
+                                Nombre del producto
                             </Text>
 
                             <MyTextInput
                                 keyboardType='Text'
-                                placeholder={"direccion de la red"}
-                                value={values.redsocial_url}
-                                onChangeText={handleChange('redsocial_url')}
-                                onBlur={handleBlur('redsocial_url')}
+                                placeholder={"Nombre del producto"}
+                                value={values.producto}
+                                onChangeText={handleChange('producto')}
+                                onBlur={handleBlur('producto')}
                             />
 
                         </View>
-                        
+                        <View
+                            style={{
+                                width: "100%",
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                paddingVertical: 10,
+                                paddingHorizontal: "10%"
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    marginBottom: 5
+                                }}
+                            >
+                                Imagen del producto
+                                
+                            </Text>
+                            <TouchableOpacity
+                            
+                            onPress={thakePhotoGallery}>
+                            <Image
+                                source={(params.data.url_imagen == null || params.data.url_imagen == '') ? require('../../../sources/img/url_default.png') : { uri: params.data.url_imagen }}
+                                style={{ width: 100, height: 100, borderRadius: 200, marginHorizontal: 20, marginVertical: 20 }}
+                            />
+                            </TouchableOpacity>
+                     
+                        </View>
 
                         <TouchableOpacity style={{ marginTop: 20, marginBottom: 30, alignItems: "center" }}
                             onPress={() => handleSubmit()}>
@@ -141,9 +163,9 @@ export const CreateRedScreen = (props: any) => {
     }
     function goToScreen(values:any,id_negocio:any) {
         
-        navigator.navigate("ListaRedSocialScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
+        navigator.navigate("ListaProductoScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
     
-}
+    }
 }
 
 const styles = StyleSheet.create({
@@ -161,4 +183,3 @@ const styles = StyleSheet.create({
         width: '100%'
     },
 });
-

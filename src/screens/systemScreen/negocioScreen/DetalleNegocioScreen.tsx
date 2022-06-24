@@ -211,7 +211,7 @@ const DetalleNegocioScreen = (props: any) => {
                     <TouchableOpacity
                         onPress={
                             () => {
-                                goToScreen('ListaProductoScreen', params.business.productos, '')
+                                goToScreen('ListaProductoScreen', params.business.productos, params.business.id)
                             }
                         }
                     >
@@ -222,7 +222,7 @@ const DetalleNegocioScreen = (props: any) => {
                     <TouchableOpacity
                         onPress={
                             () => {
-                                goToScreen('ListaservicioScreen', params.business.servicios, '')
+                                goToScreen('ListaServicioScreen', params.business.servicios, params.business.id)
                             }
                         }
                     >

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView} from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import { color } from "../../../styles/colors";
@@ -8,12 +8,42 @@ import MyTextInput from '../../../components/MyTextInput';
 import ToolBar from '../../../components/Toolbar';
 import RNPickerSelect from 'react-native-picker-select';
 import BotonNumero from '../../../components/BotonNumero';
-
+import { launchImageLibrary } from 'react-native-image-picker';
 export const EditBusinessScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, editNegocio } = useContext(AuthContex) 
-    console.log(params.data.id)
+    const { business, editNegocio } = useContext(AuthContex)
+    const [ tempUri, setTempUri ] = useState<any>(params.data.url_logo)
+
+    const thakePhotoGallery = async () => {
+        await launchImageLibrary({
+            mediaType: 'photo',
+            quality: 0.5,
+        }, (resp) => {
+            if(resp.didCancel) return;
+            if( !resp.assets){
+                return
+            }else{
+                console.log(resp.assets)
+                let data = {
+                    
+                    name: resp.assets[0].fileName,
+                    type: resp.assets[0].type,
+                    size: resp.assets[0].fileSize,
+                    uri:resp.assets[0].uri
+                     /* Platform.OS === 'android'
+                      ? resp.assets[0].uri
+                      : resp.assets[0].uri.replace('file://', ''),*/
+                  };
+                  //editNegocio(data, []);
+                  setTempUri(data)
+            };           
+            //console.log(':V')
+
+
+            //uploadImage(resp, id)
+        })
+    }
     return (
         <ScrollView>
             <ToolBar titulo='Editar negocio'
@@ -30,10 +60,14 @@ export const EditBusinessScreen = (props: any) => {
                     phone: params.data.phone,
                     delivery: params.data.delivery.toString(),
                     direccion: params.data.direccion,
-                    email: params.data.email
+                    email: params.data.email,
+                    url_logo: tempUri,
                 }}
                 onSubmit={async (values: any) => {
-                    editNegocio(values, business)
+                    values.url_logo = tempUri;
+                    
+                    console.log(values.url_logo)
+                    await editNegocio(values, business)
                     goToScreen(params.data)
                 }}
             >
@@ -42,6 +76,7 @@ export const EditBusinessScreen = (props: any) => {
                     handleBlur,
                     handleSubmit,
                     values,
+                    handleFileUpload,
                     errors,
                     touched,
                     isValid,
@@ -91,8 +126,17 @@ export const EditBusinessScreen = (props: any) => {
                                 }}
                             >
                                 Logo
+                                
                             </Text>
-
+                            <TouchableOpacity
+                            
+                            onPress={thakePhotoGallery}>
+                            <Image
+                                source={(params.data.url_logo == null || params.data.url_logo == '') ? require('../../../sources/img/url_default.png') : { uri: params.data.url_logo }}
+                                style={{ width: 100, height: 100, borderRadius: 200, marginHorizontal: 20, marginVertical: 20 }}
+                            />
+                            </TouchableOpacity>
+                     
                         </View>
                         <View
                             style={{
@@ -258,11 +302,11 @@ export const EditBusinessScreen = (props: any) => {
     function goToBackScreen() {
         navigator.goBack()
     }
-    function goToScreen(values:any) {
-        
-        navigator.navigate("DetalleNegocioScreen" as never, {business:values, onGoBack: true } as never)
-    
-}
+    function goToScreen(values: any) {
+
+        navigator.navigate("DetalleNegocioScreen" as never, { business: values, onGoBack: true } as never)
+
+    }
 }
 
 const styles = StyleSheet.create({

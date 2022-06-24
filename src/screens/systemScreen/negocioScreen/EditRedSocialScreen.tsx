@@ -9,10 +9,10 @@ import ToolBar from '../../../components/Toolbar';
 import RNPickerSelect from 'react-native-picker-select';
 import BotonNumero from '../../../components/BotonNumero';
 
-export const CreateRedScreen = (props: any) => {
+export const EditRedSocialScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, createRed } = useContext(AuthContex) 
+    const { business, editRed } = useContext(AuthContex) 
 
     return (
         <ScrollView>
@@ -24,12 +24,13 @@ export const CreateRedScreen = (props: any) => {
             <Formik
                 initialValues={{
                     negocio_id: params.id_negocio,
-                    red_social:'',
-                    redsocial_url:'',
+                    red_social: params.data.red_social,
+                    redsocial_url: params.data.redsocial_url,
+                    id: params.data.id
                  }}
                 onSubmit={async (values: any) => {
 
-                    await createRed(values, business)
+                    await editRed(values, business)
 
                     let arrayREd;
 
@@ -143,7 +144,7 @@ export const CreateRedScreen = (props: any) => {
         
         navigator.navigate("ListaRedSocialScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
     
-}
+    }
 }
 
 const styles = StyleSheet.create({
@@ -161,4 +162,3 @@ const styles = StyleSheet.create({
         width: '100%'
     },
 });
-

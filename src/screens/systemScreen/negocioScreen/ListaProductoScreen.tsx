@@ -15,16 +15,16 @@ export const ListaProductoScreen = (props: any) => {
 
     return (
         <View>
-                 <ToolBar titulo='Vista de negocio'
+                 <ToolBar titulo='Productos del negocio'
                 onPressLeft={() => goToBackScreen()}
-                onPressRight={() => goToScreen('EditBusinessScreen', params.business)}
+                onPressRight={() => goToScreen('CreateProductScreen', params.id_negocio)}
                 iconLeft={require('../../../sources/img/back.png')}
                 iconRight={require('../../../sources/img/edit.png')}
             />
             <DataTable>
                 { params.data.map((n:any) => (
                     <TouchableOpacity key={n.id} onPress={() => {
-                        goToScreen('DetalleNegocioScreen', n)
+                        goToEditScreen('EditProductScreen', n, params.id_negocio)
                     }} >
 
                         <DataTable.Row style={{ height: 70, padding: 10 }}>
@@ -58,6 +58,9 @@ export const ListaProductoScreen = (props: any) => {
     } 
 
     function goToScreen(routeName: any, data:any) {
-        navigator.navigate(routeName as never, {data:data} as never);
+        navigator.navigate(routeName as never, {id_negocio:data} as never);
+    }
+    function goToEditScreen(routeName: any, data:any, id_negocio:any) {
+        navigator.navigate(routeName as never, {data:data, id_negocio:id_negocio} as never);
     }
 }

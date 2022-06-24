@@ -9,10 +9,10 @@ import ToolBar from '../../../components/Toolbar';
 import RNPickerSelect from 'react-native-picker-select';
 import BotonNumero from '../../../components/BotonNumero';
 
-export const CreateRedScreen = (props: any) => {
+export const EditServiceScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, createRed } = useContext(AuthContex) 
+    const { business, editService } = useContext(AuthContex)
 
     return (
         <ScrollView>
@@ -24,23 +24,23 @@ export const CreateRedScreen = (props: any) => {
             <Formik
                 initialValues={{
                     negocio_id: params.id_negocio,
-                    red_social:'',
-                    redsocial_url:'',
-                 }}
+                    servicio: params.data.servicio,
+                    id: params.data.id
+                }}
                 onSubmit={async (values: any) => {
 
-                    await createRed(values, business)
+                    await editService(values, business)
 
                     let arrayREd;
 
-                    business.map((n:any) => {
-                        if(n.id == params.id_negocio){
-                            arrayREd = n.redSocial;
-                        }else{
+                    business.map((n: any) => {
+                        if (n.id == params.id_negocio) {
+                            arrayREd = n.servicios;
+                        } else {
                             arrayREd = [];
                         }
                     })
-                    
+
                     goToScreen(arrayREd, params.id_negocio)
                 }}
             >
@@ -54,44 +54,6 @@ export const CreateRedScreen = (props: any) => {
                     isValid,
                 }: any) => (
                     <>
-               
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%"
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Tipo de red
-                            </Text>
-                            <View style={styles.select}>
-                                <RNPickerSelect
-                                    value={values.red_social}
-                                    placeholder={{
-                                        label: 'Tipo de red social',
-                                        value: '',
-                                    }}
-
-                                    onValueChange={handleChange('red_social')}
-                                     items={[
-                                        { label: 'Facebook', value: 'facebook' },
-                                        { label: 'Instagram', value: 'instagram' },
-                                        { label: 'Youtube', value: 'youtube' },
-                                        { label: 'Tik Tok', value: 'tik-tok' }
-                                    ]}
-
-
-                                />
-                            </View>
-                        </View>
 
                         <View
                             style={{
@@ -109,19 +71,19 @@ export const CreateRedScreen = (props: any) => {
                                     marginBottom: 5
                                 }}
                             >
-                                Url de la red
+                                Nombre del servicio
                             </Text>
 
                             <MyTextInput
                                 keyboardType='Text'
-                                placeholder={"direccion de la red"}
-                                value={values.redsocial_url}
-                                onChangeText={handleChange('redsocial_url')}
-                                onBlur={handleBlur('redsocial_url')}
+                                placeholder={"nombre del servicio"}
+                                value={values.servicio}
+                                onChangeText={handleChange('servicio')}
+                                onBlur={handleBlur('servicio')}
                             />
 
                         </View>
-                        
+
 
                         <TouchableOpacity style={{ marginTop: 20, marginBottom: 30, alignItems: "center" }}
                             onPress={() => handleSubmit()}>
@@ -139,11 +101,11 @@ export const CreateRedScreen = (props: any) => {
     function goToBackScreen() {
         navigator.goBack()
     }
-    function goToScreen(values:any,id_negocio:any) {
-        
-        navigator.navigate("ListaRedSocialScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
-    
-}
+    function goToScreen(values: any, id_negocio: any) {
+
+        navigator.navigate("ListaServicioScreen" as never, { data: values, id_negocio: id_negocio, onGoBack: true } as never)
+
+    }
 }
 
 const styles = StyleSheet.create({
@@ -161,4 +123,3 @@ const styles = StyleSheet.create({
         width: '100%'
     },
 });
-

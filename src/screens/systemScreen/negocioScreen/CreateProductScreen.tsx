@@ -8,15 +8,46 @@ import MyTextInput from '../../../components/MyTextInput';
 import ToolBar from '../../../components/Toolbar';
 import RNPickerSelect from 'react-native-picker-select';
 import BotonNumero from '../../../components/BotonNumero';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-export const CreateRedScreen = (props: any) => {
+export const CreateProductScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, createRed } = useContext(AuthContex) 
+    const { business, createProduct } = useContext(AuthContex) 
+    const [ tempUri, setTempUri ] = useState<any>('')
 
+    const thakePhotoGallery = async () => {
+        await launchImageLibrary({
+            mediaType: 'photo',
+            quality: 0.5,
+        }, (resp) => {
+            if(resp.didCancel) return;
+            if( !resp.assets){
+                return
+            }else{
+                console.log(resp.assets)
+                let data = {
+                    
+                    name: resp.assets[0].fileName,
+                    type: resp.assets[0].type,
+                    size: resp.assets[0].fileSize,
+                    uri:resp.assets[0].uri
+                     /* Platform.OS === 'android'
+                      ? resp.assets[0].uri
+                      : resp.assets[0].uri.replace('file://', ''),*/
+                  };
+                  //editNegocio(data, []);
+                  setTempUri(data)
+            };           
+            //console.log(':V')
+
+
+            //uploadImage(resp, id)
+        })
+    }
     return (
         <ScrollView>
-            <ToolBar titulo='Crear Red Social'
+            <ToolBar titulo='Crear Producto'
                 onPressLeft={() => goToBackScreen()}
                 iconLeft={require('../../../sources/img/back.png')}
 
@@ -24,18 +55,18 @@ export const CreateRedScreen = (props: any) => {
             <Formik
                 initialValues={{
                     negocio_id: params.id_negocio,
-                    red_social:'',
-                    redsocial_url:'',
+                    producto:'',
+                    url_imagen:tempUri,
                  }}
                 onSubmit={async (values: any) => {
-
-                    await createRed(values, business)
+                    values.url_imagen = tempUri;
+                    await createProduct(values, business)
 
                     let arrayREd;
 
                     business.map((n:any) => {
                         if(n.id == params.id_negocio){
-                            arrayREd = n.redSocial;
+                            arrayREd = n.productos;
                         }else{
                             arrayREd = [];
                         }
@@ -61,44 +92,6 @@ export const CreateRedScreen = (props: any) => {
                                 alignItems: 'center',
                                 justifyContent: 'center',
                                 paddingVertical: 10,
-                                paddingHorizontal: "10%"
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Tipo de red
-                            </Text>
-                            <View style={styles.select}>
-                                <RNPickerSelect
-                                    value={values.red_social}
-                                    placeholder={{
-                                        label: 'Tipo de red social',
-                                        value: '',
-                                    }}
-
-                                    onValueChange={handleChange('red_social')}
-                                     items={[
-                                        { label: 'Facebook', value: 'facebook' },
-                                        { label: 'Instagram', value: 'instagram' },
-                                        { label: 'Youtube', value: 'youtube' },
-                                        { label: 'Tik Tok', value: 'tik-tok' }
-                                    ]}
-
-
-                                />
-                            </View>
-                        </View>
-
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
                                 paddingHorizontal: "10%",
                                 minHeight: 100
                             }}
@@ -109,20 +102,25 @@ export const CreateRedScreen = (props: any) => {
                                     marginBottom: 5
                                 }}
                             >
-                                Url de la red
+                                Nombre del producto
                             </Text>
 
                             <MyTextInput
                                 keyboardType='Text'
-                                placeholder={"direccion de la red"}
-                                value={values.redsocial_url}
-                                onChangeText={handleChange('redsocial_url')}
-                                onBlur={handleBlur('redsocial_url')}
+                                placeholder={"Nombre del producto"}
+                                value={values.producto}
+                                onChangeText={handleChange('producto')}
+                                onBlur={handleBlur('producto')}
                             />
 
                         </View>
                         
-
+                        <TouchableOpacity
+                            
+                            onPress={thakePhotoGallery}>
+                                <Text style={{textAlign:'center', fontSize:25}}>Agregar Foto</Text>
+                                
+                            </TouchableOpacity>
                         <TouchableOpacity style={{ marginTop: 20, marginBottom: 30, alignItems: "center" }}
                             onPress={() => handleSubmit()}>
                             <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
@@ -141,7 +139,7 @@ export const CreateRedScreen = (props: any) => {
     }
     function goToScreen(values:any,id_negocio:any) {
         
-        navigator.navigate("ListaRedSocialScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
+        navigator.navigate("ListaProductoScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
     
 }
 }
