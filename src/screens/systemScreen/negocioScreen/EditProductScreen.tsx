@@ -45,7 +45,7 @@ export const EditProductScreen = (props: any) => {
             //uploadImage(resp, id)
         })
     }
-    console.log(params.data.id)
+    
     return (
         <ScrollView>
             <ToolBar titulo='Crear Red Social'

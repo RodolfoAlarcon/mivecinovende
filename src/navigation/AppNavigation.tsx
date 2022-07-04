@@ -29,6 +29,7 @@ import { CreateServiceScreen } from '../screens/systemScreen/negocioScreen/Creat
 import { EditRedSocialScreen } from '../screens/systemScreen/negocioScreen/EditRedSocialScreen';
 import { EditProductScreen } from '../screens/systemScreen/negocioScreen/EditProductScreen';
 import { EditServiceScreen } from '../screens/systemScreen/negocioScreen/EditServiceScreen';
+import  {MessagesScreen}  from '../screens/systemScreen/chatScreen/MessagesScreen';
 
 
 const Stack = createStackNavigator();
@@ -76,6 +77,7 @@ export const Navigation = () => {
                                 <Stack.Screen name='EditServiceScreen' component={EditServiceScreen} />
                                 <Stack.Screen name='CreateProductScreen' component={CreateProductScreen} />
                                 <Stack.Screen name='EditProductScreen' component={EditProductScreen} />
+                                <Stack.Screen name='MessagesScreen' component={MessagesScreen} />
                             </>
 
                         )

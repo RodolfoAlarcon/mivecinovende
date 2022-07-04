@@ -5,6 +5,7 @@ import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigati
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
 import SettingScreen from './systemScreen/SettingScreen'
+import ConversationsScreen from './systemScreen/chatScreen/ConversationsScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
 
@@ -21,6 +22,14 @@ export default class PrincipalScreens extends Component<{}, any>{
           icon: 'search',
           label: '',
           screen: <HomeScreens navigation={this.props.children} />,
+          barColor: '#ffff',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'ConversationsScreen',
+          icon: 'message-circle',
+          label: '',
+          screen: <ConversationsScreen navigation={this.props.children} />,
           barColor: '#ffff',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
@@ -52,8 +61,9 @@ export default class PrincipalScreens extends Component<{}, any>{
 
   renderScreen = () => (
     this.state.activeTab == 'HomeScreens' && this.state.tabs[0].screen ||
-    this.state.activeTab == 'NotificationScreen' && this.state.tabs[1].screen ||
-    this.state.tabs[2].screen
+    this.state.activeTab == 'ConversationsScreen' && this.state.tabs[1].screen ||
+    this.state.activeTab == 'NotificationScreen' && this.state.tabs[2].screen ||
+    this.state.tabs[3].screen
 
   )
 

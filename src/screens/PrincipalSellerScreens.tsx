@@ -5,6 +5,7 @@ import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigati
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
 import  ListaNegocioScreen  from './systemScreen/negocioScreen/ListaNegocioScreen'
+import ConversationsScreen from './systemScreen/chatScreen/ConversationsScreen'
 import SettingScreen from './systemScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
@@ -22,6 +23,14 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
           icon: 'search',
           label: '',
           screen: <HomeScreens navigation={this.props.children} />,
+          barColor: '#ffff',
+          pressColor: 'rgba(255, 255, 255, 0.16)'
+        },
+        {
+          key: 'ConversationsScreen',
+          icon: 'message-circle',
+          label: '',
+          screen: <ConversationsScreen navigation={this.props.children} />,
           barColor: '#ffff',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
@@ -62,9 +71,10 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
 
   renderScreen = () => (
     this.state.activeTab == 'HomeScreens' && this.state.tabs[0].screen ||
-    this.state.activeTab == 'NotificationScreen' && this.state.tabs[1].screen ||
-    this.state.activeTab == 'ListaNoegcios' && this.state.tabs[2].screen ||
-    this.state.tabs[3].screen
+    this.state.activeTab == 'ConversationsScreen' && this.state.tabs[1].screen ||
+    this.state.activeTab == 'NotificationScreen' && this.state.tabs[2].screen ||
+    this.state.activeTab == 'ListaNoegcios' && this.state.tabs[3].screen ||
+    this.state.tabs[4].screen
 
   )
 
