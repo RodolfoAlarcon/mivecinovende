@@ -31,8 +31,7 @@ function SelectRegisterUser(props:any){
 const styles = StyleSheet.create({
 	container:{
 		color:color.PRIMARYCOLOR,
-		borderColor:color.PRIMARYCOLOR,
-		borderWidth: 1,
+		backgroundColor:'#F0F0F0',
 		borderTopLeftRadius: 4,
 		borderTopRightRadius: 4,
 		borderBottomLeftRadius: 4,

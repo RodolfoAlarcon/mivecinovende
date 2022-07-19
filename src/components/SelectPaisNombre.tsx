@@ -36,7 +36,7 @@ function SelectPaisNumero(props){
 const styles = StyleSheet.create({
 	container:{
 		borderWidth: 1,
-		borderColor: color.WHITE,
+		borderColor: 'red',
 		borderBottomColor: color.PRIMARYCOLOR,
 		color:color.PRIMARYCOLOR
 	},

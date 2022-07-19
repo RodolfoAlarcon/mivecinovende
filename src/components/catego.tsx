@@ -64,7 +64,8 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
             return (
                 <View>
                     <FlatList
-                        numColumns={1}
+                        numColumns={3}
+                        columnWrapperStyle={{ justifyContent: 'space-between' }}
                         data={this.state.dataBanner}
                         renderItem={({ item }) => this._renderItem(item)}
                         keyExtractor={(item: any, index) => index.toString()}
@@ -85,37 +86,27 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
                 () => { goToScreen('SubcategoriasScreen', item.id, item.name, sector, itemImg) }
             }
                 style={{
-                    width: '100%',
-                    height: 70,
-                    flexDirection: 'row',
+                    width: '32%',
                     backgroundColor: "white",
-                    borderTopWidth:1,
                     borderColor:'#cecece',
-                    paddingHorizontal:5
+                    paddingHorizontal:5,
+                    justifyContent:'center',
+                    alignItems:'center'
                 }}
             >
                 <View style={styles.contenidoboton}>
+                    <View style={{backgroundColor:'#000', paddingHorizontal:5}}>
+                        <Text style={{color:'#fff', fontWeight:'600'}}>
+                            99
+                        </Text>
+                    </View>
                     <Image
                         source={{ uri: itemImg }}
                         style={{ width: 45, height: 45, resizeMode: 'contain'}}
                     />
-                </View>
-                <View style={styles.contenidobotontext}>
                     <Text style={styles.textboton}>
                         {item.name}
                     </Text>
-                </View>
-                <View
-                    style={{
-                        width:'10%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Image 
-                        source={require('../sources/img/arrow.png')}
-                        style={{ width: 20, height: 20, resizeMode: 'contain'}}
-                    />
                 </View>
             </TouchableOpacity>
         )
@@ -125,18 +116,18 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
 const styles = StyleSheet.create({
     contenidoboton: {
-        width: '20%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    contenidobotontext: {
-        width: '70%',
-        justifyContent: 'center',
+        height:120,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        width:'100%',
+        marginVertical:10,
+
     },
     textboton: {
-        fontSize: 17,
+        fontSize: 15,
         fontWeight: 'bold',
         color: '#000',
+        textAlign:'center'
     }
 });
 

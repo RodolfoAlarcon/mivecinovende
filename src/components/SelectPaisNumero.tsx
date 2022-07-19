@@ -40,13 +40,11 @@ function SelectPaisNumero(props:any){
 
 const styles = StyleSheet.create({
 	container:{
-		color:color.PRIMARYCOLOR,
-		borderColor:color.PRIMARYCOLOR,
-		borderWidth: 1,
-		borderTopLeftRadius: 4,
-		borderTopRightRadius: 4,
-		borderBottomLeftRadius: 4,
-		borderBottomRightRadius: 4,
+        color: color.PRIMARYCOLOR,
+        backgroundColor:'#F0F0F0',
+        borderWidth: 1,
+        marginBottom: 15,
+        borderColor:'#F0F0F0',
 	},
 });
 

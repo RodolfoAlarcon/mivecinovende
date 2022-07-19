@@ -16,14 +16,14 @@ export default function MyTextInput(props: any){
           editable={props.editable}
           label={props.label}
           placeholder={props.placeholder}
-          outlineColor={color.PRIMARYCOLOR}
-          activeOutlineColor={color.PRIMARYCOLOR}
+          outlineColor={'#F0F0F0'}
+          activeOutlineColor={'#F0F0F0'}
           onChangeText={props.onChangeText}
           value={props.value}
           numberOfLines={props.numberOfLines}
           multiline={props.multiline}
-          keyboardType={props.type}
-          style={{width:'100%'}}
+          keyboardType={props.keyboardType}
+          style={styles.Mytextinput}
         />
             
     )
@@ -46,6 +46,11 @@ const styles = StyleSheet.create({
       height: '100%',
       width: '100%'
     },
+    Mytextinput: {
+      width:'100%',
+      borderRadius:0,
+      backgroundColor:'#F0F0F0',
+    }
 })
 
 

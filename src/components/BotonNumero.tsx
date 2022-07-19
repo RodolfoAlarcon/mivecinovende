@@ -20,13 +20,8 @@ function BotonNumero(props){
 const styles = StyleSheet.create({
     BotonNumero:{
         width:250,
-        backgroundColor: color.PRIMARYCOLOR,
-
+        backgroundColor:'#1D1D1B',
         padding:10,
-        borderBottomLeftRadius: 35,
-        borderBottomRightRadius: 35,
-        borderTopLeftRadius: 35,
-        borderTopRightRadius: 35,
     },
     Titulo:{
         textAlign:"center",

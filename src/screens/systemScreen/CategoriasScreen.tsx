@@ -22,19 +22,40 @@ export const CategoriasScreen = (props: any) => {
     return (
         <ScrollView>
             <View style={styles.banner}>
-                <Text style={styles.textbanner}>
-                    {paramsname}
+                <View style={{ width: '80%', flexDirection: 'row', alignItems: 'center' }}>
+                    <Image
+                        source={{
+                            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'
+                        }}
+                        style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
+                    />
+                    <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17, fontWeight: '600' }}>
+                        hola, Claudia Arteagas
+                    </Text>
+                </View>
+                <View style={{ width: '20%', justifyContent:'center',alignItems:'center' }}>
+                    <Image
+                        source={
+                            require('../../sources/img/bandera.png') 
+                        }
+                        style={{ width: 25, height: 25, borderRadius: 25 / 2 }}
+                    />
+                    <Text style={{color:'#fff',fontWeight:'600'}}>
+                        guayaquil
+                    </Text>
+                </View>
+            </View>
+
+            <View style={{marginVertical:15}}>
+                <Text style={{color:'#000', fontSize:20,textAlign:'center',fontWeight:'600'}}>
+                    Guayaquil - Km. 23 Vía a Daule
                 </Text>
             </View>
-            <View style={{ height: 200 }}>
-                <Carousel
-                    id={paramsid}
-                />
-            </View>
+
             <View style={styles.buscador}>
                 <Buscador />
             </View>
-            <View style={{ width:'100%' }}>
+            <View style={{ width: '100%' }}>
                 <Categoria
                     sector={paramsname}
                     id={paramsid}
@@ -50,8 +71,13 @@ export const CategoriasScreen = (props: any) => {
 
 const styles = StyleSheet.create({
     banner: {
-        height: 50,
-        backgroundColor: '#007ba4',
+        width: '100%',
+        height: 60,
+        backgroundColor: '#000',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: '5%'
     },
     textbanner: {
         color: '#ffffff',
@@ -67,11 +93,11 @@ const styles = StyleSheet.create({
     },
     buscador: {
         height: 60,
-        backgroundColor: '#dfa71b',
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: "5%",
+        marginBottom:10
     },
     cajaCategoria: {
         width: '100%',
@@ -114,39 +140,5 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000',
         textAlign: 'center',
-    },
-    alimentos: {
-        backgroundColor: '#fed1e5'
-    },
-    oficios: {
-        backgroundColor: '#f8ebd1'
-    },
-    locales: {
-        backgroundColor: '#dbe9d9'
-    },
-    propiedades: {
-        backgroundColor: '#fdebdc'
-    },
-    servicios: {
-        backgroundColor: '#dcf0d7'
-    },
-    cursos: {
-        backgroundColor: '#e1e6f1'
-    },
-    venta: {
-        backgroundColor: '#baf2e6'
-    },
-    transporte: {
-        backgroundColor: '#ededc9'
-    },
-    wrapper: {},
-    slide1: {
-        flex: 1,
-    },
-    slide2: {
-        flex: 1,
-    },
-    slide3: {
-        flex: 1,
     },
 });
