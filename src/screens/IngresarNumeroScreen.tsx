@@ -57,7 +57,7 @@ function IngresarNumeroScreen(props: any) {
                             await sendCode(phone, values.rol, values.country);
     
                             setTimeout(() => {
-                                goToScreen('ValidacionNumeroScreen', phone, values.rol)
+                                goToScreen('RegisterScreen', phone, values.rol)
                             }, 2000)
                         }else{
                             alert('faltan campor por rellenar')
@@ -108,6 +108,9 @@ function IngresarNumeroScreen(props: any) {
                                 width: "40%",
                                 padding: 10,
                             }}>
+                                {
+                                    console.log(values.country)
+                                }
                                 <MyTextInput
                                     placeholder={values.country}
                                     editable={false}
@@ -164,7 +167,9 @@ function IngresarNumeroScreen(props: any) {
                     @2021 Allavoy <Text style={{
                         color: color.SECONDARYCOLOR
                     }}
-                        onPress={() => { }}
+                        onPress={() => {
+                            goToScreen('RegisterScreen', "lol", "lol")
+                         }}
                     >Politica y Privacidad</Text>
                 </Text>
             </View>
@@ -179,12 +184,6 @@ export default IngresarNumeroScreen
 const styles = StyleSheet.create({
     container: {
         color: color.PRIMARYCOLOR,
-        borderColor: color.PRIMARYCOLOR,
-        borderWidth: 1,
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
-        borderBottomLeftRadius: 4,
-        borderBottomRightRadius: 4,
         marginBottom: 15
     },
 });

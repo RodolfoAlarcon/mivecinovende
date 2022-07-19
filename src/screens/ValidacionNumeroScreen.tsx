@@ -38,7 +38,7 @@ function ValidacionNumeroScreen(props: any) {
             </View>
 
             <View style={{ padding: 50 }}>
-                <Text>Estamos enviando un mensaje a su número <Text> +593991891 </Text></Text>
+                <Text style={{ color:'#000' }}>Estamos enviando un mensaje a su número <Text> +593991891 </Text></Text>
                 <Text style={{ color: color.SECONDARYCOLOR }}>¿Número Equivocado?</Text>
 
                 <Formik
@@ -73,12 +73,12 @@ function ValidacionNumeroScreen(props: any) {
                                 <TouchableOpacity
                                     style={{ width: "50%" }}
                                     onPress={() => handleSubmit()}>
-                                    <View ><Text style={{ textAlign: "center" }}>Confirmar</Text></View>
+                                    <View ><Text style={{ textAlign: "center",color:'#000' }}>Confirmar</Text></View>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={{ width: "50%" }}
                                     onPress={() => { }}>
-                                    <View ><Text style={{ textAlign: "center" }}>Llamar</Text></View>
+                                    <View ><Text style={{ textAlign: "center",color:'#000' }}>Llamar</Text></View>
                                 </TouchableOpacity>
                             </View>
                         </>

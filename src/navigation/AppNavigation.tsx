@@ -91,6 +91,7 @@ export const Navigation = () => {
                         return (
                             <>
                                 <Stack.Screen name="SplashScreen" component={SplashScreen} />
+                                <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
                                 <Stack.Screen name="IngresarNumeroScreen" component={IngresarNumeroScreen} />
                                 <Stack.Screen name="ValidacionNumeroScreen" component={ValidacionNumeroScreen} />
                             </>

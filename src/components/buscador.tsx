@@ -44,14 +44,11 @@ export const Buscador = () =>{
                     style={{
                         width:"100%",
                         height:45,
-                        borderWidth:2,
-                        borderTopLeftRadius: 7,
-                        borderTopRightRadius: 7,
-                        borderBottomLeftRadius: 7,
-                        borderBottomRightRadius: 7,
+                        borderBottomWidth:2,
                         textAlign:"left",
                         color:"black",
                         paddingHorizontal:15,
+                        paddingLeft:45,
                         fontSize:17,
                         backgroundColor:"white"
                     }}
@@ -66,7 +63,7 @@ export const Buscador = () =>{
                     width:40,
                     height:40,
                     position:"absolute",
-                    right:"7%"
+                    left:"5%"
                 }}>
                     <TouchableOpacity
                         onPress={() => handleSubmit()}>
