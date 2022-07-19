@@ -14,6 +14,7 @@ const Conversations = ({ children }:any) => {
 				lastMessage="Hello there"
 				time="4:00 PM"
 				notification="3"
+				idChat="1"
 				isBlocked
 				isMuted
 				hasStory
@@ -25,6 +26,7 @@ const Conversations = ({ children }:any) => {
 				lastMessage="Hello there"
 				time="4:00 PM"
 				notification="3"
+				idChat="2"
 				isBlocked
 				isMuted
 				hasStory

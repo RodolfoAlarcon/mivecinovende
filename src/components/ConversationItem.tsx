@@ -6,7 +6,7 @@ import ProfileInfo from './ProfileInfo';
 
 import { theme } from './../styles/theme';
 
-const ConversationItem = ({ picture, username, bio, lastMessage, time, isBlocked, isMuted, notification, hasStory } : any) => {
+const ConversationItem = ({ picture, username, bio, lastMessage, time, isBlocked, isMuted, notification, hasStory,idChat } : any) => {
 
 	const [modalVisible, setModalVisible] = useState(false);
 	const navigation = useNavigation(); 
@@ -42,7 +42,8 @@ const ConversationItem = ({ picture, username, bio, lastMessage, time, isBlocked
 				bio: bio,
 				picture: picture,
 				isBlocked: isBlocked,
-				isMuted: isMuted
+				isMuted: isMuted,
+				idChat: idChat
 			} as never)}>
 
 				<TouchableOpacity 

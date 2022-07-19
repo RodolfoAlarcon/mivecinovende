@@ -6,7 +6,7 @@ import ChatInput from "./../../../components/messages/ChatInput";
 import MessagesList from "./../../../components/messages/MessagesList";
 
 export const MessagesScreen = ({ navigation, route }:any) => {
-	const { username, bio, picture, isBlocked, isMuted } = route.params;
+	const { username, bio, picture, isBlocked, isMuted, idChat } = route.params;
 	const [reply, setReply] = useState("");
 	const [isLeft, setIsLeft] = useState();
 
@@ -29,8 +29,8 @@ export const MessagesScreen = ({ navigation, route }:any) => {
 				bio={''}
 	
 			/>
-			<MessagesList onSwipeToReply={swipeToReply} />
-			<ChatInput reply={reply} isLeft={isLeft} closeReply={closeReply} username={username} />
+			<MessagesList onSwipeToReply={swipeToReply} /> 
+			<ChatInput reply={reply} isLeft={isLeft} closeReply={closeReply} username={username} idChat={idChat} />
 		</View>
 	);
 };

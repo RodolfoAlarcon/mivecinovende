@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
 	View,
 	Text,
@@ -8,19 +8,48 @@ import {
 	TouchableOpacity,
 } from "react-native";
 
+import { AuthContex } from '../../context/UsuarioContext'
+
+import Echo from 'laravel-echo/dist/echo';
+import { io } from 'socket.io-client';
+//import { getInstance } from '@/utils/instance';
 
 import Icon from 'react-native-vector-icons/Feather';
 import EmojiPicker from "./emojis/EmojiPicker";
 
 import { theme } from "./../../styles/theme";
 
-const ChatInput = ({ reply, closeReply, isLeft, username }: any) => {
+const ChatInput = ({ reply, closeReply, isLeft, username, idChat }: any) => {
 	const [message, setMessage] = useState("");
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const height = 70;
+	const { user } = useContext(AuthContex)
+	/*useEffect(() => {
+	
+	}, [])*/
+	async function sendMessage(msj:any) {
+		
+		//const reg = /http[s]?:\/\/([\w\d]+).[\w\d-.]+/i;
+		//const baseUrl = `https://07.metodolibio.com/`;
+		const baseUrl = `https://vecinovendechat.herokuapp.com`; 
+
+		const socket = io(baseUrl)
+		let stateUSer = true;//borrar y cambiar por el status de usuario
+		if (stateUSer) {
+			const room = 'room';
+			socket.emit('join_room', {room: idChat, idUser: user.id} )
+
+			socket.emit('chat', msj)
+
+			socket.on(`chat.${user.id}`, (msg) => {
+				console.log('socket sync!', msg)
 
 
+			})
 
+		}
+
+	}
 
 	return (
 		<View style={[styles.container]}>
@@ -59,7 +88,7 @@ const ChatInput = ({ reply, closeReply, isLeft, username }: any) => {
 						value={message}
 						onChangeText={(text) => setMessage(text)}
 					/>
-					<TouchableOpacity style={styles.rightIconButtonStyle}>
+					{/*<TouchableOpacity style={styles.rightIconButtonStyle}>
 						<Icon
 							name="paperclip"
 							size={23}
@@ -72,9 +101,11 @@ const ChatInput = ({ reply, closeReply, isLeft, username }: any) => {
 							size={23}
 							color={theme.colors.description}
 						/>
-					</TouchableOpacity>
+						</TouchableOpacity>*/}
 				</View>
-				<TouchableOpacity style={styles.sendButton}>
+				<TouchableOpacity style={styles.sendButton}
+					onPress={(e) => { sendMessage(message) }}
+				>
 					<Icon
 						name={"navigation"}
 						size={23}

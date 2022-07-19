@@ -18,6 +18,7 @@
     "accordion-collapse-react-native": "^1.1.0",
     "axios": "^0.26.1",
     "formik": "^2.2.9",
+    "laravel-echo": "^1.12.0",
     "react": "17.0.2",
     "react-autocomplete-input": "^1.0.18",
     "react-native": "0.67.3",
@@ -47,6 +48,7 @@
     "react-native-tab-view": "^3.1.1",
     "react-native-vector-icons": "^9.1.0",
     "react-navigation": "^4.4.4",
+    "socket.io-client": "^4.5.1",
     "toggle-switch-react-native": "^3.3.0"
   },
   "devDependencies": {

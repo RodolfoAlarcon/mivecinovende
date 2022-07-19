@@ -14,9 +14,9 @@ const ConversationsScreen = (props:any) => {
 			<Conversations>
 				{/*<SearchInput />*/}
 			</Conversations>
-			<TouchableOpacity onPress={() => {}} style={fabStyles.style}>
+			{/*<TouchableOpacity onPress={() => {}} style={fabStyles.style}>
 				<Icon name="bell" size={30} color={theme.colors.primary} />
-			</TouchableOpacity>
+	</TouchableOpacity>*/}
 		</View>
 	)
 }
