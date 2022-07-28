@@ -1,10 +1,70 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Linking, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Linking, ScrollView, FlatList } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import ToolBar from '../../../components/Toolbar';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DetalleNegocioScreen = (props: any) => {
+
+    //probando los flast list
+    interface DataInterface {
+        item: {
+            id: string;
+            title: string;
+        };
+    }
+
+    const DATA = [
+        {
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+            title: 'Prueba 1',
+        },
+        {
+            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
+            title: 'Prueba 2',
+        },
+        {
+            id: '58694a0f-3da1-471f-bd96-145571e29d72',
+            title: 'Prueba 3',
+        },
+        {
+            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb2834',
+            title: 'Prueba 4',
+        },
+        {
+            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97fda',
+            title: 'Prueba 5',
+        },
+        {
+            id: '58694a0f-3da1-471f-fg96-145571e29d72',
+            title: 'Prueba 6',
+        },
+    ];
+
+    const renderItem = ({ item }: DataInterface) => (
+        <View style={{ width: 100, overflow: 'hidden', marginHorizontal: 10 }}>
+            <Image
+                source={require('../../../sources/img/interrogation.png')}
+                style={{ width: 100, height: 100, resizeMode: 'contain', borderRadius: 100 / 2 }}
+            />
+
+            <Text style={styles.TextoCategorias}>
+                {item.title}
+            </Text>
+        </View>
+    );
+
+    const renderItemCaptura = ({ item }: DataInterface) => (
+        <View style={{ width: '32%',marginHorizontal:'.7%',marginBottom:'1%' }}>
+            <Image
+                source={require('../../../sources/img/Captura.jpg')}
+                style={{ width: '100%',height:150 }}
+            />
+        </View>
+    );
+
+    // y aqui finaliza
 
 
     const { params } = props.route;
@@ -15,234 +75,171 @@ const DetalleNegocioScreen = (props: any) => {
     const [contactenosShow, setcontactenosShow] = useState(false)
 
     return (
-        <ScrollView style={{ flex: 1, backgroundColor: '#e5e7ea' }}>
-            <ToolBar titulo='Vista de negocio'
+        <ScrollView style={styles.container}>
+
+            <ToolBar titulo={params.business.name}
                 onPressLeft={() => goToBackScreen()}
                 onPressRight={() => goToScreen('EditBusinessScreen', params.business)}
                 iconLeft={require('../../../sources/img/back.png')}
-                iconRight={require('../../../sources/img/edit.png')}
+                iconRight={require('../../../sources/img/hamburger.png')}
             />
 
-            
-                <View style={{ width: '100%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'white' }}>
+            <View style={styles.ContainerPerfil}>
+                <View style={styles.FotoPerfil}>
                     <Image
                         source={(params.business.url_logo == null || params.business.url_logo == '') ? require('../../../sources/img/url_default.png') : { uri: params.business.url_logo }}
-                        style={{ width: 100, height: 100, borderRadius: 200, marginHorizontal: 20, marginVertical: 20 }}
+                        style={{ width: 100, height: 100, borderRadius: 200, }}
                     />
-                    <Text style={{ fontSize: 20, color: 'black', paddingVertical: 10 }}>
-                        {params.business.name}
+                </View>
+                <View style={styles.Seguidores}>
+                    <Text style={styles.TextoSeguidores}>
+                        500
                     </Text>
-                    <Text style={{ paddingBottom: 10, color: "#000" }}>
-                        {params.business.horario_atencion} Lunes a Viernes 9:00 - 18:00
+                    <Text style={styles.TextoSeguidores}>
+                        Posteo
+                    </Text>
+                </View>
+                <View style={styles.Seguidores}>
+                    <Text style={styles.TextoSeguidores}>
+                        110
+                    </Text>
+                    <Text style={styles.TextoSeguidores}>
+                        Productos
+                    </Text>
+                </View>
+                <View style={styles.Seguidores}>
+                    <Text style={styles.TextoSeguidores}>
+                        3k
+                    </Text>
+                    <Text style={styles.TextoSeguidores}>
+                        Valorada
+                    </Text>
+                </View>
+
+            </View>
+            <View style={styles.ContainerNombrePerfil}>
+                <Text style={styles.NombreTitulo}>
+                    {params.business.name}
                 </Text>
-                </View>
-                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', backgroundColor: 'white', paddingBottom: 10, marginBottom: 5 }}>
-                    <View style={{ width: '40%', alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity
-                        >
-                            <Image
-                                source={require('../../../sources/img/pdf.png')}
-                                style={{ width: 110, height: 55, resizeMode: 'contain', marginVertical: 4 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                    <View style={{ width: '40%', alignItems: 'center', justifyContent: 'center' }}>
-                        <TouchableOpacity>
-                            <Image
-                                source={require('../../../sources/img/whatsapp.png')}
-                                style={{ width: 110, height: 55, resizeMode: 'contain', marginVertical: 4 }}
-                            />
-                        </TouchableOpacity>
-                    </View>
-                </View>
-                <View>
-                    <TouchableOpacity
-                        style={{ backgroundColor: 'white', marginVertical: 7, width: '100%', paddingVertical: 15, paddingLeft: 10 }}
-                        onPress={
-                            () => setinformacionShow(!informacionShow)
-                        }
-                    >
-                        <Text style={{ color: 'black', fontSize: 18 }}>
-                            Información
+                <Text style={styles.DescripcionTexto}>
+                    {params.business.description}
+                </Text>
+            </View>
+            <View style={styles.ContainerEdit}>
+                <TouchableOpacity>
+                    <Text style={styles.TextoEdit}>
+                        Editar Perfil
                     </Text>
-                    </TouchableOpacity>
-                    {informacionShow ? (
-                        <View style={{ backgroundColor: 'white', padding: 10, marginTop: -8 }}>
-
-                            <Text style={{ textAlign: 'justify', color: "black", }}>
-                                {params.business.description}
-                            </Text>
-
-                        </View>
-                    ) : null
-                    }
-                </View>
-
-
-                <View>
-                    <TouchableOpacity
-                        style={{ backgroundColor: 'white', marginVertical: 7, width: '100%', paddingVertical: 15, paddingLeft: 10 }}
-                        onPress={
-                            () => setserviciosShow(!serviciosShow)
-                        }
-                    >
-                        <Text style={{ color: 'black', fontSize: 18 }}>
-                            Servicios
+                </TouchableOpacity>
+            </View>
+            <View style={styles.ContainerAdd}>
+                <TouchableOpacity
+                    style={{
+                        width: 100,
+                        overflow: 'hidden'
+                    }}
+                >
+                    <Image
+                        source={require('../../../sources/img/add.png')}
+                        style={{ width: 100, height: 100, resizeMode: 'contain' }}
+                    />
+                    <Text style={styles.TextoCategorias}>
+                        Agregar
                     </Text>
-                    </TouchableOpacity>
-                    {serviciosShow ? (
-                        <View style={{ backgroundColor: 'white', padding: 10, marginTop: -8, flexDirection: 'row', flexWrap: 'wrap' }}>
-                            <View
-                                style={{}}
-                            >
-                                {params.business.servicios.map((n: any) => (
-                                    <Text key={n.id} style={{ textAlign: 'justify', color: "black", fontSize: 17, marginBottom: 5 }}>
-                                        * {n.servicio}
-                                    </Text>
-                                ))}
+                </TouchableOpacity>
+                <FlatList
+                    horizontal={true}
+                    data={DATA}
+                    renderItem={renderItem}
+                    keyExtractor={(item: any) => item.id}
+                />
+            </View>
+            <View style={styles.ContainerFotos}>
+                <FlatList
+                    numColumns={3}
+                    data={DATA}
+                    renderItem={renderItemCaptura}
+                    keyExtractor={(item: any) => item.id}
+                />
+            </View>
 
-                            </View>
-                        </View>
-                    ) : null
-                    }
-                </View>
-
-
-
-                <View>
-                    <TouchableOpacity
-                        style={{ backgroundColor: 'white', marginVertical: 7, width: '100%', paddingVertical: 15, paddingLeft: 10 }}
-                        onPress={
-                            () => setproductosShow(!productosShow)
-                        }
-                    >
-                        <Text style={{ color: 'black', fontSize: 18 }}>
-                            Productos
-                    </Text>
-                    </TouchableOpacity>
-                    {productosShow ? (
-                        <View style={{ backgroundColor: 'white', padding: 10, marginTop: -8 }}>
-                            { params.business.productos.map((n: any) => (
-                                <View key={n.id} style={{
-                                    flex: 1, flexDirection: "row",
-                                    marginBottom: 10,
-                                    paddingBottom: 1,
-                                    borderBottomColor: 'grey',
-                                    borderBottomWidth: 0.6,
-                                }}>
-
-                                    <View style={{ flex: 0.5 }} >
-                                        <Image source={{ uri: n.url_imagen }} style={{ width: 50, height: 50 }} />
-
-                                    </View>
-
-                                    <View style={{ flex: 2 }} >
-                                        <Text style={{ textAlign: 'justify', color: "black", fontSize: 20 }}>
-                                            {n.producto}
-                                        </Text>
-                                    </View>
-
-
-                                </View>
-
-                            ))}
-                        </View>
-                    ) : null
-                    }
-                </View>
-
-
-
-                <View>
-                    <TouchableOpacity
-                        style={{ backgroundColor: 'white', marginVertical: 7, width: '100%', paddingVertical: 15, paddingLeft: 10 }}
-                        onPress={
-                            () => setcontactenosShow(!contactenosShow)
-                        }
-                    >
-                        <Text style={{ color: 'black', fontSize: 18 }}>
-                            Contáctanos
-                    </Text>
-                    </TouchableOpacity>
-                    {contactenosShow ? (
-                        <View style={{ backgroundColor: 'white', padding: 10, marginTop: -8 }}>
-                            <Text style={{ textAlign: 'justify', fontWeight: 'bold', color: "#000" }}>
-                                Dirección:
-                        </Text>
-                            <Text style={{ textAlign: 'justify', marginBottom: 10, color: "#000" }}>
-                                {params.business.direccion}
-                            </Text>
-                            <Text style={{ textAlign: 'justify', fontWeight: 'bold', color: "#000" }}>
-                                Teléfono:
-                        </Text>
-                            <Text style={{ textAlign: 'justify', marginBottom: 10, color: "#000" }}>
-                                {params.business.phone}
-                            </Text>
-                            <Text style={{ textAlign: 'justify', fontWeight: 'bold', color: "#000" }}>
-                                Email:
-                        </Text>
-                            <Text style={{ textAlign: 'justify', marginBottom: 10, color: "#000" }}>
-                                {params.business.email}
-                            </Text>
-                            <Text style={{ textAlign: 'justify', fontWeight: 'bold', color: "#000" }}>
-                                Sitio Web:
-                        </Text>
-                            <Text style={{ textAlign: 'justify', marginBottom: 10, color: "#000" }}>
-                                {params.business.sitio_web}
-                            </Text>
-                        </View>
-                    ) : null
-                    }
-                </View>
-
-                <View style={{ backgroundColor: "white", marginVertical: 7, width: '100%', paddingVertical: 15, paddingHorizontal: 20, justifyContent: 'space-between', flexDirection: 'row', marginBottom: 14 }}>
-                    <TouchableOpacity
-                        onPress={
-                            () => {
-                                goToScreen('ListaRedSocialScreen', params.business.redSocial, params.business.id)
-                            }
-                        }
-                    >
-                        <Text style={{ textAlign: 'justify', color: "blue", textDecorationLine: "underline" }}>
-                            Redes Sociales <Icon size={15} color="blue" name={"edit"} />
-                        </Text>
-                    </TouchableOpacity>
-
-                    <TouchableOpacity
-                        onPress={
-                            () => {
-                                goToScreen('ListaProductoScreen', params.business.productos, params.business.id)
-                            }
-                        }
-                    >
-                        <Text style={{ textAlign: 'justify', color: "blue", textDecorationLine: "underline" }}>
-                            Productos <Icon size={15} color="blue" name={"edit"} />
-                        </Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={
-                            () => {
-                                goToScreen('ListaServicioScreen', params.business.servicios, params.business.id)
-                            }
-                        }
-                    >
-                        <Text style={{ textAlign: 'justify', color: "blue", textDecorationLine: "underline" }}>
-                            Servicios <Icon size={15} color="blue" name={"edit"} />
-                        </Text>
-                    </TouchableOpacity>
-                </View>
-
-
-            
-                </ScrollView>
+        </ScrollView>
     )
     function goToBackScreen() {
         navigator.goBack()
-    } 
+    }
 
-    function goToScreen(routeName: any, data:any, id_negocio:any) {
-        navigator.navigate(routeName as never, {data:data, id_negocio:id_negocio} as never);
+    function goToScreen(routeName: any, data: any, id_negocio: any) {
+        navigator.navigate(routeName as never, { data: data, id_negocio: id_negocio } as never);
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#e5e7ea'
+    },
+    ContainerPerfil: {
+        width: '100%',
+        paddingVertical: 20,
+        flexDirection: 'row',
+        paddingHorizontal: 20,
+        backgroundColor: '#fff'
+    },
+    FotoPerfil: {
+        width: '35%',
+    },
+    Seguidores: {
+        width: '20%',
+        alignItems: 'center',
+        paddingTop: 10
+    },
+    TextoSeguidores: {
+        textAlign: 'center',
+        color: '#000'
+    },
+    ContainerNombrePerfil: {
+        width: '100%',
+        paddingHorizontal: 20,
+        backgroundColor: '#fff',
+        paddingBottom: 20
+    },
+    NombreTitulo: {
+        fontSize: 30,
+        fontWeight: '600',
+        color: '#000'
+    },
+    DescripcionTexto: {
+        color: '#000'
+    },
+    ContainerEdit: {
+        width: '100%',
+        backgroundColor: '#fff',
+        marginVertical: 10,
+        paddingVertical: 10
+    },
+    TextoEdit: {
+        color: '#000',
+        textAlign: 'center'
+    },
+    ContainerAdd: {
+        width: '100%',
+        paddingHorizontal: 20,
+        backgroundColor: '#fff',
+        flexDirection: 'row',
+        paddingVertical: 20,
+    },
+    TextoCategorias: {
+        color: '#000',
+        textAlign: 'center',
+        marginTop: 10
+    },
+    ContainerFotos: {
+        width: '100%',
+        paddingVertical: 20,
+        backgroundColor: '#fff',
+        marginTop: 20
+    }
+});
 
 export default DetalleNegocioScreen;
