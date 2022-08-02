@@ -2,10 +2,10 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/Feather';
-
+import { io } from 'socket.io-client';
 import { theme } from "./../../styles/theme";
 
-const ChatHeader = ({ username, bio, picture, onlineStatus, onPress }: any) => {
+const ChatHeader = ({ username, bio, picture, onlineStatus, onPress, idChat }: any) => {
 	const navigator = useNavigation();
 	return (
 		<View style={styles.container}>
@@ -35,6 +35,7 @@ const ChatHeader = ({ username, bio, picture, onlineStatus, onPress }: any) => {
 	);
 
 	function goToBackScreen() {
+		io().close();
         navigator.goBack()
     }
 };

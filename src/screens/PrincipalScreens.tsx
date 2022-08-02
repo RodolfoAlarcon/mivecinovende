@@ -5,7 +5,7 @@ import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigati
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
 import SettingScreen from './systemScreen/SettingScreen'
-import ConversationsScreen from './systemScreen/chatScreen/ConversationsScreen'
+import {ConversationsScreen} from './systemScreen/chatScreen/ConversationsScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
 

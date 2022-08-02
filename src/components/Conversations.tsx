@@ -1,37 +1,32 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { ScrollView } from 'react-native'
-
+import { AuthContex } from '../context/UsuarioContext'
 import ConversationItem from './ConversationItem';
 
-const Conversations = ({ children }:any) => {
+const Conversations = ({ children }: any, props: any) => {
+	const { chats } = useContext(AuthContex);
+
 	return (
 		<ScrollView>
 			{children}
-			<ConversationItem
-				picture="https://images.pexels.com/photos/2078265/pexels-photo-2078265.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-				username="azx"
-				bio="my name is Mercy azx"
-				lastMessage="Hello there"
-				time="4:00 PM"
-				notification="3"
-				idChat="1"
-				isBlocked
-				isMuted
-				hasStory
-			/>
+			{chats.map((n: any) => (
 				<ConversationItem
-				picture="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-				username="burger"
-				bio="my name is Mercy Burger"
-				lastMessage="Hello there"
-				time="4:00 PM"
-				notification="3"
-				idChat="2"
-				isBlocked
-				isMuted
-				hasStory
-			/>
-
+					key={n.id}
+					picture={n.url_logo}
+					username={n.name}
+					bio="my name is Mercy azx"
+					lastMessage="Hello there"
+					time="4:00 PM"
+					notification="3"
+					idChat={n.id}
+					chat={n.chat}
+					idBusiness={n.id_business}
+					idProprietor={n.idProprietor}
+					isBlocked
+					isMuted
+					hasStory
+				/>
+			))}
 		</ScrollView>
 	)
 }

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
 import Swiper from 'react-native-swiper'
-import { Datum } from '../interfaces/categoriaInterface';
+import { Datum } from '../interfaces/CategoriaInterface';
 
 export default class Carousel extends Component<{id:any},any>{
     constructor(props:any){

@@ -3,6 +3,7 @@ import { saveUsuario, deleteUsuario } from '../storage/UsuarioAsyncStorage'
 import { saveDataForm, getDataForm, deleteDataForm, saveAddress, getAddress, deleteAddress } from '../storage/FormDataAsyncStorage'
 import { saveBusiness, getBusiness, deleteBusiness } from '../storage/BusnessAsyncStorage'
 import { saveNotifications, getNotifications, deleteNotifications } from '../storage/NotificationsAsyncStorage'
+import { getChats, saveChats, deleteChats } from '../storage/ChatsAsyncStorage'
 import Snackbar from 'react-native-snackbar'
 import { User } from '../interfaces/UserInterface';
 import { Anuncio } from '../interfaces/AnuncioInterface';
@@ -11,6 +12,7 @@ import { Negocios } from '../interfaces/BusinessInterface';
 import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
 import { Red } from '../interfaces/RedSocialInterface';
 import { Product } from '../interfaces/ProductInterface'
+import { postChatResponse } from '../interfaces/ChatsInterface'
 import { Service } from '../interfaces/ServiceInterface'
 
 export interface Authstate {
@@ -21,13 +23,13 @@ export interface Authstate {
     address: Address | null | '';
     notifications: Notifications[] | null | '';
     business: Negocios[] | null | '';
-
+    chats: postChatResponse[] | null | '';
 
 }
 
 export type AuthAction =
-    | { type: 'sing-in', payload: { user: User, address: Address, notifications: Notifications[], business: Negocios[] } }
-    | { type: 'confirmedNumber', payload: { access_token: string, user: User, business: Negocios[], notifications: Notifications[] } }
+    | { type: 'sing-in', payload: { user: User, address: Address, notifications: Notifications[], business: Negocios[], chats: postChatResponse[]} }
+    | { type: 'confirmedNumber', payload: { access_token: string, user: User, business: Negocios[], notifications: Notifications[], chats: postChatResponse[] } }
     | { type: 'sing-up', payload: { user: User } }
     | { type: 'sing-out', payload: { access_token: null, user: null } }
     | { type: 'addError', payload: string }
@@ -39,6 +41,7 @@ export type AuthAction =
     | { type: 'getCountry', payload: { address: Address } }
     | { type: 'recoveryCountry', payload: { address: Address } }
     | { type: 'getNotifications', payload: { notifications: Notifications[] } }
+    | { type: 'getChats', payload: { chats: postChatResponse[] } }
     | { type: 'editNegocio', payload: { negocio: Negocios, negocios: Negocios[] } }
     | { type: 'createRed', payload: { red: Red, negocios: Negocios[] } }
     | { type: 'editRed', payload: { red: Red, negocios: Negocios[] } }
@@ -62,7 +65,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 status_user = 'registered-phone'
             }
 
-            return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications, business: action.payload.business }
+            return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications, business: action.payload.business, chats: action.payload.chats }
 
         case 'confirmedNumber':
 
@@ -81,11 +84,15 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             })
 
             saveNotifications(action.payload.notifications).then((msg) => {
-                console.log('address save')
+                console.log('address Notifications')
             })
 
             saveUsuario(action.payload.user).then((msg) => {
                 console.log('user save')
+            })
+
+            saveChats(action.payload.chats).then((msg) => {
+                console.log('user chats')
             })
 
 
@@ -190,6 +197,18 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             return {
                 ...state,
                 notifications: action.payload.notifications,
+
+            }
+
+            case 'getChats':
+
+                saveChats(action.payload.chats).then((msg) => {
+                    console.log('user chats')
+                })
+
+            return {
+                ...state,
+                chats: action.payload.chats,
 
             }
 

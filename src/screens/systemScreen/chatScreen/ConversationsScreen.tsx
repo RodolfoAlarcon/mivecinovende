@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext} from 'react'
 import { View, Text, TouchableOpacity } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 
@@ -8,10 +8,11 @@ import Conversations from './../../../components/Conversations';
 import { theme } from './../../../styles/theme';
 import { fabStyles } from '../../../styles/stylesChat'; 
 
-const ConversationsScreen = (props:any) => {
+export const ConversationsScreen = (props:any) => {
+
 	return (
 		<View style={{ backgroundColor: theme.colors.white, flex: 1, marginTop: 15 }}>
-			<Conversations>
+			<Conversations >
 				{/*<SearchInput />*/}
 			</Conversations>
 			{/*<TouchableOpacity onPress={() => {}} style={fabStyles.style}>
@@ -21,4 +22,3 @@ const ConversationsScreen = (props:any) => {
 	)
 }
 
-export default ConversationsScreen

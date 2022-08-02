@@ -5,7 +5,7 @@ import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigati
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
 import  ListaNegocioScreen  from './systemScreen/negocioScreen/ListaNegocioScreen'
-import ConversationsScreen from './systemScreen/chatScreen/ConversationsScreen'
+import {ConversationsScreen} from './systemScreen/chatScreen/ConversationsScreen'
 import SettingScreen from './systemScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
@@ -16,7 +16,7 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
   constructor(props: any) {
     super(props);
     this.state = {
-      activeTab: 'HomeScreens',
+      activeTab: 'HomeScreens', 
       tabs: [
         {
           key: 'HomeScreens',
@@ -44,7 +44,7 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
         {
-          key: 'ListaNoegcios',
+          key: 'ListaNegocios',
           icon: 'codesandbox',
           label: '',
           screen:<ListaNegocioScreen navigation={this.props.children} />,
@@ -73,7 +73,7 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
     this.state.activeTab == 'HomeScreens' && this.state.tabs[0].screen ||
     this.state.activeTab == 'ConversationsScreen' && this.state.tabs[1].screen ||
     this.state.activeTab == 'NotificationScreen' && this.state.tabs[2].screen ||
-    this.state.activeTab == 'ListaNoegcios' && this.state.tabs[3].screen ||
+    this.state.activeTab == 'ListaNegocios' && this.state.tabs[3].screen ||
     this.state.tabs[4].screen
 
   )

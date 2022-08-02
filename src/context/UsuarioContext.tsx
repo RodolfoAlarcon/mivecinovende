@@ -9,9 +9,12 @@ import { Negocios, EditNegocioResponse } from '../interfaces/BusinessInterface';
 import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
 import { EditRedResponse, RegisterRedResponse } from '../interfaces/RedSocialInterface';
 import { EditProductResponse, RegisterProductResponse } from '../interfaces/ProductInterface';
+import { postChatResponse, getChatsResponse } from '../interfaces/ChatsInterface'
+import { getChats, saveChats, deleteChats } from '../storage/ChatsAsyncStorage'
 import { RegisterServiceResponse } from '../interfaces/ServiceInterface';
 import Snackbar from 'react-native-snackbar'
 import axios from 'axios';
+
 type AuthContextProps = {
     errorMessage: string;
     status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates';
@@ -20,7 +23,8 @@ type AuthContextProps = {
     business: Negocios[] | null | '';
     address: Address | null | '';
     notifications: Notifications[] | null | '';
-    sing: (data: any, address: any, notifications: any, business: any) => void;
+    chats: postChatResponse[] | null | '';
+    sing: (data: any, address: any, notifications: any, business: any, chats:any) => void;
     singUp: (data: any) => void;
     logOut: () => void;
     sendCode: (phone: string, rol: string, country: any) => void;
@@ -28,6 +32,7 @@ type AuthContextProps = {
     getCountry: () => void;
     recoveryCountry: (address: any) => void;
     getNotificationsApi: (id: any) => void;
+    getChatsApi: (id: any) => void;
     editNegocio: (data: any, negocios: any) => void;
     createRed: (data: any, negocios: any) => void;
     editRed: (data: any, negocios: any) => void;
@@ -35,6 +40,7 @@ type AuthContextProps = {
     editProduct: (data: any, negocios: any) => void;
     createService: (data: any, negocios: any) => void;
     editService: (data: any, negocios: any) => void;
+    
     //removeError: () => void;
 }
 
@@ -45,7 +51,8 @@ const initialSatate: Authstate = {
     address: null,
     business: null,
     user: null,
-    notifications: null
+    notifications: null,
+    chats: null
 
 }
 
@@ -57,9 +64,9 @@ const UserProvider = ({ children }: any) => {
     const [login, dispatch] = useReducer(userReducer, initialSatate);
 
 
-    const sing = (user: any, address: any, notifications: any, business: any) => {
+    const sing = (user: any, address: any, notifications: any, business: any, chats:any) => {
 
-        dispatch({ type: 'sing-in', payload: { user: user, address: address, notifications: notifications, business: business } })
+        dispatch({ type: 'sing-in', payload: { user: user, address: address, notifications: notifications, business: business, chats:chats } })
     }
 
     const singUp = async (data: any) => {
@@ -67,7 +74,6 @@ const UserProvider = ({ children }: any) => {
         try {
 
             const resp = await apiApp.post<RegisterResponse>('/registro', data);
-            //console.log(resp.data.user[0]);
             dispatch({ type: 'sing-up', payload: { user: resp.data.user } })
         } catch (error) {
 
@@ -99,7 +105,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await apiApp.post<confirmNumberResponse>('/confirmCode', data)
 
-            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user[0], business: resp.data.business, notifications: resp.data.notifications } })
+            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user[0], business: resp.data.business, notifications: resp.data.notifications, chats: resp.data.chats} })
         } catch (error) {
 
             dispatch({ type: 'addError', payload: error.response.data.message })
@@ -152,6 +158,25 @@ const UserProvider = ({ children }: any) => {
 
     }
 
+    const getChatsApi = async (id: any) => {
+
+        try {
+            const resp = await apiApp.get<getChatsResponse>(`/chats-user/${id}`)
+
+            if (typeof resp === 'object') {
+
+                await dispatch({ type: 'getChats', payload: { chats: resp.data.data } })
+
+            } else {
+                await dispatch({ type: 'getChats', payload: { chats: [] } })
+            }
+
+        } catch (error) {
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+
+    }
+    
 
     const editNegocio = async (data: any, negocios: any) => {
 
@@ -310,7 +335,7 @@ const UserProvider = ({ children }: any) => {
         }
     }
 
-
+    //sendPost
 
     return (
         <AuthContex.Provider value={{
@@ -323,6 +348,7 @@ const UserProvider = ({ children }: any) => {
             getCountry,
             recoveryCountry,
             getNotificationsApi,
+            getChatsApi,
             editNegocio,
             createRed,
             editRed,

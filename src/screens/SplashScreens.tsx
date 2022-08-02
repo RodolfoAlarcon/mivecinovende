@@ -4,18 +4,18 @@ import * as Animateable from 'react-native-animatable'
 import { getUsuario } from '../storage/UsuarioAsyncStorage'
 import { getDataForm, getAddress } from '../storage/FormDataAsyncStorage'
 import { getNotifications } from '../storage/NotificationsAsyncStorage'
+import { getChats } from '../storage/ChatsAsyncStorage'
 import { getBusiness } from '../storage/BusnessAsyncStorage'
 import { splashStyles } from '../styles/styles'
 import { AuthContex } from '../context/UsuarioContext'
 import { useNavigation } from '@react-navigation/native'
 import OneSignal from 'react-native-onesignal';
 
-
 const SplashScreen = () => {
 
     const navigator = useNavigation()
 
-    const { sing, status, getCountry, recoveryCountry, getNotificationsApi} = useContext(AuthContex)
+    const { sing, status, getCountry, recoveryCountry, getNotificationsApi, getChatsApi} = useContext(AuthContex)
 
     useEffect(() => {
         fetchSession(sing)
@@ -45,6 +45,7 @@ const SplashScreen = () => {
         let responseAddress = await getAddress();
         let responseBusiness = await getBusiness();
         let responseNotifications = await getNotifications();
+        let responseChat = await getChats();
       
         if (responseAddress == null) {
             
@@ -57,10 +58,15 @@ const SplashScreen = () => {
             responseBusiness = [];
         }
 
+        if (responseChat == null) {
+            responseChat = [];
+        }
+
 
         if (responseUser == null) {
             
             responseNotifications = [];
+            responseChat = [];
             await recoveryCountry(responseAddress)
             setTimeout(() => {
                 goToScreen('IngresarNumeroScreen',)
@@ -70,14 +76,14 @@ const SplashScreen = () => {
         }else{
             console.log(responseUser['id'])
             await getNotificationsApi(responseUser['id']);
+            await getChatsApi(responseUser['id'])
              OneSignal.setExternalUserId(responseUser['id']);
              await OneSignal.promptForPushNotificationsWithUserResponse(response => {
                  console.log("Prompt response:", response);
                });
              responseNotifications = await getNotifications();
-             
-             
-             sing(responseUser,responseAddress, responseNotifications, responseBusiness)
+             responseChat = await getChats();
+            sing(responseUser,responseAddress, responseNotifications, responseBusiness, responseChat)
         }
 
         

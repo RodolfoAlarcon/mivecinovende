@@ -1,5 +1,6 @@
 import { Negocios } from './BusinessInterface';
 import { Notifications } from './NotificationsInterface';
+import { postChatResponse } from './ChatsInterface';
 
 export interface confirmNumberResponse {
     status:       number;
@@ -9,6 +10,7 @@ export interface confirmNumberResponse {
     user:         User;
     business:   Negocios[];
     notifications: Notifications[];
+    chats: postChatResponse[];
 }
 
 export interface sendCodeResponse {

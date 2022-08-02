@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
 import {
 	View,
 	Text,
@@ -6,51 +6,67 @@ import {
 	TextInput,
 	Platform,
 	TouchableOpacity,
+	BackHandler
 } from "react-native";
-
 import { AuthContex } from '../../context/UsuarioContext'
-
-import Echo from 'laravel-echo/dist/echo';
 import { io } from 'socket.io-client';
-//import { getInstance } from '@/utils/instance';
-
 import Icon from 'react-native-vector-icons/Feather';
 import EmojiPicker from "./emojis/EmojiPicker";
-
 import { theme } from "./../../styles/theme";
+import { useNavigation } from "@react-navigation/native";
 
-const ChatInput = ({ reply, closeReply, isLeft, username, idChat }: any) => {
+export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idProprietor, id_business, nMsg}: any) => {
 	const [message, setMessage] = useState("");
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const height = 70;
-	const { user } = useContext(AuthContex)
-	/*useEffect(() => {
-	
-	}, [])*/
-	async function sendMessage(msj:any) {
-		
-		//const reg = /http[s]?:\/\/([\w\d]+).[\w\d-.]+/i;
-		//const baseUrl = `https://07.metodolibio.com/`;
-		const baseUrl = `https://vecinovendechat.herokuapp.com`; 
+	const { user } = useContext(AuthContex);
+	const navigator = useNavigation();
+	const baseUrl = `https://vecinovendechat.herokuapp.com`; 
+	const socket = io(baseUrl, {transports: ['websocket']})
+ 
+	useEffect(() => {
+		socket.emit('join_room', {room: idChat, idUser: user.id} )
+		socket.on(`room.${idChat}`, (msg) => {
+			console.log( msg)
+		})
+	}, [])
 
-		const socket = io(baseUrl)
+	BackHandler.addEventListener('hardwareBackPress', function () {
+		socket.close();
+	  });
+
+		
+	useLayoutEffect(() => () => {
+		socket.close();
+	  }, [])
+	function sendMessage(msg:any) {
+	
+		//const baseUrl = `https://07.metodolibio.com/`;
+ 
 		let stateUSer = true;//borrar y cambiar por el status de usuario
 		if (stateUSer) {
-			const room = 'room';
-			socket.emit('join_room', {room: idChat, idUser: user.id} )
-
-			socket.emit('chat', msj)
-
-			socket.on(`chat.${user.id}`, (msg) => {
-				console.log('socket sync!', msg)
-
-
-			})
-
+		  
+			socket.emit('chatAlone', {
+				room: idChat, 
+				idSender: user.id, 
+				msg:msg,
+				token: user.access_token,
+				idBusiness: id_business,
+				idProprietor: idProprietor,
+			}) 
+			setMessage('')
 		}
 
 	}
+	socket.on('chat', (response) => {
+		
+		if (response.status == 200) {
+			nMsg(response.body.chat);
 
+		}else if(response.status == 403){
+			alert(response.body)
+		}
+				
+	})
 	return (
 		<View style={[styles.container]}>
 			{reply ? (
@@ -104,13 +120,13 @@ const ChatInput = ({ reply, closeReply, isLeft, username, idChat }: any) => {
 						</TouchableOpacity>*/}
 				</View>
 				<TouchableOpacity style={styles.sendButton}
-					onPress={(e) => { sendMessage(message) }}
-				>
+					onPress={()=>sendMessage(message)}
+				> 
 					<Icon
 						name={"navigation"}
 						size={23}
 						color={theme.colors.white}
-					/>
+					/> 
 				</TouchableOpacity>
 			</View>
 			<EmojiPicker />
@@ -224,4 +240,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ChatInput;
+

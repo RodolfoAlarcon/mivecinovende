@@ -5,7 +5,7 @@ import {
 	Directions,
 	State,
 } from "react-native-gesture-handler";
-
+ 
 import { theme } from "./../../styles/theme";
 
 const Message = ({ time, isLeft, message, onSwipe }: any) => {

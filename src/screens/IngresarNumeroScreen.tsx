@@ -57,7 +57,7 @@ function IngresarNumeroScreen(props: any) {
                             await sendCode(phone, values.rol, values.country);
     
                             setTimeout(() => {
-                                goToScreen('RegisterScreen', phone, values.rol)
+                                goToScreen('ValidacionNumeroScreen', phone, values.rol)
                             }, 2000)
                         }else{
                             alert('faltan campor por rellenar')
