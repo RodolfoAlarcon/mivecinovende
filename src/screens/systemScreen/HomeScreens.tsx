@@ -17,7 +17,7 @@ export const HomeScreens = (props: any) => {
     const [idSector, setIdSector] = useState('');
     const [nameSector, setnameSector] = useState('');
     const [disableTouch, setDisableTouch] = useState(true);
-    const rodolfo = "rodolfo";
+
 
     function sectorsFilter(id: any) {
         let array = [];

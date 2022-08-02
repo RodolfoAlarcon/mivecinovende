@@ -10,7 +10,7 @@
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-community/async-storage": "1.12.1",
     "@react-native-picker/picker": "^2.3.1",
     "@react-navigation/native": "^6.0.10",
     "@react-navigation/stack": "^6.1.1",
@@ -19,7 +19,7 @@
     "axios": "^0.26.1",
     "formik": "^2.2.9",
     "laravel-echo": "^1.12.0",
-    "react": "17.0.2",
+    "react": ">=16.3.0",
     "react-autocomplete-input": "^1.0.18",
     "react-native": "0.67.3",
     "react-native-accordion": "^1.0.1",

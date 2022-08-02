@@ -1,6 +1,6 @@
 import React, { useState, useContext } from "react";
 import { color } from '../styles/colors';
-import { useNavigation, } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import BotonNumero from "../components/BotonNumero";
 import MyTextInput from "../components/MyTextInput";
@@ -43,8 +43,7 @@ function IngresarNumeroScreen(props: any) {
             <View style={{
                 flexDirection: "row",
                 flexWrap: "wrap",
-                paddingLeft: "10%",
-                paddingRight: "10%"
+                paddingHorizontal: "10%",
             }}>
                 <Formik
                     validateOnMount={true}
