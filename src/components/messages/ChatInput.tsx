@@ -15,7 +15,7 @@ import EmojiPicker from "./emojis/EmojiPicker";
 import { theme } from "./../../styles/theme";
 import { useNavigation } from "@react-navigation/native";
 
-export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idProprietor, id_business, nMsg}: any) => {
+export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idProprietor, id_business, idBusiness, nMsg}: any) => {
 	const [message, setMessage] = useState("");
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 	const { user } = useContext(AuthContex);
@@ -38,7 +38,16 @@ export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idPropr
 	useLayoutEffect(() => () => {
 		socket.close();
 	  }, [])
+
 	function sendMessage(msg:any) {
+
+		let ref = ''
+		if(idProprietor == user.id){
+
+			ref = idBusiness
+		}else{
+			ref = user.id
+		}
 	
 		//const baseUrl = `https://07.metodolibio.com/`;
  
@@ -47,7 +56,7 @@ export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idPropr
 		  
 			socket.emit('chatAlone', {
 				room: idChat, 
-				idSender: user.id, 
+				idSender: ref, 
 				msg:msg,
 				token: user.access_token,
 				idBusiness: id_business,

@@ -102,7 +102,6 @@ export const EditBusinessScreen = (props: any) => {
                             </Text>
 
                             <MyTextInput
-                                keyboardType='Text'
                                 placeholder={"Nombre"}
                                 value={values.name}
                                 onChangeText={handleChange('name')}
@@ -193,7 +192,6 @@ export const EditBusinessScreen = (props: any) => {
                             </Text>
 
                             <MyTextInput
-                                keyboardType='Text'
                                 placeholder={"Dirección"}
                                 onChangeText={handleChange('direccion')}
                                 onBlur={handleBlur('direccion')}
@@ -223,8 +221,8 @@ export const EditBusinessScreen = (props: any) => {
                             <MyTextInput
                                 placeholder={"Teléfono"}
                                 value={values.phone}
-                                onChangeText={'phone'}
-                                onBlur={'phone'}
+                                onChangeText={handleChange('phone')}
+                                onBlur={handleBlur('phone')}
                             />
 
                         </View>
@@ -248,10 +246,11 @@ export const EditBusinessScreen = (props: any) => {
                             </Text>
 
                             <MyTextInput
+                                type='email-address'
                                 placeholder={"negocio@ejemplo.com"}
                                 value={values.email}
-                                onChangeText={'email'}
-                                onBlur={'email'}
+                                onChangeText={handleChange('email')}
+                                onBlur={handleBlur('email')}
                             />
 
                         </View>

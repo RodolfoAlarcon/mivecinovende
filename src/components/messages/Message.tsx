@@ -14,7 +14,7 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 
 	const isOnLeft = (type:any) => {
 		if (isLeft && type === "messageContainer") {
-			return {
+			return { 
 				alignSelf: "flex-start",
 				backgroundColor: "#f0f0f0",
 				borderTopLeftRadius: 0,

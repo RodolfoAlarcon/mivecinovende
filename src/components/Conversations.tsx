@@ -4,7 +4,7 @@ import { AuthContex } from '../context/UsuarioContext'
 import ConversationItem from './ConversationItem';
 
 const Conversations = ({ children }: any, props: any) => {
-	const { chats } = useContext(AuthContex);
+	const { chats, user } = useContext(AuthContex);
 
 	return (
 		<ScrollView>
@@ -21,7 +21,7 @@ const Conversations = ({ children }: any, props: any) => {
 					idChat={n.id}
 					chat={n.chat}
 					idBusiness={n.id_business}
-					idProprietor={n.idProprietor}
+					idProprietor={user.id !== n.id_user ? user.id : ''}
 					isBlocked
 					isMuted
 					hasStory
