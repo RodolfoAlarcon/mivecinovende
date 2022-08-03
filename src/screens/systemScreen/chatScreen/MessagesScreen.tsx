@@ -22,14 +22,23 @@ export const MessagesScreen = ({ navigation, route }:any) => {
 		setReply("");
 	};
 
-	const userRef = useRef(user.id);
+	
+	let ref = ''
+
+	if(idProprietor == user.id){
+
+		ref = idBusiness
+	}else{
+		ref = user.id
+	}
+
 	const scrollView = useRef();
 
 	const [chatArray, setChatArray] = useState(chat.map((message:any, key:any) => (
 		<Message
 			key={key}
 			time={message.time}
-			isLeft={message.sender !== userRef.current}
+			isLeft={message.sender !== ref}
 			message={message.msg}
 			onSwipe={swipeToReply}
 		/>
@@ -44,7 +53,7 @@ export const MessagesScreen = ({ navigation, route }:any) => {
 			<Message
 				key={key}
 				time={message.time}
-				isLeft={message.sender !== userRef.current}
+				isLeft={message.sender !== ref}
 				message={message.msg}
 				onSwipe={swipeToReply}
 			/>
@@ -71,7 +80,7 @@ export const MessagesScreen = ({ navigation, route }:any) => {
 		> 
 			{chatArray}
 		</ScrollView>
-			<ChatInput reply={reply} isLeft={isLeft} closeReply={closeReply} username={username} idChat={idChat} idProprietor={idProprietor} id_business={idBusiness} nMsg={nMsg}/>
+			<ChatInput reply={reply} isLeft={isLeft} closeReply={closeReply} username={username} idChat={idChat} idProprietor={idProprietor} id_business={idBusiness} idBusiness={idBusiness} nMsg={nMsg}/>
 		</View>
 	);
 };

@@ -106,6 +106,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 user: action.payload.user,
                 business: action.payload.business,
                 status: status_user2,
+                chats: action.payload.chats,
                 access_token: action.payload.access_token,
                 notifications: action.payload.notifications,
             }
