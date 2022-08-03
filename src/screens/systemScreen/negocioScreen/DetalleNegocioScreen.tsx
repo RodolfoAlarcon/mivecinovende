@@ -184,180 +184,6 @@ const DetalleNegocioScreen = (props: any) => {
     const [contadorcarrito, setContadorcarrito] = useState(0)
 
 
-
-    const renderItemCaptura = ({ item }: DataInterface) => (
-        <View style={{ width: '32%', marginHorizontal: '.7%', marginBottom: '1%' }}>
-            <TouchableOpacity
-                onPress={
-                    () => { setDescripcionFoto(item.id), handleAlertClick() }
-                }
-            >
-                <Image
-                    source={{ uri: item.img }}
-                    style={{ width: '100%', height: 150 }}
-                />
-            </TouchableOpacity>
-            {descripcionFoto ? (
-
-                descripcionFoto === item.id ?
-                    <View style={styles.Containerdescripcionfoto}>
-                        <Text style={styles.Textoprecio}>
-                            ${item.precio}
-                        </Text>
-                        <Text style={styles.Textodescripcion}>
-                            {item.descripcion}
-                        </Text>
-                        <TouchableOpacity
-                            onPress={
-                                () => setModalDescripcion(item.id)
-                            }
-                        >
-                            <Text style={styles.Textoinfo}>
-                                Info
-                            </Text>
-                        </TouchableOpacity>
-                    </View> : <>
-                    </>
-
-            ) : null}
-            {modalDescripcion ? (
-
-                modalDescripcion === item.id ?
-                    <Modal
-                        animationType="slide"
-                        transparent={true}
-                        visible={true}
-                    >
-                        <View style={styles.Modalcarrito}>
-                            <View style={styles.Containermodal}>
-                                <TouchableOpacity
-                                    onPress={
-                                        () => setSliderModal(!sliderModal)
-                                    }
-                                >
-                                    <Image
-                                        source={{ uri: item.img }}
-                                        style={styles.ImagenModal}
-                                    />
-                                </TouchableOpacity>
-                                {sliderModal ? (
-                                    <Modal
-                                        animationType="slide"
-                                        transparent={true}
-                                        visible={true}
-                                    >
-                                        <View style={styles.ContainerSlider}>
-                                            <TouchableOpacity
-                                                onPress={
-                                                    () => setSliderModal(!sliderModal)
-                                                }
-                                                style={{ position: 'absolute', top: 0, right: 0, zIndex:9 }}
-                                            >
-                                                <Icon
-                                                    name='x'
-                                                    size={50}
-                                                    color='white'
-                                                />
-                                            </TouchableOpacity>
-
-                                            <Swiper>
-                                                {
-                                                    item.slider.map((e) => {
-                                                        return (
-                                                            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                                                                <Image
-                                                                    source={{ uri: e }}
-                                                                    style={{ width: 350, height: 350 }}
-                                                                />
-                                                            </View>
-                                                        )
-                                                    })
-                                                }
-                                            </Swiper>
-                                        </View>
-                                    </Modal>
-                                ) : null}
-                                <View style={styles.ContainerDescripcion}>
-                                    <Text style={styles.TextTitulo}>
-                                        {item.title}
-                                    </Text>
-                                    <Text style={styles.TextoDescripcion}>
-                                        {item.descripcion}
-                                    </Text>
-                                </View>
-                                <View style={styles.ContainerPrecio}>
-                                    <Text style={styles.TextoPrecio}>
-                                        ${item.precio * numeropedido}
-                                    </Text>
-                                </View>
-                                <View style={styles.ContainerSumaResta}>
-                                    <View style={styles.CajaSumaResta}>
-                                        <TouchableOpacity
-                                            style={styles.BotonSumarRestar}
-                                            onPress={
-                                                () => handleRestar()
-                                            }
-                                        >
-                                            <Text style={styles.TextBotonSumarRestar}>
-                                                -
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={styles.CajaSumaResta}>
-                                        <View style={styles.CajaCantidad}>
-                                            <Text style={{ color: '#000' }}>
-                                                {numeropedido}
-                                            </Text>
-                                        </View>
-                                    </View>
-                                    <View style={styles.CajaSumaResta}>
-                                        <TouchableOpacity
-                                            style={styles.BotonSumarRestar}
-                                            onPress={
-                                                () => handleSumar()
-                                            }
-                                        >
-                                            <Text style={styles.TextBotonSumarRestar}>
-                                                +
-                                            </Text>
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                                <View style={styles.ContainerBotonesCarrito}>
-                                    <TouchableOpacity
-                                        style={[styles.BotonCarrito, { borderRightWidth: 1 }]}
-                                        onPress={
-                                            () => { setModalDescripcion(''), handleCancelar() }
-                                        }
-                                    >
-                                        <Text style={styles.TextBotonCarrito}>
-                                            Cancelar
-                                        </Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        style={[styles.BotonCarrito, { borderLeftWidth: 1 }]}
-                                        onPress={
-                                            () => {
-                                                const title = item.title
-                                                const precios = item.precio * numeropedido
-                                                handleAceptar(title, precios)
-                                            }
-                                        }
-                                    >
-                                        <Text style={styles.TextBotonCarrito}>
-                                            Aceptar
-                                        </Text>
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-                        </View>
-                    </Modal> : <>
-                    </>
-
-            ) : null}
-        </View>
-    );
-
     // y aqui finaliza
 
 
@@ -419,13 +245,6 @@ const DetalleNegocioScreen = (props: any) => {
                     {params.business.description}
                 </Text>
             </View>
-            <View style={styles.ContainerEdit}>
-                <TouchableOpacity>
-                    <Text style={styles.TextoEdit}>
-                        Editar Perfil
-                    </Text>
-                </TouchableOpacity>
-            </View>
             <View style={styles.ContainerAdd}>
                 <TouchableOpacity
                     style={{
@@ -433,6 +252,10 @@ const DetalleNegocioScreen = (props: any) => {
                         marginRight: 5,
                         overflow: 'hidden'
                     }}
+                    onPress={() => {
+                        goToScreen('EditCategoriaBusiness', params.business)
+                    }}
+
                 >
                     <Image
                         source={require('../../../sources/img/add.png')}
@@ -459,6 +282,7 @@ const DetalleNegocioScreen = (props: any) => {
                         </Text>
                     </View>
                     <TouchableOpacity
+                        style={{ zIndex: 9 }}
                         onPress={
                             () => { setModalPrecioFinal(!modalPrecioFinal), handleSumaPago() }
                         }
@@ -548,12 +372,197 @@ const DetalleNegocioScreen = (props: any) => {
                         </Modal>
                     ) : null}
                 </View>
-                <FlatList
-                    numColumns={3}
-                    data={DATA}
-                    renderItem={renderItemCaptura}
-                    keyExtractor={(item: any) => item.id}
-                />
+                <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap' }}>
+                    <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
+                        <TouchableOpacity
+                            onPress={() => {
+                                goToScreen('NuevoProductoBusiness', params.business)
+                            }}
+                        >
+                            <Image
+                                source={require('../../../sources/img/Captura.jpg')}
+                                style={{ width: '100%', height: 150 }}
+                            />
+                        </TouchableOpacity>
+                    </View>
+
+                    {
+                        DATA.map((n: any) =>
+
+                            <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
+                                <TouchableOpacity
+                                    onPress={
+                                        () => { setDescripcionFoto(n.id), handleAlertClick() }
+                                    }
+                                >
+                                    <Image
+                                        source={{ uri: n.img }}
+                                        style={{ width: '100%', height: 150 }}
+                                    />
+                                </TouchableOpacity>
+                                {descripcionFoto ? (
+
+                                    descripcionFoto === n.id ?
+                                        <View style={styles.Containerdescripcionfoto}>
+                                            <Text style={styles.Textoprecio}>
+                                                ${n.precio}
+                                            </Text>
+                                            <Text style={styles.Textodescripcion}>
+                                                {n.descripcion}
+                                            </Text>
+                                            <TouchableOpacity
+                                                onPress={
+                                                    () => setModalDescripcion(n.id)
+                                                }
+                                            >
+                                                <Text style={styles.Textoinfo}>
+                                                    Info
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View> : <>
+                                        </>
+
+                                ) : null}
+                                {modalDescripcion ? (
+
+                                    modalDescripcion === n.id ?
+                                        <Modal
+                                            animationType="slide"
+                                            transparent={true}
+                                            visible={true}
+                                        >
+                                            <View style={styles.Modalcarrito}>
+                                                <View style={styles.Containermodal}>
+                                                    <TouchableOpacity
+                                                        onPress={
+                                                            () => setSliderModal(!sliderModal)
+                                                        }
+                                                    >
+                                                        <Image
+                                                            source={{ uri: n.img }}
+                                                            style={styles.ImagenModal}
+                                                        />
+                                                    </TouchableOpacity>
+                                                    {sliderModal ? (
+                                                        <Modal
+                                                            animationType="slide"
+                                                            transparent={true}
+                                                            visible={true}
+                                                        >
+                                                            <View style={styles.ContainerSlider}>
+                                                                <TouchableOpacity
+                                                                    onPress={
+                                                                        () => setSliderModal(!sliderModal)
+                                                                    }
+                                                                    style={{ position: 'absolute', top: 0, right: 0, zIndex: 9 }}
+                                                                >
+                                                                    <Icon
+                                                                        name='x'
+                                                                        size={50}
+                                                                        color='white'
+                                                                    />
+                                                                </TouchableOpacity>
+
+                                                                <Swiper>
+                                                                    {
+                                                                        n.slider.map((e) => {
+                                                                            return (
+                                                                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                                                                    <Image
+                                                                                        source={{ uri: e }}
+                                                                                        style={{ width: 350, height: 350 }}
+                                                                                    />
+                                                                                </View>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </Swiper>
+                                                            </View>
+                                                        </Modal>
+                                                    ) : null}
+                                                    <View style={styles.ContainerDescripcion}>
+                                                        <Text style={styles.TextTitulo}>
+                                                            {n.title}
+                                                        </Text>
+                                                        <Text style={styles.TextoDescripcion}>
+                                                            {n.descripcion}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={styles.ContainerPrecio}>
+                                                        <Text style={styles.TextoPrecio}>
+                                                            ${n.precio * numeropedido}
+                                                        </Text>
+                                                    </View>
+                                                    <View style={styles.ContainerSumaResta}>
+                                                        <View style={styles.CajaSumaResta}>
+                                                            <TouchableOpacity
+                                                                style={styles.BotonSumarRestar}
+                                                                onPress={
+                                                                    () => handleRestar()
+                                                                }
+                                                            >
+                                                                <Text style={styles.TextBotonSumarRestar}>
+                                                                    -
+                                                                </Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                        <View style={styles.CajaSumaResta}>
+                                                            <View style={styles.CajaCantidad}>
+                                                                <Text style={{ color: '#000' }}>
+                                                                    {numeropedido}
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                        <View style={styles.CajaSumaResta}>
+                                                            <TouchableOpacity
+                                                                style={styles.BotonSumarRestar}
+                                                                onPress={
+                                                                    () => handleSumar()
+                                                                }
+                                                            >
+                                                                <Text style={styles.TextBotonSumarRestar}>
+                                                                    +
+                                                                </Text>
+                                                            </TouchableOpacity>
+                                                        </View>
+                                                    </View>
+                                                    <View style={styles.ContainerBotonesCarrito}>
+                                                        <TouchableOpacity
+                                                            style={[styles.BotonCarrito, { borderRightWidth: 1 }]}
+                                                            onPress={
+                                                                () => { setModalDescripcion(''), handleCancelar() }
+                                                            }
+                                                        >
+                                                            <Text style={styles.TextBotonCarrito}>
+                                                                Cancelar
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                        <TouchableOpacity
+                                                            style={[styles.BotonCarrito, { borderLeftWidth: 1 }]}
+                                                            onPress={
+                                                                () => {
+                                                                    const title = n.title
+                                                                    const precios = n.precio * numeropedido
+                                                                    handleAceptar(title, precios)
+                                                                }
+                                                            }
+                                                        >
+                                                            <Text style={styles.TextBotonCarrito}>
+                                                                Aceptar
+                                                            </Text>
+                                                        </TouchableOpacity>
+                                                    </View>
+                                                </View>
+                                            </View>
+                                        </Modal> : <>
+                                        </>
+
+                                ) : null}
+                            </View>
+
+                        )
+                    }
+                </View>
             </View>
 
         </ScrollView>
@@ -562,8 +571,8 @@ const DetalleNegocioScreen = (props: any) => {
         navigator.goBack()
     }
 
-    function goToScreen(routeName: any, data: any, id_negocio: any) {
-        navigator.navigate(routeName as never, { data: data, id_negocio: id_negocio } as never);
+    function goToScreen(routeName: any, data: any) {
+        navigator.navigate(routeName as never, { data: data } as never);
     }
 }
 
@@ -605,16 +614,6 @@ const styles = StyleSheet.create({
     DescripcionTexto: {
         color: '#000'
     },
-    ContainerEdit: {
-        width: '100%',
-        backgroundColor: '#fff',
-        marginVertical: 10,
-        paddingVertical: 10
-    },
-    TextoEdit: {
-        color: '#000',
-        textAlign: 'center'
-    },
     ContainerAdd: {
         width: '100%',
         paddingHorizontal: 20,
@@ -631,7 +630,7 @@ const styles = StyleSheet.create({
         width: '100%',
         paddingVertical: 10,
         backgroundColor: '#fff',
-        marginTop: 20
+        marginTop: 20,
     },
     Containerdescripcionfoto: {
         backgroundColor: '#000',
