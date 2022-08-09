@@ -8,6 +8,13 @@ import Swiper from 'react-native-swiper'
 
 const DetalleNegocioScreen = (props: any) => {
 
+    const { params } = props.route;
+    const navigator = useNavigation()
+    const [informacionShow, setinformacionShow] = useState(false)
+    const [serviciosShow, setserviciosShow] = useState(false)
+    const [productosShow, setproductosShow] = useState(false)
+    const [contactenosShow, setcontactenosShow] = useState(false)
+    
     //probando los flast list
     interface DataInterface {
         item: {
@@ -33,66 +40,6 @@ const DetalleNegocioScreen = (props: any) => {
                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
             ]
         },
-        {
-            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-            title: 'Prueba 2',
-            descripcion: 'aqui una breve descripcion del restaurant y su seccion!!!',
-            precio: 210,
-            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU',
-            slider: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
-            ]
-        },
-        {
-            id: '58694a0f-3da1-471f-bd96-145571e29d72',
-            title: 'Prueba 3',
-            descripcion: 'aqui una breve descripcion del restaurant y su seccion!!!',
-            precio: 12,
-            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-            slider: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
-            ]
-        },
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb2834',
-            title: 'Prueba 4',
-            descripcion: 'aqui una breve descripcion del restaurant y su seccion!!!',
-            precio: 23,
-            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-            slider: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
-            ]
-        },
-        {
-            id: '3ac68afc-c605-48d3-a4f8-fbd91aa97fda',
-            title: 'Prueba 5',
-            descripcion: 'aqui una breve descripcion del restaurant y su seccion!!!',
-            precio: 30,
-            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-            slider: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
-            ]
-        },
-        {
-            id: '58694a0f-3da1-471f-fg96-145571e29d72',
-            title: 'Prueba 6',
-            descripcion: 'aqui una breve descripcion del restaurant y su seccion!!!',
-            precio: 5,
-            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-            slider: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
-            ]
-        },
     ];
 
 
@@ -104,7 +51,7 @@ const DetalleNegocioScreen = (props: any) => {
             />
 
             <Text style={styles.TextoCategorias}>
-                {item.title}
+                {item.name}
             </Text>
         </View>
     );
@@ -186,14 +133,6 @@ const DetalleNegocioScreen = (props: any) => {
 
     // y aqui finaliza
 
-
-    const { params } = props.route;
-    const navigator = useNavigation()
-    const [informacionShow, setinformacionShow] = useState(false)
-    const [serviciosShow, setserviciosShow] = useState(false)
-    const [productosShow, setproductosShow] = useState(false)
-    const [contactenosShow, setcontactenosShow] = useState(false)
-
     return (
         <ScrollView style={styles.container}>
 
@@ -267,7 +206,7 @@ const DetalleNegocioScreen = (props: any) => {
                 </TouchableOpacity>
                 <FlatList
                     horizontal={true}
-                    data={DATA}
+                    data={params.business.categorias}
                     renderItem={renderItem}
                     keyExtractor={(item: any) => item.id}
                 />
@@ -376,7 +315,7 @@ const DetalleNegocioScreen = (props: any) => {
                     <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
                         <TouchableOpacity
                             onPress={() => {
-                                goToScreen('NuevoProductoBusiness', params.business)
+                                goToScreen('CreateProductScreen', params.business)
                             }}
                         >
                             <Image
@@ -387,7 +326,7 @@ const DetalleNegocioScreen = (props: any) => {
                     </View>
 
                     {
-                        DATA.map((n: any) =>
+                        params.business.productos.map((n: any) =>
 
                             <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
                                 <TouchableOpacity
@@ -396,7 +335,7 @@ const DetalleNegocioScreen = (props: any) => {
                                     }
                                 >
                                     <Image
-                                        source={{ uri: n.img }}
+                                        source={{ uri: n.url_imagen }}
                                         style={{ width: '100%', height: 150 }}
                                     />
                                 </TouchableOpacity>

@@ -13,7 +13,7 @@ export default class Carousel extends Component<{id:any},any>{
     
     componentDidMount(){
         const id = this.props.id;
-        const url = `https://01.metodolibio.com/api/galeria-de-imagenes-de-sector/${id}`;
+        const url = `https://14.sdcecuador.com/api/galeria-de-imagenes-de-sector/${id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {

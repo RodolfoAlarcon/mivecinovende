@@ -10,7 +10,7 @@ export default class Titulosector extends Component{
     }
     
     componentDidMount(){
-        const url = 'https://01.metodolibio.com/api/galeria-de-imagenes-de-sector/95df9f72-2ab4-4d3c-a5ef-7105dec742e0';
+        const url = 'https://14.sdcecuador.com/api/galeria-de-imagenes-de-sector/95df9f72-2ab4-4d3c-a5ef-7105dec742e0';
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {

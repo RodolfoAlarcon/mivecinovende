@@ -40,6 +40,8 @@ type AuthContextProps = {
     editProduct: (data: any, negocios: any) => void;
     createService: (data: any, negocios: any) => void;
     editService: (data: any, negocios: any) => void;
+    createBusinessCategory: (data: any, negocios: any) => void;
+    editBusinessCategory: (data: any, negocios: any) => void;
     
     //removeError: () => void;
 }
@@ -335,6 +337,76 @@ const UserProvider = ({ children }: any) => {
         }
     }
 
+    const createBusinessCategory = async (data: any, negocios: any) => {
+
+  
+        const formData = new FormData();
+        formData.append('negocio_id', data.negocio_id);
+        formData.append('name', data.name);
+        formData.append('url_imagen',
+            {
+                name: data.url_imagen.name,
+                type: data.url_imagen.type,
+                size: data.url_imagen.size,
+                uri: data.url_imagen.uri
+
+            });
+        
+        try {
+
+            const resp = await axios({
+                method: "POST",
+                url: `https://01.metodolibio.com/api/guardar-categoria`,
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                transformRequest: (data, error) => {
+                    return formData;
+                }
+            });
+
+            dispatch({ type: 'createBusinessCategory', payload: { businessCategory: resp.data.business_categorys, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
+    const editBusinessCategory = async (data: any, negocios: any) => {
+        const formData = new FormData();
+        formData.append('id', data.id);
+        formData.append('negocio_id', data.negocio_id);
+        formData.append('name', data.name);
+        formData.append('url_imagen',
+            {
+                name: data.url_imagen.name,
+                type: data.url_imagen.type,
+                size: data.url_imagen.size,
+                uri: data.url_imagen.uri
+
+            });
+        try {
+
+            const resp = await axios({
+                method: "POST",
+                url: `https://01.metodolibio.com/api/editar-categoria`,
+                data: formData,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                transformRequest: (data, error) => {
+                    return formData;
+                }
+            });
+
+            dispatch({ type: 'editBusinessCategory', payload: { businessCategory: resp.data.business_categorys, negocios: negocios } })
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+        }
+    }
+
     //sendPost
 
     return (
@@ -355,7 +427,9 @@ const UserProvider = ({ children }: any) => {
             createService,
             editService,
             createProduct,
-            editProduct
+            editProduct,
+            createBusinessCategory,
+            editBusinessCategory
 
         }} >
             {children}

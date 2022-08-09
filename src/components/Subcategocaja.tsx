@@ -22,7 +22,7 @@ export default class Subcategocaja extends Component<{ id: any, sector: any }, a
 
     componentDidMount() {
 
-        const url = `https://01.metodolibio.com/api/subcategorias/${this.props.id}`;
+        const url = `https://14.sdcecuador.com/api/subcategorias/${this.props.id}`;
         return fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {

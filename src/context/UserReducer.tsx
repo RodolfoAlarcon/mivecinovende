@@ -12,6 +12,7 @@ import { Negocios } from '../interfaces/BusinessInterface';
 import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
 import { Red } from '../interfaces/RedSocialInterface';
 import { Product } from '../interfaces/ProductInterface'
+import { BusinessCategory } from '../interfaces/BusinessCategoryInterface'
 import { postChatResponse } from '../interfaces/ChatsInterface'
 import { Service } from '../interfaces/ServiceInterface'
 
@@ -49,6 +50,8 @@ export type AuthAction =
     | { type: 'editProduct', payload: { product: Product, negocios: Negocios[] } }
     | { type: 'createService', payload: { service: Service, negocios: Negocios[] } }
     | { type: 'editService', payload: { service: Service, negocios: Negocios[] } }
+    | { type: 'createBusinessCategory', payload: { businessCategory: BusinessCategory, negocios: Negocios[] } }
+    | { type: 'editBusinessCategory', payload: { businessCategory: BusinessCategory, negocios: Negocios[] } }
     
 export const userReducer = (state: Authstate, action: AuthAction): Authstate => {
 
@@ -446,6 +449,71 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 ...state,
                 business: newArrayEditService,
             }
+
+            case 'createBusinessCategory':
+
+
+                let newArrayBusinessCategory = action.payload.negocios;
+                let newBusinessCategory = action.payload.businessCategory;
+    
+                newArrayBusinessCategory.forEach((data, key) => {
+    
+                    if (data['id'] == newProduct['business_id']) {
+    
+                        newArrayProduct[key].categorias.push(newBusinessCategory)
+    
+    
+                    }
+    
+                })//hay error de parte de anlzar la nueva red al array, esta en el reducer el error acuerdate
+                saveBusiness(newArrayBusinessCategory).then((msg) => {
+                    console.log('user business')
+                })
+    
+    
+    
+                Snackbar.show({
+                    text: 'categoria registrado con exito',
+                    duration: Snackbar.LENGTH_LONG,
+                })
+    
+                return {
+                    ...state,
+                    business: newArrayBusinessCategory,
+                }
+    
+            case 'editBusinessCategory':
+    
+                let newArrayEditBusinessCategory = action.payload.negocios;
+                let newEditBusinessCategory = action.payload.businessCategory;
+    
+                newArrayEditBusinessCategory.forEach((data, key) => {
+    
+                    if (data['id'] == newEditProduct['business_id']) {
+    
+                        newArrayEditProduct[key].categorias.forEach((data2: any, key2: any) => {
+                            if (data2['id'] == newEditProduct['id']) {
+                                newArrayEditProduct[key].categorias[key2].name = newEditBusinessCategory['name'];
+                                newArrayEditProduct[key].categorias[key2].url_imagen = newEditBusinessCategory['url_imagen'];
+                                newArrayEditProduct[key].categorias[key2].updated_at = newEditBusinessCategory['updated_at'];
+                            }
+                        })
+                    }
+                })
+    
+                saveBusiness(newArrayEditBusinessCategory).then((msg) => {
+                    console.log('user business')
+                })
+    
+                Snackbar.show({
+                    text: 'categoria editado con exito',
+                    duration: Snackbar.LENGTH_LONG,
+                })
+    
+                return {
+                    ...state,
+                    business: newArrayEditBusinessCategory,
+                }    
 
         default:
 

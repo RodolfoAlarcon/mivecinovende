@@ -55,15 +55,10 @@ export const EditCategoriaBusiness = (props: any) => {
             />
             <Formik
                 initialValues={{
-                    id: params.data.id,
-                    sectores_id: params.data.sectores_id,
-                    name: params.data.name,
-                    description: params.data.description,
-                    phone: params.data.phone,
-                    delivery: params.data.delivery.toString(),
-                    direccion: params.data.direccion,
-                    email: params.data.email,
-                    url_logo: tempUri,
+                    id: params.id,
+                    name: params.name,
+                    url_imagen: params.url_imagen,
+                    negocio_id: params.business_id,
                 }}
                 onSubmit={async (values: any) => {
                     values.url_logo = tempUri;

@@ -17,7 +17,6 @@ import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
 import {Result} from '../screens/systemScreen/Result'
 import {EditBusinessScreen} from '../screens/systemScreen/negocioScreen/EditBusinessScreen'
 import { EditCategoriaBusiness } from "../screens/systemScreen/negocioScreen/EditCategoriasBusiness"
-import { NuevoProductoBusiness } from '../screens/systemScreen/negocioScreen/NuevoProductoBusiness'
 import {EditConfigNegocioScreen} from '../screens/systemScreen/negocioScreen/EditConfigNegocioScreen'
 import {CreateRedScreen} from '../screens/systemScreen/negocioScreen/CreateRedScreen'
 import {CrearRedSocialScreen} from '../screens/systemScreen/CrearRedSocialScreen'
@@ -68,7 +67,6 @@ export const Navigation = () => {
                                 <Stack.Screen name="Result" component={Result} />
                                 <Stack.Screen name="EditBusinessScreen" component={EditBusinessScreen}/>
                                 <Stack.Screen name='EditCategoriaBusiness' component={EditCategoriaBusiness} />
-                                <Stack.Screen name='NuevoProductoBusiness' component={NuevoProductoBusiness} />
                                 <Stack.Screen name="EditConfigNegocioScreen" component={EditConfigNegocioScreen}/>
                                 <Stack.Screen name="CrearRedSocialScreen" component={CrearRedSocialScreen} />
                                 <Stack.Screen name='ListaRedSocialScreen' component={ListaRedSocialScreen}/>

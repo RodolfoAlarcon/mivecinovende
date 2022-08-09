@@ -15,7 +15,7 @@ export default class TituloCategoria extends Component<{id:any},any>{
     
     componentDidMount(){
         const id = this.props.id;
-        const url = `https://01.metodolibio.com/api/categorias/${id}`;
+        const url = `https://14.sdcecuador.com/api/categorias/${id}`;
         return fetch(url)
         .then((response) => response.json())
         .then((responseJson)=> {       
