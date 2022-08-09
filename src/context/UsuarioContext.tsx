@@ -204,7 +204,7 @@ const UserProvider = ({ children }: any) => {
         try {
             const resp = await axios({
                 method: "POST",
-                url: `https://01.metodolibio.com/api/actualizar-negocio`,
+                url: `https://14.sdcecuador.com/api/actualizar-negocio`,
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -264,7 +264,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await axios({
                 method: "POST",
-                url: `https://01.metodolibio.com/api/guardar-producto`,
+                url: `https://14.sdcecuador.com/api/guardar-producto`,
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -298,7 +298,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await axios({
                 method: "POST",
-                url: `https://01.metodolibio.com/api/editar-producto`,
+                url: `https://14.sdcecuador.com/api/editar-producto`,
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -356,7 +356,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await axios({
                 method: "POST",
-                url: `https://01.metodolibio.com/api/guardar-categoria`,
+                url: `https://14.sdcecuador.com/api/guardar-categoria`,
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
@@ -390,7 +390,7 @@ const UserProvider = ({ children }: any) => {
 
             const resp = await axios({
                 method: "POST",
-                url: `https://01.metodolibio.com/api/editar-categoria`,
+                url: `https://14.sdcecuador.com/api/editar-categoria`,
                 data: formData,
                 headers: {
                     'Content-Type': 'multipart/form-data'
