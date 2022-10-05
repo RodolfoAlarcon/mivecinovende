@@ -16,6 +16,7 @@ export const EditCategoriaBusiness = (props: any) => {
     const navigator = useNavigation()
     const { business, editNegocio } = useContext(AuthContex)
     const [ tempUri, setTempUri ] = useState<any>(params.data.url_logo)
+    const [image, setImage] = useState<any>('');
 
     const thakePhotoGallery = async () => {
         await launchImageLibrary({
@@ -38,6 +39,7 @@ export const EditCategoriaBusiness = (props: any) => {
                       : resp.assets[0].uri.replace('file://', ''),*/
                   };
                   //editNegocio(data, []);
+                  setImage(resp.assets[0].uri)
                   setTempUri(data)
             };           
             //console.log(':V')
@@ -63,9 +65,20 @@ export const EditCategoriaBusiness = (props: any) => {
                 onSubmit={async (values: any) => {
                     values.url_logo = tempUri;
                     
-                    console.log(values.url_logo)
-                    await editNegocio(values, business)
-                    goToScreen(params.data)
+                    const res =   await editNegocio(values, business)
+                    if (res == true){
+                        /*let arrayREd;
+    
+                        business.map((n: any) => {
+                            if (n.id == params.data.id_negocio) {
+                                arrayREd = n.productos;
+                            } else {
+                                arrayREd = [];
+                            }
+                        })*/
+    
+                        goToScreen(params.data)
+                    }
                 }}
             >
                 {({
@@ -126,8 +139,8 @@ export const EditCategoriaBusiness = (props: any) => {
                             
                             onPress={thakePhotoGallery}>
                             <Image
-                                source={require('../../../sources/img/Captura.jpg')}
-                                style={{ width: 100, height: 100, borderRadius: 200, marginHorizontal: 20, marginVertical: 20 }}
+                                source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
+                                style={{ width: 100, height: 100, marginHorizontal: 20, marginVertical: 20 }}
                             />
                             </TouchableOpacity>
                      

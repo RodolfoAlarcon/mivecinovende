@@ -1,5 +1,5 @@
 {
-  "name": "awesometsproject",
+  "name": "mi_vecino_vende",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -16,7 +16,7 @@
     "@react-navigation/stack": "^6.1.1",
     "@types/react-native-material-dropdown": "^0.11.5",
     "accordion-collapse-react-native": "^1.1.0",
-    "axios": "^0.26.1",
+    "axios": "^0.27.2",
     "formik": "^2.2.9",
     "laravel-echo": "^1.12.0",
     "react": ">=16.3.0",

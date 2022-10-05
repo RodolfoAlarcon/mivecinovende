@@ -28,7 +28,7 @@ async function getUsuario(){
 async function deleteUsuario(){
     try {
         await AsyncStorage.removeItem(USUARIO_KEY)
-        const item = await AsyncStorage.getItem(USUARIO_KEY)
+        const item:any = await AsyncStorage.getItem(USUARIO_KEY)
         return (item == null?"usuario removido":"usuario no removido")
     } catch (error) {
         console.log("Error al eliminar" + error.message)

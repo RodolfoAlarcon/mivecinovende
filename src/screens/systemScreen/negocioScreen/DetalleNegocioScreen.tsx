@@ -1,52 +1,49 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { View, AppRegistry, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Linking, ScrollView, FlatList, Modal } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import ToolBar from '../../../components/Toolbar';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Swiper from 'react-native-swiper'
+import { BusinessCategory } from '../../../interfaces/BusinessCategoryInterface';
+import { AuthContex } from '../../../context/UsuarioContext'
+import { getCart } from '../../../storage/CartAsyncStorage';
+import { io } from 'socket.io-client';
 
 const DetalleNegocioScreen = (props: any) => {
 
+    const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites } = useContext(AuthContex)
     const { params } = props.route;
+    var cartNow = cart.filter((n: any) => n.id_negocio == params.business.id);
+
+    console.log(favorites);
+    var favorite = favorites.filter((n: any) => n.id_business == params.business.id && n.id_user == user.id);
+
     const navigator = useNavigation()
-    const [informacionShow, setinformacionShow] = useState(false)
-    const [serviciosShow, setserviciosShow] = useState(false)
-    const [productosShow, setproductosShow] = useState(false)
-    const [contactenosShow, setcontactenosShow] = useState(false)
-    
-    //probando los flast list
-    interface DataInterface {
-        item: {
-            id: string;
-            title: string;
-            descripcion: string;
-            precio: number;
-            img: string;
-            slider: [];
-        };
+ 
+    const [modalPrecioFinal, setModalPrecioFinal] = useState(false)
+
+    const [sliderModal, setSliderModal] = useState(false)
+    const [descripcionFoto, setDescripcionFoto] = useState('')
+    const [modalDescripcion, setModalDescripcion] = useState('')
+
+    const baseUrl = `https://vecinovendechat.herokuapp.com`;
+    const socket = io(baseUrl, { transports: ['websocket'] })
+
+    function handleAlertClick() {
+        setTimeout(() => {
+            setDescripcionFoto('')
+        }, 7000);
     }
 
-    const DATA = [
-        {
-            id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-            title: 'Prueba 1',
-            descripcion: 'aqui una breve descripcion del restaurant y su seccion!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!',
-            precio: 20,
-            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-            slider: [
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkS0bmmhpDb_Sx6KbP_eMDGj4iQYZAyAX1LA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSTJZ13FBsnNOdAQ7ajj-wvG2Xs6Xuv36VHzA&usqp=CAU',
-                'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT2O7u5znqQiwObHFoUXFHaqciwJ-3DcTP-nw&usqp=CAU'
-            ]
-        },
-    ];
+    
 
 
-    const renderItem = ({ item }: DataInterface) => (
+    const renderItem = ({ item }: BusinessCategory) => (
         <View style={{ width: 60, overflow: 'hidden', marginHorizontal: 5 }}>
             <Image
-                source={require('../../../sources/img/interrogation.png')}
+                source={
+                    (item.url_imagen == null || item.url_imagen == '') ? require('../../../sources/img/interrogation.png') : { uri: item.url_imagen }}
                 style={{ width: 60, height: 60, resizeMode: 'contain', borderRadius: 100 / 2 }}
             />
 
@@ -55,81 +52,6 @@ const DetalleNegocioScreen = (props: any) => {
             </Text>
         </View>
     );
-
-
-    const [descripcionFoto, setDescripcionFoto] = useState('')
-    const [modalDescripcion, setModalDescripcion] = useState('')
-    const [numeropedido, setNumeropedido] = useState(1)
-
-    function handleAlertClick() {
-        setTimeout(() => {
-            setDescripcionFoto('')
-        }, 7000);
-    }
-
-    function handleRestar() {
-        setNumeropedido(numeropedido - 1)
-        if (numeropedido <= 1) {
-            return (
-                setNumeropedido(1)
-            )
-        }
-    }
-    function handleSumar() {
-        setNumeropedido(numeropedido + 1)
-
-    }
-
-    function handleCancelar() {
-        setNumeropedido(1)
-    }
-
-    const [array, setArray] = useState({
-        hijoarray: [{
-            nombre: '',
-            cantidad: '',
-            precios: '',
-        }
-        ],
-    })
-
-
-
-    function handleAceptar(title: string, precios: number) {
-        const boatData = {
-            nombre: title,
-            cantidad: numeropedido,
-            precios: precios,
-        }
-        const { hijoarray } = array
-        hijoarray.push(boatData)
-        setArray({
-            ...array,
-            hijoarray
-        })
-        setNumeropedido(1)
-        setContadorcarrito(contadorcarrito + 1)
-        setModalDescripcion('')
-    }
-
-
-    const [modalPrecioFinal, setModalPrecioFinal] = useState(false)
-
-    const [contadorPrecio, setContadorPrecio] = useState(0)
-
-    function handleSumaPago() {
-
-        array.hijoarray.map((n) => {
-            const precios: number = n.precios
-            setContadorPrecio(precios + contadorPrecio)
-        }
-        )
-    }
-
-    const [sliderModal, setSliderModal] = useState(false)
-
-    const [contadorcarrito, setContadorcarrito] = useState(0)
-
 
     // y aqui finaliza
 
@@ -152,15 +74,7 @@ const DetalleNegocioScreen = (props: any) => {
                 </View>
                 <View style={styles.Seguidores}>
                     <Text style={styles.TextoSeguidores}>
-                        500
-                    </Text>
-                    <Text style={styles.TextoSeguidores}>
-                        Posteo
-                    </Text>
-                </View>
-                <View style={styles.Seguidores}>
-                    <Text style={styles.TextoSeguidores}>
-                        110
+                        {params.business.productos.length}
                     </Text>
                     <Text style={styles.TextoSeguidores}>
                         Productos
@@ -168,12 +82,17 @@ const DetalleNegocioScreen = (props: any) => {
                 </View>
                 <View style={styles.Seguidores}>
                     <Text style={styles.TextoSeguidores}>
-                        3k
+                        110
                     </Text>
                     <Text style={styles.TextoSeguidores}>
-                        Valorada
+                        Seguidores
                     </Text>
                 </View>
+             
+                    <TouchableOpacity style={[styles.Seguidores, { backgroundColor: 'gold', maxHeight: '40%' }]}>
+                        <Icon name={"star"} style={[styles.TextoSeguidores, { fontSize: 20, marginTop: 0, color: 'white' }]} />
+                    </TouchableOpacity>
+               
 
             </View>
             <View style={styles.ContainerNombrePerfil}>
@@ -192,7 +111,7 @@ const DetalleNegocioScreen = (props: any) => {
                         overflow: 'hidden'
                     }}
                     onPress={() => {
-                        goToScreen('EditCategoriaBusiness', params.business)
+                        goToScreen('CreateCategoriasBusiness', params.business)
                     }}
 
                 >
@@ -215,22 +134,18 @@ const DetalleNegocioScreen = (props: any) => {
                 <View style={styles.ContainerIconcarrito}>
                     <View style={styles.Badge}>
                         <Text style={styles.TextoBadge}>
-                            {
-                                contadorcarrito
-                            }
+                            0
                         </Text>
                     </View>
-                    <TouchableOpacity
+                    <View
                         style={{ zIndex: 9 }}
-                        onPress={
-                            () => { setModalPrecioFinal(!modalPrecioFinal), handleSumaPago() }
-                        }
+                      
                     >
                         <Image
                             source={require('../../../sources/img/carrito.png')}
                             style={styles.ImagenIconcarrito}
                         />
-                    </TouchableOpacity>
+                    </View>
                     {modalPrecioFinal ? (
                         <Modal
                             animationType="fade"
@@ -249,27 +164,27 @@ const DetalleNegocioScreen = (props: any) => {
                                             x
                                         </Text>
                                     </TouchableOpacity>
-                                    <View style={{ width: 300, flexDirection: 'row' }}
-                                    >
-                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                    <View style={{ width: 300, flexDirection: 'row', marginBottom: 10 }}>
+                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', marginBottom: 3 }}>
                                             <Text style={{ color: '#000' }}>
                                                 Titulo
                                             </Text>
                                         </View>
-                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', marginBottom: 3 }}>
                                             <Text style={{ color: '#000' }}>
                                                 Cantidad
                                             </Text>
                                         </View>
-                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', marginBottom: 3 }}>
                                             <Text style={{ color: '#000' }}>
-                                                Presios
+                                                Precios
                                             </Text>
                                         </View>
                                     </View>
                                     {
-                                        array.hijoarray.map((n) =>
+                                        carrito.productos.map((n: any) =>
                                             <View style={{ width: 300, flexDirection: 'row', marginTop: -10, marginBottom: 10 }}
+                                                key={n.id}
                                             >
                                                 <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                     <Text style={{ color: '#000' }}>
@@ -306,6 +221,24 @@ const DetalleNegocioScreen = (props: any) => {
                                             </Text>
                                         </View>
                                     </View>
+                                    <View style={{ flexDirection: 'row', marginTop: 10, borderTopWidth: 2, marginBottom: 10 }}
+                                    >
+                                        <TouchableOpacity onPress={() => vaciarCarro()} style={{ width: '50%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'red', padding: 10 }}>
+                                            <View >
+                                                <Text style={{ color: '#ffff', fontWeight: '800' }}>
+                                                    Vaciar
+                                            </Text>
+                                            </View>
+                                        </TouchableOpacity>
+
+                                        <TouchableOpacity onPress={() => { sendMessage(carrito.productos) }} style={{ width: '50%', justifyContent: 'center', alignItems: 'center', backgroundColor: 'blue', padding: 10 }}>
+                                            <View >
+                                                <Text style={{ color: '#ffff', fontWeight: '800' }}>
+                                                    Enviar
+                                                </Text>
+                                            </View>
+                                        </TouchableOpacity>
+                                    </View>
                                 </View>
                             </View>
                         </Modal>
@@ -328,14 +261,14 @@ const DetalleNegocioScreen = (props: any) => {
                     {
                         params.business.productos.map((n: any) =>
 
-                            <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
+                            <View key={n.id} style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
                                 <TouchableOpacity
                                     onPress={
                                         () => { setDescripcionFoto(n.id), handleAlertClick() }
                                     }
                                 >
                                     <Image
-                                        source={{ uri: n.url_imagen }}
+                                        source={(n.url_imagen == '')? require('../../../sources/img/Captura.jpg') : {uri:  n.url_imagen }}
                                         style={{ width: '100%', height: 150 }}
                                     />
                                 </TouchableOpacity>
@@ -378,7 +311,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                         }
                                                     >
                                                         <Image
-                                                            source={{ uri: n.img }}
+                                                            source={ (n.url_imagen == '')? require('../../../sources/img/Captura.jpg') : {uri:  n.url_imagen }}
                                                             style={styles.ImagenModal}
                                                         />
                                                     </TouchableOpacity>
@@ -404,11 +337,12 @@ const DetalleNegocioScreen = (props: any) => {
 
                                                                 <Swiper>
                                                                     {
-                                                                        n.slider.map((e) => {
+                                                                        n.slider.map((e: any) => {
+
                                                                             return (
-                                                                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                                                                <View key={e.id} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
                                                                                     <Image
-                                                                                        source={{ uri: e }}
+                                                                                        source={{ uri: e.url }}
                                                                                         style={{ width: 350, height: 350 }}
                                                                                     />
                                                                                 </View>
@@ -418,58 +352,36 @@ const DetalleNegocioScreen = (props: any) => {
                                                                 </Swiper>
                                                             </View>
                                                         </Modal>
-                                                    ) : null}
+                                                    ) : []}
                                                     <View style={styles.ContainerDescripcion}>
                                                         <Text style={styles.TextTitulo}>
-                                                            {n.title}
+                                                            {n.producto}
                                                         </Text>
                                                         <Text style={styles.TextoDescripcion}>
                                                             {n.descripcion}
                                                         </Text>
                                                     </View>
-                                                    <View style={styles.ContainerPrecio}>
-                                                        <Text style={styles.TextoPrecio}>
-                                                            ${n.precio * numeropedido}
-                                                        </Text>
-                                                    </View>
+                                                 
                                                     <View style={styles.ContainerSumaResta}>
-                                                        <View style={styles.CajaSumaResta}>
+                                                        <View>
                                                             <TouchableOpacity
                                                                 style={styles.BotonSumarRestar}
                                                                 onPress={
-                                                                    () => handleRestar()
+                                                                    () => {}
                                                                 }
                                                             >
                                                                 <Text style={styles.TextBotonSumarRestar}>
-                                                                    -
+                                                                    eliminar
                                                                 </Text>
                                                             </TouchableOpacity>
                                                         </View>
-                                                        <View style={styles.CajaSumaResta}>
-                                                            <View style={styles.CajaCantidad}>
-                                                                <Text style={{ color: '#000' }}>
-                                                                    {numeropedido}
-                                                                </Text>
-                                                            </View>
-                                                        </View>
-                                                        <View style={styles.CajaSumaResta}>
-                                                            <TouchableOpacity
-                                                                style={styles.BotonSumarRestar}
-                                                                onPress={
-                                                                    () => handleSumar()
-                                                                }
-                                                            >
-                                                                <Text style={styles.TextBotonSumarRestar}>
-                                                                    +
-                                                                </Text>
-                                                            </TouchableOpacity>
-                                                        </View>
+                                                        
                                                     </View>
                                                     <View style={styles.ContainerBotonesCarrito}>
                                                         <TouchableOpacity
                                                             style={[styles.BotonCarrito, { borderRightWidth: 1 }]}
                                                             onPress={
-                                                                () => { setModalDescripcion(''), handleCancelar() }
+                                                                () => { setModalDescripcion('') }
                                                             }
                                                         >
                                                             <Text style={styles.TextBotonCarrito}>
@@ -480,14 +392,13 @@ const DetalleNegocioScreen = (props: any) => {
                                                             style={[styles.BotonCarrito, { borderLeftWidth: 1 }]}
                                                             onPress={
                                                                 () => {
-                                                                    const title = n.title
-                                                                    const precios = n.precio * numeropedido
-                                                                    handleAceptar(title, precios)
+                                                                    setModalDescripcion('');
+                                                                    goToEditProductScreen('EditProductScreen', params.business.id, params.business, n)
                                                                 }
                                                             }
                                                         >
                                                             <Text style={styles.TextBotonCarrito}>
-                                                                Aceptar
+                                                                Editar
                                                             </Text>
                                                         </TouchableOpacity>
                                                     </View>
@@ -513,6 +424,9 @@ const DetalleNegocioScreen = (props: any) => {
     function goToScreen(routeName: any, data: any) {
         navigator.navigate(routeName as never, { data: data } as never);
     }
+    function goToEditProductScreen(routeName: any, id: any, business:any, data: any) {
+        navigator.navigate(routeName as never, { id: id, business: business, data: data } as never);
+    }
 }
 
 const styles = StyleSheet.create({
@@ -531,9 +445,10 @@ const styles = StyleSheet.create({
         width: '35%',
     },
     Seguidores: {
-        width: '20%',
+        width: '22%',
         alignItems: 'center',
-        paddingTop: 10
+        paddingTop: 10,
+        marginRight: 8
     },
     TextoSeguidores: {
         textAlign: 'center',
@@ -622,7 +537,7 @@ const styles = StyleSheet.create({
     },
     BotonSumarRestar: {
         backgroundColor: "#1D1D1B",
-        width: 50,
+        width: 80,
         height: 50,
         borderRadius: 5,
         justifyContent: 'center',

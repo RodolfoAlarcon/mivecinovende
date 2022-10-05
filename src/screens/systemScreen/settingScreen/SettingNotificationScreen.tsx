@@ -3,7 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { View, TouchableOpacity, Switch, StyleSheet, Text } from 'react-native'
 import { DataTable } from 'react-native-paper';
 import ToggleSwitch from 'toggle-switch-react-native'
-import ToolBar from '../../components/Toolbar'
+import ToolBar from '../../../components/Toolbar'
 
 
 function SettingNotificacion(props:any) {
@@ -17,7 +17,7 @@ function SettingNotificacion(props:any) {
         <View>
             <ToolBar titulo='Configuracion De Notificaciones'
                 onPressLeft={() => navigator.goBack()}
-                iconLeft={require('../../sources/img/back.png')} />
+                iconLeft={require('../../../sources/img/back.png')} />
             <DataTable>
 
                 <DataTable.Row style={{ height: 70, padding: 10 }}>

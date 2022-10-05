@@ -2,8 +2,8 @@ import React, { useContext, useEffect } from 'react'
 import { Text, View, TouchableOpacity, StatusBar, Alert, BackHandler, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 import { DataTable } from 'react-native-paper';
-import { AuthContex } from '../../context/UsuarioContext'
-import {color} from '../../styles/colors'
+import { AuthContex } from '../../../context/UsuarioContext'
+import {color} from '../../../styles/colors'
 import { useNavigation } from '@react-navigation/native';
 
 function useBackButton(handler:any) {
@@ -36,7 +36,7 @@ export default function SettingScreen(props:any) {
 
             <DataTable>
 
-                <TouchableOpacity onPress={() => {}} >
+                <TouchableOpacity onPress={() => {goToScreen('EditProfileScreen')}} >
 
                     <DataTable.Row style={{ height: 70, padding: 10 }}>
                         <DataTable.Cell style={{ flex: 0.3 }}>
@@ -51,73 +51,73 @@ export default function SettingScreen(props:any) {
 
                         <DataTable.Cell style={{ flex: 0.3 }}>
                             <View>
-                                <Image source={require('../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
+                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
                             </View>
                         </DataTable.Cell>
 
                     </DataTable.Row>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => {}} >
+                <TouchableOpacity onPress={() => {goToScreen('EditAdressScreen')}} >
 
                     <DataTable.Row style={{ height: 70, padding: 10 }}>
                         <DataTable.Cell style={{ flex: 0.3 }}>
                             <View>
-                                <Icon size={30} color="grey" name={"shield"} />
+                                <Icon size={30} color="grey" name={"map-pin"} />
                             </View>
 
                         </DataTable.Cell>
                         <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }} > Cambiar Contraseña </Text>
+                            <Text style={{ fontSize: 20 }} > Cambiar Ubicación </Text>
                         </DataTable.Cell>
 
                         <DataTable.Cell style={{ flex: 0.3 }}>
                             <View>
-                                <Image source={require('../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
+                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
+                            </View>
+                        </DataTable.Cell>
+
+                    </DataTable.Row>
+                </TouchableOpacity>
+                
+                <TouchableOpacity onPress={() => goToScreen("ListFollowNegocioScreens")}  >
+
+                    <DataTable.Row style={{ height: 70, padding: 10 }}>
+                        <DataTable.Cell style={{ flex: 0.3 }}>
+                            <View>
+                                <Icon size={30} color="grey" name={"star"} />
+                            </View>
+
+                        </DataTable.Cell>
+                        <DataTable.Cell style={{ flex: 2 }}>
+                            <Text style={{ fontSize: 20 }}> Negocios Favoritos </Text>
+                        </DataTable.Cell>
+
+                        <DataTable.Cell style={{ flex: 0.3 }}>
+                            <View>
+                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
                             </View>
                         </DataTable.Cell>
 
                     </DataTable.Row>
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => goToScreen("SettingNotificacion")}  >
+                <TouchableOpacity onPress={() => goToScreen("RequestFormScreen")}  >
 
                     <DataTable.Row style={{ height: 70, padding: 10 }}>
                         <DataTable.Cell style={{ flex: 0.3 }}>
                             <View>
-                                <Icon size={30} color="grey" name={"bell"} />
+                                <Icon size={30} color="grey" name={"mail"} />
                             </View>
 
                         </DataTable.Cell>
                         <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }} > Notificaciones </Text>
+                            <Text style={{ fontSize: 20 }}> Solictar Un Negocio </Text>
                         </DataTable.Cell>
 
                         <DataTable.Cell style={{ flex: 0.3 }}>
                             <View>
-                                <Image source={require('../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
-                            </View>
-                        </DataTable.Cell>
-
-                    </DataTable.Row>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => goToScreen("HelpScreen")}  >
-
-                    <DataTable.Row style={{ height: 70, padding: 10 }}>
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Icon size={30} color="grey" name={"info"} />
-                            </View>
-
-                        </DataTable.Cell>
-                        <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}> Ayuda </Text>
-                        </DataTable.Cell>
-
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Image source={require('../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
+                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
                             </View>
                         </DataTable.Cell>
 

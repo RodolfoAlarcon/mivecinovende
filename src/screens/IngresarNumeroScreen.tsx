@@ -48,16 +48,22 @@ function IngresarNumeroScreen(props: any) {
                 <Formik
                     validateOnMount={true}
                     //validationSchema={loginValidationSchema}
-                    initialValues={{ phone: '', country: '', rol: '' }}
+                    initialValues={{ phone: '', country: '' }}
                     onSubmit={async (values: any) => {
-                        if (values.phone !== '' && values.country !== '' && values.rol !== ''){
-                            const phone = values.country + values.phone;
+                        if (values.phone !== '' && values.country !== ''){
 
-                            await sendCode(phone, values.rol, values.country);
-    
-                            setTimeout(() => {
+                            if (values.phone.startsWith('0')){
+                                values.phone = Number(values.phone)
+                                values.phone = values.phone.toString()
+                            }
+                            const phone = values.country + values.phone;
+                            
+                            
+                            const res  = await sendCode(phone, values.rol, values.country);
+                            if(res == true){
                                 goToScreen('ValidacionNumeroScreen', phone, values.rol)
-                            }, 2000)
+                            }
+               
                         }else{
                             alert('faltan campor por rellenar')
                         }
@@ -79,11 +85,11 @@ function IngresarNumeroScreen(props: any) {
                                 width: "100%",
                             }}>
 
-                                <View style={styles.container}>
+                                {/*<View style={styles.container}>
                                     <RNPickerSelect
                                         value={values.rol}
                                         placeholder={{
-                                            label: 'Tipo de usaurio',
+                                            label: 'Tipo de usuario',
                                             value: 'Selecionar',
                                         }}
 
@@ -95,7 +101,7 @@ function IngresarNumeroScreen(props: any) {
 
 
                                     />
-                                </View>
+                                    </View>*/}
                                 <SelectPaisNumero
                                     countrys={address}
                                     onValueChange={handleChange('country')}

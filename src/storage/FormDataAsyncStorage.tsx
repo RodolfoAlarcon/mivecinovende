@@ -17,7 +17,7 @@ async function saveDataForm(datasForm:any){
 
 async function getDataForm(){
     try {
-        const item = await AsyncStorage.getItem(FORMADATA_KEY)
+        const item:any = await AsyncStorage.getItem(FORMADATA_KEY)
         return JSON.parse(item)
     } catch (error) {
         // Error retrieving data
@@ -50,7 +50,7 @@ async function saveAddress(address:any){
 
 async function getAddress(){
     try {
-        const item = await AsyncStorage.getItem(ADDRESS_KEY)
+        const item:any = await AsyncStorage.getItem(ADDRESS_KEY)
         return JSON.parse(item)
     } catch (error) {
         // Error retrieving data

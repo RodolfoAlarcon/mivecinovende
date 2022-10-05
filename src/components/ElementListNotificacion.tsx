@@ -12,14 +12,14 @@ const ElementListNotificacion = (props: any) => {
   const toggleSwitch = () => setIsView(previousState => !previousState);
   const navigator = useNavigation()
 
- 
+
   return (
 
     <DataTable>
       {props.notifications.map((n: any) => (
 
 
-        <TouchableOpacity key={n.id} onPress={() => goToScreen('NotificationDetailScreen', n.content)}>
+        <TouchableOpacity key={n.id} onPress={() => goToScreen('NotificationDetailScreen', n.content, n.type)}>
           <DataTable.Row style={{ height: 70, padding: 10, borderColor: "#0000", borderRadius: 20 }}>
 
             <DataTable.Cell style={{ flex: 0.3 }}>
@@ -27,18 +27,21 @@ const ElementListNotificacion = (props: any) => {
               <View>
                 <Image source={
                   //isView = n.type 
-                  (n.type == 'TOQUE')?
-                    (n.status == 0)?
+                  (n.type == 'TOQUE') ?
+                    (n.status == 0) ?
                       require('../sources/img/closed_eye.png') :
                       require('../sources/img/open_eye.png') :
-                  (n.type == 'PUBLICIDAD')?
-                    (n.status == 0) ?
+
+                    (n.type == 'PUBLICIDAD') ?
+                      (n.status == 0) ?
                         require('../sources/img/closed_eye.png') :
-                        require('../sources/img/open_eye.png')
-                  :
-                    require('../sources/img/interrogation.png')
-                
-                      
+                        require('../sources/img/open_eye.png') :
+
+                      (n.type == 'AVERTENCIA') ?
+                        (n.status == 0) ?
+                          require('../sources/img/closed_eye.png') :
+                          require('../sources/img/open_eye.png') :
+                        require('../sources/img/interrogation.png')
                 }
                   style={{ height: 25, width: 25 }} />
               </View>
@@ -68,9 +71,9 @@ const ElementListNotificacion = (props: any) => {
     </DataTable>
 
   );
-  function goToScreen(routeName: any, data:any) {
-    navigator.navigate(routeName as never, {data:data} as never);
-}
+  function goToScreen(routeName: any, data: any, type:any) {
+    navigator.navigate(routeName as never, { data: data, type: type } as never);
+  }
 };
 const styles = StyleSheet.create({
   container: {

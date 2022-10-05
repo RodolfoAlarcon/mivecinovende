@@ -15,67 +15,40 @@ import EmojiPicker from "./emojis/EmojiPicker";
 import { theme } from "./../../styles/theme";
 import { useNavigation } from "@react-navigation/native";
 
-export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idProprietor, id_business, idBusiness, nMsg}: any) => {
+export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idProprietor, id_business, idBusiness}: any) => {
 	const [message, setMessage] = useState("");
 	const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-	const { user } = useContext(AuthContex);
+	const { user, postChat, socketIO, ...chats } = useContext(AuthContex);
 	const navigator = useNavigation();
 	const baseUrl = `https://vecinovendechat.herokuapp.com`; 
 	const socket = io(baseUrl, {transports: ['websocket']})
- 
-	useEffect(() => {
-		socket.emit('join_room', {room: idChat, idUser: user.id} )
-		socket.on(`room.${idChat}`, (msg) => {
-			console.log( msg)
-		})
-	}, [])
-
-	BackHandler.addEventListener('hardwareBackPress', function () {
-		socket.close();
-	  });
-
-		
-	useLayoutEffect(() => () => {
-		socket.close();
-	  }, [])
-
-	function sendMessage(msg:any) {
+	
+	async function sendMessage(msg:any) {
 
 		let ref = ''
 		if(idProprietor == user.id){
 
-			ref = idBusiness
+			ref = id_business
 		}else{
 			ref = user.id
 		}
-	
-		//const baseUrl = `https://07.metodolibio.com/`;
- 
+
 		let stateUSer = true;//borrar y cambiar por el status de usuario
 		if (stateUSer) {
 		  
 			socket.emit('chatAlone', {
 				room: idChat, 
-				idSender: ref, 
+				idSender: ref,
+				id_user: user.id, 
 				msg:msg,
 				token: user.access_token,
 				idBusiness: id_business,
 				idProprietor: idProprietor,
 			}) 
 			setMessage('')
-		}
+		}}
 
-	}
-	socket.on('chat', (response) => {
 		
-		if (response.status == 200) {
-			nMsg(response.body.chat);
-
-		}else if(response.status == 403){
-			alert(response.body)
-		}
-				
-	})
 	return (
 		<View style={[styles.container]}>
 			{reply ? (

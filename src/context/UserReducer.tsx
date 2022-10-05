@@ -4,9 +4,9 @@ import { saveDataForm, getDataForm, deleteDataForm, saveAddress, getAddress, del
 import { saveBusiness, getBusiness, deleteBusiness } from '../storage/BusnessAsyncStorage'
 import { saveNotifications, getNotifications, deleteNotifications } from '../storage/NotificationsAsyncStorage'
 import { getChats, saveChats, deleteChats } from '../storage/ChatsAsyncStorage'
+import { getCart, saveCart, deleteCart } from '../storage/CartAsyncStorage'
 import Snackbar from 'react-native-snackbar'
 import { User } from '../interfaces/UserInterface';
-import { Anuncio } from '../interfaces/AnuncioInterface';
 import { Address } from '../interfaces/DataFormInterface';
 import { Negocios } from '../interfaces/BusinessInterface';
 import { Notifications, getNotificationsResponse } from '../interfaces/NotificationsInterface';
@@ -15,9 +15,11 @@ import { Product } from '../interfaces/ProductInterface'
 import { BusinessCategory } from '../interfaces/BusinessCategoryInterface'
 import { postChatResponse } from '../interfaces/ChatsInterface'
 import { Service } from '../interfaces/ServiceInterface'
+import { Follows } from '../interfaces/FavoritesInterface'
+import { deleteFollows, saveFollows } from '../storage/FavoritesAsyncStorage'
 
 export interface Authstate {
-    status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates';
+    status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates' | '';
     access_token: string | null | '';
     user: User | null | '';
     errorMessage: string;
@@ -25,13 +27,17 @@ export interface Authstate {
     notifications: Notifications[] | null | '';
     business: Negocios[] | null | '';
     chats: postChatResponse[] | null | '';
+    cart: [] | null | '';
+    favorites: Follows[] | null | '';
 
 }
 
 export type AuthAction =
-    | { type: 'sing-in', payload: { user: User, address: Address, notifications: Notifications[], business: Negocios[], chats: postChatResponse[]} }
-    | { type: 'confirmedNumber', payload: { access_token: string, user: User, business: Negocios[], notifications: Notifications[], chats: postChatResponse[] } }
+    | { type: 'sing-in', payload: { user: User, address: Address, notifications: Notifications[], business: Negocios[], chats: postChatResponse[], cart: [], favorites: Follows[] } }
+    | { type: 'confirmedNumber', payload: { access_token: string, user: User, business: Negocios[], notifications: Notifications[], chats: postChatResponse[], cart: [], favorites: Follows[] } }
     | { type: 'sing-up', payload: { user: User } }
+    | { type: 'editProfile', payload: { user: User } }
+    | { type: 'editAddress', payload: { user: User } }
     | { type: 'sing-out', payload: { access_token: null, user: null } }
     | { type: 'addError', payload: string }
     | { type: 'removeError', payload: string }
@@ -43,6 +49,7 @@ export type AuthAction =
     | { type: 'recoveryCountry', payload: { address: Address } }
     | { type: 'getNotifications', payload: { notifications: Notifications[] } }
     | { type: 'getChats', payload: { chats: postChatResponse[] } }
+    | { type: 'postChat', payload: { chats: postChatResponse[] } }
     | { type: 'editNegocio', payload: { negocio: Negocios, negocios: Negocios[] } }
     | { type: 'createRed', payload: { red: Red, negocios: Negocios[] } }
     | { type: 'editRed', payload: { red: Red, negocios: Negocios[] } }
@@ -52,15 +59,19 @@ export type AuthAction =
     | { type: 'editService', payload: { service: Service, negocios: Negocios[] } }
     | { type: 'createBusinessCategory', payload: { businessCategory: BusinessCategory, negocios: Negocios[] } }
     | { type: 'editBusinessCategory', payload: { businessCategory: BusinessCategory, negocios: Negocios[] } }
-    
+    | { type: 'createSliderProduct', payload: { product: Product, negocios: Negocios[] } }
+    | { type: 'editSliderProduct', payload: { product: Product, negocios: Negocios[] } }
+    | { type: 'modifiedCart', payload: { cart: [] } }
+    | { type: 'followBussiness', payload: { follow: Follows } }
+    | { type: 'unFollowBussiness', payload: { id_user: string, id_business: string } }
+
+
 export const userReducer = (state: Authstate, action: AuthAction): Authstate => {
 
     switch (action.type) {
 
-
-
         case 'sing-in':
-
+            //deleteFollows()
             let status_user = '';
             if (parseInt(action.payload.user.register_verified) !== 0) {
                 status_user = 'authenticated'
@@ -68,7 +79,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 status_user = 'registered-phone'
             }
 
-            return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications, business: action.payload.business, chats: action.payload.chats }
+            return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications, business: action.payload.business, chats: action.payload.chats, cart: action.payload.cart, favorites: action.payload.favorites }
 
         case 'confirmedNumber':
 
@@ -98,6 +109,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 console.log('user chats')
             })
 
+            saveFollows(action.payload.favorites).then((msg) => { console.log('cart save') })
 
             Snackbar.show({
                 text: 'Inicio de sesion exitoso',
@@ -112,6 +124,8 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 chats: action.payload.chats,
                 access_token: action.payload.access_token,
                 notifications: action.payload.notifications,
+                cart: [],
+                favorites: action.payload.favorites
             }
 
         case 'getCountry':
@@ -167,6 +181,44 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 status: 'cheking',
                 access_token: '',
             }
+
+        case 'editProfile':
+
+            state.user.name = action.payload.user.name 
+            state.user.apellido = action.payload.user.apellido
+            state.user.sexo = action.payload.user.sexo
+            state.user.dni = action.payload.user.dni
+            state.user.edad = action.payload.user.edad
+            state.user.email = action.payload.user.email
+   
+            saveUsuario(state.user).then((msg) => {
+                console.log('address save')
+            })
+
+            return {
+                ...state,
+                user: state.user,
+
+            }
+
+            
+
+        case 'editAddress':
+
+            state.user.ciudad_id = action.payload.user.ciudad_id 
+            state.user.sector_id = action.payload.user.sector_id
+            state.user.direccion = action.payload.user.direccion
+            
+            saveUsuario(state.user).then((msg) => {
+                console.log('address save')
+            })
+
+            return {
+                ...state,
+                user: state.user,
+
+            }
+
         case 'addError':
             Snackbar.show({
                 text: action.payload,
@@ -204,16 +256,42 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
 
             }
 
-            case 'getChats':
+        case 'getChats':
 
-                saveChats(action.payload.chats).then((msg) => {
-                    console.log('user chats')
-                })
+            saveChats(action.payload.chats).then((msg) => {
+                console.log('user chats')
+            })
 
             return {
                 ...state,
                 chats: action.payload.chats,
 
+            }
+
+        case 'postChat':
+
+            let verication = state.chats.filter((n: any) => n.id == action.payload.chats.id);
+            if (verication.length >= 1) {
+                state.chats.map((n: any) => {
+                    if (n.id == action.payload.chats.id) {
+                        if (action.payload.chats.chat.type == "PRODUCTOS") {
+                            n.chat.push(action.payload.chats.chat)
+                        } else {
+                            n.chat.push(action.payload.chats.chat[0])
+                        }
+                    }
+                })
+            } else {
+                state.chats.push(action.payload.chats)
+            }
+
+            saveChats(state.chats).then((msg) => {
+                console.log('user chats')
+            })
+
+            return {
+                ...state,
+                chats: state.chats,
             }
 
         case 'notAuthenticated':
@@ -240,10 +318,9 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                     newArrayNegocios[key].delivery = editNegocio['delivery'];
                     newArrayNegocios[key].url_logo = editNegocio['url_logo'];
                     newArrayNegocios[key].direccion = editNegocio['direccion'];
-
                 }
-
             })
+
             saveBusiness(newArrayNegocios).then((msg) => {
                 console.log('user business')
             })
@@ -259,7 +336,6 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
 
         case 'createRed':
 
-
             let newArrayRedes = action.payload.negocios;
             let newRed = action.payload.red;
 
@@ -268,16 +344,12 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 if (data['id'] == newRed['business_id']) {
 
                     newArrayRedes[key].redSocial.push(newRed)
-
-
                 }
+            })
 
-            })//hay error de parte de anlzar la nueva red al array, esta en el reducer el error acuerdate
             saveBusiness(newArrayRedes).then((msg) => {
                 console.log('user business')
             })
-
-
 
             Snackbar.show({
                 text: 'Ununcio registrado con exito',
@@ -324,7 +396,6 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
 
         case 'createProduct':
 
-
             let newArrayProduct = action.payload.negocios;
             let newProduct = action.payload.product;
 
@@ -333,11 +404,8 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 if (data['id'] == newProduct['business_id']) {
 
                     newArrayProduct[key].productos.push(newProduct)
-
-
                 }
-
-            })//hay error de parte de anlzar la nueva red al array, esta en el reducer el error acuerdate
+            })
             saveBusiness(newArrayProduct).then((msg) => {
                 console.log('user business')
             })
@@ -366,6 +434,9 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                     newArrayEditProduct[key].productos.forEach((data2: any, key2: any) => {
                         if (data2['id'] == newEditProduct['id']) {
                             newArrayEditProduct[key].productos[key2].producto = newEditProduct['producto'];
+                            newArrayEditProduct[key].productos[key2].precio = newEditProduct['precio'];
+                            newArrayEditProduct[key].productos[key2].descripcion = newEditProduct['descripcion'];
+                            newArrayEditProduct[key].productos[key2].bussinesCategoryId = newEditProduct['bussinesCategoryId'];
                             newArrayEditProduct[key].productos[key2].url_imagen = newEditProduct['url_imagen'];
                             newArrayEditProduct[key].productos[key2].updated_at = newEditProduct['updated_at'];
                         }
@@ -389,7 +460,6 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
 
         case 'createService':
 
-
             let newArrayService = action.payload.negocios;
             let newService = action.payload.service;
 
@@ -406,8 +476,6 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             saveBusiness(newArrayService).then((msg) => {
                 console.log('user business')
             })
-
-
 
             Snackbar.show({
                 text: 'Ununcio registrado con exito',
@@ -450,70 +518,167 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
                 business: newArrayEditService,
             }
 
-            case 'createBusinessCategory':
+        case 'createBusinessCategory':
 
+            let newArrayBusinessCategory = action.payload.negocios;
+            let newBusinessCategory = action.payload.businessCategory;
 
-                let newArrayBusinessCategory = action.payload.negocios;
-                let newBusinessCategory = action.payload.businessCategory;
-    
-                newArrayBusinessCategory.forEach((data, key) => {
-    
-                    if (data['id'] == newProduct['business_id']) {
-    
-                        newArrayProduct[key].categorias.push(newBusinessCategory)
-    
-    
-                    }
-    
-                })//hay error de parte de anlzar la nueva red al array, esta en el reducer el error acuerdate
-                saveBusiness(newArrayBusinessCategory).then((msg) => {
-                    console.log('user business')
-                })
-    
-    
-    
-                Snackbar.show({
-                    text: 'categoria registrado con exito',
-                    duration: Snackbar.LENGTH_LONG,
-                })
-    
-                return {
-                    ...state,
-                    business: newArrayBusinessCategory,
+            newArrayBusinessCategory.forEach((data, key) => {
+
+                if (data['id'] == newBusinessCategory['business_id']) {
+
+                    newArrayBusinessCategory[key].categorias.push(newBusinessCategory)
                 }
-    
-            case 'editBusinessCategory':
-    
-                let newArrayEditBusinessCategory = action.payload.negocios;
-                let newEditBusinessCategory = action.payload.businessCategory;
-    
-                newArrayEditBusinessCategory.forEach((data, key) => {
-    
-                    if (data['id'] == newEditProduct['business_id']) {
-    
-                        newArrayEditProduct[key].categorias.forEach((data2: any, key2: any) => {
-                            if (data2['id'] == newEditProduct['id']) {
-                                newArrayEditProduct[key].categorias[key2].name = newEditBusinessCategory['name'];
-                                newArrayEditProduct[key].categorias[key2].url_imagen = newEditBusinessCategory['url_imagen'];
-                                newArrayEditProduct[key].categorias[key2].updated_at = newEditBusinessCategory['updated_at'];
-                            }
-                        })
-                    }
-                })
-    
-                saveBusiness(newArrayEditBusinessCategory).then((msg) => {
-                    console.log('user business')
-                })
-    
-                Snackbar.show({
-                    text: 'categoria editado con exito',
-                    duration: Snackbar.LENGTH_LONG,
-                })
-    
-                return {
-                    ...state,
-                    business: newArrayEditBusinessCategory,
-                }    
+            })
+            saveBusiness(newArrayBusinessCategory).then((msg) => {
+                console.log('user business')
+            })
+
+            Snackbar.show({
+                text: 'categoria registrado con exito',
+                duration: Snackbar.LENGTH_LONG,
+            })
+
+            return {
+                ...state,
+                business: newArrayBusinessCategory,
+            }
+
+        case 'editBusinessCategory':
+
+            let newArrayEditBusinessCategory = action.payload.negocios;
+            let newEditBusinessCategory = action.payload.businessCategory;
+
+            newArrayEditBusinessCategory.forEach((data, key) => {
+
+                if (data['id'] == newEditProduct['business_id']) {
+
+                    newArrayEditBusinessCategory[key].categorias.forEach((data2: any, key2: any) => {
+                        if (data2['id'] == newEditProduct['id']) {
+                            newArrayEditBusinessCategory[key].categorias[key2].name = newEditBusinessCategory['name'];
+                            newArrayEditBusinessCategory[key].categorias[key2].url_imagen = newEditBusinessCategory['url_imagen'];
+                            newArrayEditBusinessCategory[key].categorias[key2].updated_at = newEditBusinessCategory['updated_at'];
+                        }
+                    })
+                    //ESTO LE FALTAAAA ESTA MALOOOOO
+                }
+            })
+
+            saveBusiness(newArrayEditBusinessCategory).then((msg) => {
+                console.log('user business')
+            })
+
+            Snackbar.show({
+                text: 'categoria editado con exito',
+                duration: Snackbar.LENGTH_LONG,
+            })
+
+            return {
+                ...state,
+                business: newArrayEditBusinessCategory,
+            }
+
+        case 'createSliderProduct':
+
+
+            let newArraySliderProduct = action.payload.negocios;
+            let newSliderProduct = action.payload.product;
+
+            newArraySliderProduct.forEach((data, key) => {
+
+                if (data['id'] == newSliderProduct['business_id']) {
+
+                    newArraySliderProduct[key].productos.forEach((data2: any, key2: any) => {
+                        if (data2['id'] == newSliderProduct['id']) {
+                            newArraySliderProduct[key].productos[key2].slider = newSliderProduct['slider'];
+
+                        }
+                    })
+
+                }
+            })
+            saveBusiness(newArraySliderProduct).then((msg) => {
+                console.log('user business')
+            })
+
+
+
+            Snackbar.show({
+                text: 'categoria registrado con exito',
+                duration: Snackbar.LENGTH_LONG,
+            })
+
+            return {
+                ...state,
+                business: newArraySliderProduct,
+            }
+
+        case 'editSliderProduct':
+
+
+            let newArrayEditSliderProduct = action.payload.negocios;
+            let newEditSliderProduct = action.payload.product;
+
+            newArrayEditSliderProduct.forEach((data, key) => {
+
+                if (data['id'] == newEditSliderProduct['business_id']) {
+
+                    newArrayEditSliderProduct[key].productos.forEach((data2: any, key2: any) => {
+                        if (data2['id'] == newEditSliderProduct['id']) {
+                            newArrayEditSliderProduct[key].productos[key2].slider = newEditSliderProduct['slider'];
+
+                        }
+                    })
+
+                }
+
+            })
+            saveBusiness(newArrayEditSliderProduct).then((msg) => {
+                console.log('user business')
+            })
+
+
+
+            Snackbar.show({
+                text: 'imagen slider subida con exito',
+                duration: Snackbar.LENGTH_LONG,
+            })
+
+            return {
+                ...state,
+                business: newArrayEditSliderProduct,
+            }
+
+        case 'modifiedCart':
+
+            saveCart(action.payload.cart).then((msg) => { console.log('cart save') })
+
+            return {
+                ...state,
+                cart: action.payload.cart
+            }
+
+        case 'followBussiness':
+
+            state.favorites.push(action.payload.follow)
+
+            saveFollows(state.favorites).then((msg) => { console.log('cart save') })
+
+            return {
+                ...state,
+                favorites: state.favorites
+            }
+
+        case 'unFollowBussiness':
+
+            let newFavorites = state.favorites.filter((n: any) => n.id_business !== action.payload.id_business && n.id_user !== action.payload.id_user);
+
+            saveFollows(newFavorites).then((msg) => { console.log('cart save') })
+
+            return {
+                ...state,
+                favorites: newFavorites
+            }
 
         default:
 

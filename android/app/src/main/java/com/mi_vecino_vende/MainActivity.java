@@ -1,4 +1,4 @@
-package com.awesometsproject;
+package com.mi_vecino_vende;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "AwesomeTSProject";
+    return "mi_vecino_vende";
   }
 }

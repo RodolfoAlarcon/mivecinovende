@@ -13,9 +13,9 @@ import { launchImageLibrary } from 'react-native-image-picker';
 export const CreateProductScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, createProduct } = useContext(AuthContex)
+    const { business, createProduct, createSliderProduct } = useContext(AuthContex)
     const [tempUri, setTempUri] = useState<any>('');
-    let [slider, setSlider] = useState<any>([]);
+    let [tempSlider, setTempSlider] = useState<any>([]);
     const [image, setImage] = useState<any>('');
 
 
@@ -28,7 +28,6 @@ export const CreateProductScreen = (props: any) => {
             if (!resp.assets) {
                 return
             } else {
-                console.log(resp.assets)
                 let data = {
 
                     name: resp.assets[0].fileName,
@@ -39,10 +38,10 @@ export const CreateProductScreen = (props: any) => {
                      ? resp.assets[0].uri
                      : resp.assets[0].uri.replace('file://', ''),*/
                 };
-                
+
                 //setImage(resp.assets[0].uri)
 
-                setSlider([...slider, data])
+                setTempSlider([...tempSlider, data])
             };
         })
     }
@@ -55,7 +54,6 @@ export const CreateProductScreen = (props: any) => {
             if (!resp.assets) {
                 return
             } else {
-                console.log(resp.assets)
                 let data = {
 
                     name: resp.assets[0].fileName,
@@ -70,12 +68,14 @@ export const CreateProductScreen = (props: any) => {
                 setImage(resp.assets[0].uri)
                 setTempUri(data)
             };
-            //console.log(':V')
-
-
-            //uploadImage(resp, id)
         })
     }
+
+    let categoryArray: any = [];
+    params.data.categorias.map((n: any) => {
+        categoryArray.push({ label: n.name, value: n.id })
+    })
+    
     return (
         <ScrollView>
             <ToolBar titulo='Crear Producto'
@@ -85,26 +85,42 @@ export const CreateProductScreen = (props: any) => {
             />
             <Formik
                 initialValues={{
-                    negocio_id: params.id_negocio,
+                    negocio_id: params.data.id,
                     producto: '',
                     url_imagen: tempUri,
-                    slider: slider
+                    descripcion: '',
+                    precio: 0,
+                    bussinesCategoryId: ''
                 }}
                 onSubmit={async (values: any) => {
                     values.url_imagen = tempUri;
-                    await createProduct(values, business)
+                    const res = await createProduct(values, business)
 
-                    let arrayREd;
+                    if(tempSlider.length !== 0){
+                        await tempSlider.map(async(n: any) => {
+                            var postSlider = {
+                                negocio_id: values.negocio,
+                                id_product: res.id_product,
+                                slider: n
+                            }
+                           await createSliderProduct(postSlider, business)
+                        })
+                            
+                    }
 
-                    business.map((n: any) => {
-                        if (n.id == params.id_negocio) {
-                            arrayREd = n.productos;
-                        } else {
-                            arrayREd = [];
-                        }
-                    })
+                    if (res.response == true) {
+                        /*let arrayREd;
+    
+                        business.map((n: any) => {
+                            if (n.id == params.data.id_negocio) {
+                                arrayREd = n.productos;
+                            } else {
+                                arrayREd = [];
+                            }
+                        })*/
 
-                    goToScreen(arrayREd, params.id_negocio)
+                        goToScreen(params.data)
+                    }
                 }}
             >
                 {({
@@ -120,7 +136,7 @@ export const CreateProductScreen = (props: any) => {
                         <TouchableOpacity
 
                             onPress={thakePhoto}>
-                            <Text style={{ textAlign: 'center', fontSize: 25 }}>Agregar Foto</Text>
+                            <Text style={{ textAlign: 'center', fontSize: 20 }}>Agregar Foto</Text>
                             <Image
                                 source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
                                 style={{ width: 100, height: 100, marginHorizontal: 20, marginVertical: 20, marginLeft: '30%' }}
@@ -133,20 +149,17 @@ export const CreateProductScreen = (props: any) => {
                                 textAlign: 'center'
                             }}
                         >
-                            Nombre del Producto
+                            Categoria del Producto
                         </Text>
                         <View style={styles.select}>
                             <RNPickerSelect
                                 placeholder={{
-                                    label: 'Postres',
+                                    label: 'Categoria',
                                     value: '',
                                 }}
 
-                                onValueChange={handleChange('delivery')}
-                                items={[
-                                    { label: 'Postres', value: '1' },
-                                    { label: 'No', value: '0' }
-                                ]}
+                                onValueChange={handleChange('bussinesCategoryId')}
+                                items={categoryArray}
 
 
                             />
@@ -168,15 +181,74 @@ export const CreateProductScreen = (props: any) => {
                                     marginBottom: 5
                                 }}
                             >
-                                Nombre del producto 2
+                                Nombre del producto
                             </Text>
 
                             <MyTextInput
                                 keyboardType='Text'
-                                placeholder={"Nombre del producto 2"}
+                                placeholder={"Nombre del producto"}
                                 value={values.producto}
                                 onChangeText={handleChange('producto')}
                                 onBlur={handleBlur('producto')}
+                            />
+
+
+                        </View>
+
+                        <View
+                            style={{
+                                width: "100%",
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                paddingVertical: 10,
+                                paddingHorizontal: "10%",
+                                minHeight: 100
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    marginBottom: 5
+                                }}
+                            >
+                                Precio del producto
+                            </Text>
+
+                            <MyTextInput
+                                keyboardType='numeric'
+                                value={values.precio.toString()}
+                                onChangeText={handleChange('precio')}
+                                onBlur={handleBlur('precio')}
+                            />
+
+                        </View>
+                        <View
+                            style={{
+                                width: "100%",
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                paddingVertical: 10,
+                                paddingHorizontal: "10%",
+                                minHeight: 100
+                            }}
+                        >
+                            <Text
+                                style={{
+                                    fontSize: 18,
+                                    marginBottom: 5
+                                }}
+                            >
+                                Descripcion del producto
+                            </Text>
+
+                            <MyTextInput
+                                keyboardType='Text'
+                                placeholder={"descripcion"}
+                                numberOfLines={6}
+                                multiline={true}
+                                onChangeText={handleChange('descripcion')}
+                                onBlur={handleBlur('descripcion')}
+                                value={values.descripcion}
                             />
 
                         </View>
@@ -194,7 +266,7 @@ export const CreateProductScreen = (props: any) => {
                                 </TouchableOpacity>
                             </View>
 
-                            {slider.map((n: any) =>
+                            {tempSlider.map((n: any) =>
 
                                 <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
                                     <TouchableOpacity
@@ -228,9 +300,14 @@ export const CreateProductScreen = (props: any) => {
     function goToBackScreen() {
         navigator.goBack()
     }
-    function goToScreen(values: any, id_negocio: any) {
+    /*function goToScreen(values: any, id_negocio: any) {
 
         navigator.navigate("ListaProductoScreen" as never, { data: values, id_negocio: id_negocio, onGoBack: true } as never)
+
+    }*/
+    function goToScreen(values: any) {
+
+        navigator.navigate("DetalleNegocioScreen" as never, { business: values, onGoBack: true } as never)
 
     }
 }

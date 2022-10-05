@@ -16,7 +16,7 @@ async function saveNotifications(notifications:any){
 
 async function getNotifications(){
     try {
-        const item = await AsyncStorage.getItem(NOTIFICATIONS_KEY)
+        const item:any = await AsyncStorage.getItem(NOTIFICATIONS_KEY)
         return JSON.parse(item)
     } catch (error) {
         // Error retrieving data

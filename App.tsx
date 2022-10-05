@@ -4,12 +4,14 @@ import {Navigation} from './src/navigation/AppNavigation'
 import { UserProvider } from "./src/context/UsuarioContext";
 import { NavigationContainer } from '@react-navigation/native';
 import { LogBox } from 'react-native';
+import { io } from 'socket.io-client';
 
 LogBox.ignoreLogs([
   "[react-native-gesture-handler] Seems like you\'re using an old API with gesture components, check out new Gestures system!",
 ]);
 
 export const AppState =({children}: {children: JSX.Element | JSX.Element[]}) => {
+
   return (
     <UserProvider>
       {children}
@@ -19,7 +21,7 @@ export const AppState =({children}: {children: JSX.Element | JSX.Element[]}) => 
 }
 
 const App = () => {
-
+ 
   useEffect(()=>{
     OneSignal.setLogLevel(6, 0);
  

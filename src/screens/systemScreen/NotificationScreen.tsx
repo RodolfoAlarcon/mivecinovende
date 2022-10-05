@@ -16,8 +16,8 @@ export const  NotificationScreen = (props: any) => {
         return (
             <View style={{ flex: 1, alignItems: 'center' , marginTop: 80 }}>
                 <StatusBar
-                    backgroundColor={color.WHITE}
-                    barStyle='dark-content'
+                    backgroundColor={color.GRAY}
+                    barStyle='light-content'
                     translucent={true}
                 />
       

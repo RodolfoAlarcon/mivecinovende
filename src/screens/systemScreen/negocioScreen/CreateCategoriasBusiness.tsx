@@ -11,11 +11,12 @@ import BotonNumero from '../../../components/BotonNumero';
 import { launchImageLibrary } from 'react-native-image-picker';
 
 
-export const EditCategoriaBusiness = (props: any) => {
+export const CreateCategoriasBusiness = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, editNegocio } = useContext(AuthContex)
-    const [ tempUri, setTempUri ] = useState<any>(params.data.url_logo)
+    const { business, createBusinessCategory } = useContext(AuthContex)
+    const [ tempUri, setTempUri ] = useState<any>('')
+    const [image, setImage] = useState<any>('');
 
     const thakePhotoGallery = async () => {
         await launchImageLibrary({
@@ -26,7 +27,7 @@ export const EditCategoriaBusiness = (props: any) => {
             if( !resp.assets){
                 return
             }else{
-                console.log(resp.assets)
+              
                 let data = {
                     
                     name: resp.assets[0].fileName,
@@ -38,6 +39,7 @@ export const EditCategoriaBusiness = (props: any) => {
                       : resp.assets[0].uri.replace('file://', ''),*/
                   };
                   //editNegocio(data, []);
+                  setImage(resp.assets[0].uri)
                   setTempUri(data)
             };           
             //console.log(':V')
@@ -48,23 +50,35 @@ export const EditCategoriaBusiness = (props: any) => {
     }
     return (
         <ScrollView>
-            <ToolBar titulo='Agregar Categoria'
+            <ToolBar titulo='Agregar Categoriaaa'
                 onPressLeft={() => goToBackScreen()}
                 iconLeft={require('../../../sources/img/back.png')}
 
             />
             <Formik
                 initialValues={{
+                    negocio_id: params.data.id,
                     name: '',
-                    url_imagen: '',
-                    negocio_id: '',
+                    url_imagen: tempUri,
                 }}
                 onSubmit={async (values: any) => {
-                    values.url_logo = tempUri;
-                    
-                    console.log(values.url_logo)
-                    await editNegocio(values, business)
-                    goToScreen(params.data)
+                    values.url_imagen = tempUri;
+            
+                    const res = await createBusinessCategory(values, business)
+
+                        if (res == true){
+                            /*let arrayREd;
+        
+                            business.map((n: any) => {
+                                if (n.id == params.data.id_negocio) {
+                                    arrayREd = n.productos;
+                                } else {
+                                    arrayREd = [];
+                                }
+                            })*/
+        
+                            goToScreen(params.data)
+                        }
                 }}
             >
                 {({
@@ -100,6 +114,9 @@ export const EditCategoriaBusiness = (props: any) => {
                             <MyTextInput
                                 keyboardType='Text'
                                 placeholder={"Categoria"}
+                                value={values.name}
+                                onChangeText={handleChange('name')}
+                                onBlur={handleBlur('name')}
                             />
 
                         </View>
@@ -125,8 +142,8 @@ export const EditCategoriaBusiness = (props: any) => {
                             
                             onPress={thakePhotoGallery}>
                             <Image
-                                source={require('../../../sources/img/Captura.jpg')}
-                                style={{ width: 100, height: 100, borderRadius: 200, marginHorizontal: 20, marginVertical: 20 }}
+                                 source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
+                                style={{ width: 100, height: 100, marginHorizontal: 20, marginVertical: 20 }}
                             />
                             </TouchableOpacity>
                      

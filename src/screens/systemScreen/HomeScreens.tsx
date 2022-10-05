@@ -5,7 +5,6 @@ import { AuthContex } from '../../context/UsuarioContext'
 import SearchableDropdown from 'react-native-searchable-dropdown';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
 export const HomeScreens = (props: any) => {
 
     const { user, logOut, address } = useContext(AuthContex)
@@ -18,17 +17,13 @@ export const HomeScreens = (props: any) => {
     const [nameSector, setnameSector] = useState('');
     const [disableTouch, setDisableTouch] = useState(true);
 
-
     function sectorsFilter(id: any) {
-        let array = [];
-        address.sectors.map(n => {
+        let array:any = [];
+        address.sectors.map((n:any) => {
             if (n.ciudades_id == id) {
                 array.push(n)
             }
-
-
         })
-
         setItems(array);
     }
     return (
@@ -179,7 +174,7 @@ export const HomeScreens = (props: any) => {
         </SafeAreaView>
     )
     function goToScreen(routeName: any, idSector: any, name: any) {
-        navigator.navigate(routeName as never, { id: idSector, name: nameSector } as never);
+        navigator.navigate(routeName as never, { id: idSector, name: name } as never);
     }
 }
 

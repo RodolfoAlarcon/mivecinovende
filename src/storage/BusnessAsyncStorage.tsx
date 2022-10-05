@@ -28,7 +28,7 @@ async function getBusiness(){
 async function deleteBusiness(){
     try {
         await AsyncStorage.removeItem(BUSINESS_KEY)
-        const item = await AsyncStorage.getItem(BUSINESS_KEY)
+        const item:any = await AsyncStorage.getItem(BUSINESS_KEY)
         return (item == null?"usuario removido":"usuario no removido")
     } catch (error) {
         console.log("Error al eliminar" + error.message)

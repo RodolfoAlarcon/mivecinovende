@@ -10,12 +10,14 @@ import { splashStyles } from '../styles/styles'
 import { AuthContex } from '../context/UsuarioContext'
 import { useNavigation } from '@react-navigation/native'
 import OneSignal from 'react-native-onesignal';
+import { getCart } from '../storage/CartAsyncStorage'
+import { getFollows } from '../storage/FavoritesAsyncStorage'
 
 const SplashScreen = () => {
 
     const navigator = useNavigation()
 
-    const { sing, status, getCountry, recoveryCountry, getNotificationsApi, getChatsApi} = useContext(AuthContex)
+    const { sing, status, getCountry, recoveryCountry, getNotificationsApi, getChatsApi, connectSockect} = useContext(AuthContex)
 
     useEffect(() => {
         fetchSession(sing)
@@ -46,6 +48,8 @@ const SplashScreen = () => {
         let responseBusiness = await getBusiness();
         let responseNotifications = await getNotifications();
         let responseChat = await getChats();
+        let responseFavorite = await getFollows();
+        let responseCart = await getCart()
       
         if (responseAddress == null) {
             
@@ -62,6 +66,14 @@ const SplashScreen = () => {
             responseChat = [];
         }
 
+        if (responseCart == null) {
+            responseCart = [];
+        }
+
+        if (responseFavorite == null) {
+            responseFavorite = [];
+        }
+
 
         if (responseUser == null) {
             
@@ -74,16 +86,18 @@ const SplashScreen = () => {
             
  
         }else{
-            console.log(responseUser['id'])
+            
+            OneSignal.setExternalUserId(responseUser['id']);
+            await OneSignal.promptForPushNotificationsWithUserResponse(response => {});
+            await connectSockect(responseUser['id']);
+            await getCountry();
+            responseAddress = await getAddress();
             await getNotificationsApi(responseUser['id']);
+            responseNotifications = await getNotifications();
             await getChatsApi(responseUser['id'])
-             OneSignal.setExternalUserId(responseUser['id']);
-             await OneSignal.promptForPushNotificationsWithUserResponse(response => {
-                 console.log("Prompt response:", response);
-               });
-             responseNotifications = await getNotifications();
-             responseChat = await getChats();
-            sing(responseUser,responseAddress, responseNotifications, responseBusiness, responseChat)
+            responseChat = await getChats();
+
+            sing(responseUser,responseAddress, responseNotifications, responseBusiness, responseChat, responseCart, responseFavorite)
         }
 
         

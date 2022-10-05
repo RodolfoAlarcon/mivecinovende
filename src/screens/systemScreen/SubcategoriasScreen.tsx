@@ -9,26 +9,50 @@ const navigator = useNavigation()
 export const SubcategoriasScreen = (props: any) => {
 
     const { params } = props.route;
-    console.log(params.url_imagen)
+
     const uriImg = params.url_imagen;
 
     return (
         <View style={{ flex: 1 }}>
             <ScrollView>
+
                 <View style={styles.banner}>
-                    <Text style={styles.textbanner}>
-                        {params.sector}
-                    </Text>
+                    <View style={{ width: '80%', flexDirection: 'row', alignItems: 'center', marginRight:15 }}>
+                        <TouchableOpacity onPress={() => navigator.goBack()}>
+                            <Image
+                                source={require('../../sources/img/back-white.png')}
+                                style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
+                            />
+                        </TouchableOpacity>
+                        <Image
+                            source={{
+                                uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'
+                            }}
+                            style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
+                        />
+                        <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17, fontWeight: '600' }}>
+                            {params.sector}
+                        </Text>
+                    </View>
+                    <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
+                        <Image
+                            source={
+                                require('../../sources/img/bandera.png')
+                            }
+                            style={{ width: 25, height: 25, borderRadius: 25 / 2 }}
+                        />
+                        <Text style={{ color: '#fff', fontWeight: '600' }}>
+
+                        </Text>
+                    </View>
                 </View>
-                <View style={styles.titulo}>
-                    <Image
-                        source={{ uri: uriImg }}
-                        style={{ width: 70, height: 60, resizeMode: 'contain', marginRight: 10 }}
-                    />
-                    <Text style={styles.texttitulo}>
+
+                <View style={{ marginVertical: 15 }}>
+                    <Text style={{ color: '#000', fontSize: 20, textAlign: 'center', fontWeight: '600' }}>
                         {params.name}
                     </Text>
                 </View>
+
                 <View style={{ width: '100%' }}>
                     <Subcategocaja
                         sector={params.sector}
@@ -46,8 +70,13 @@ export const SubcategoriasScreen = (props: any) => {
 
 const styles = StyleSheet.create({
     banner: {
-        height: 50,
-        backgroundColor: '#007ba4',
+        width: '100%',
+        height: 60,
+        backgroundColor: '#000',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingHorizontal: '5%'
     },
     textbanner: {
         color: '#ffffff',
@@ -57,23 +86,60 @@ const styles = StyleSheet.create({
         marginVertical: 13,
         textTransform: "uppercase"
     },
+    container: {
+        flex: 1,
+        flexDirection: 'row'
+    },
     buscador: {
-        height: 45,
-        backgroundColor: '#dfa71b',
-        width: '100%'
-    },
-    titulo: {
-        height: 100,
+        height: 60,
         width: '100%',
-        backgroundColor: '#d5d4ff',
-        flexDirection: 'row',
+        justifyContent: 'center',
         alignItems: 'center',
-        justifyContent: 'center'
+        paddingHorizontal: "5%",
+        marginBottom: 10
     },
-    texttitulo: {
-        fontSize: 20,
+    cajaCategoria: {
+        width: '100%',
+        paddingVertical: 15,
+        flexDirection: 'row',
+        flexWrap: 'wrap'
+    },
+    botoncaja: {
+        width: '48%',
+        height: 100,
+        marginVertical: 7,
+        marginHorizontal: 4,
+        flexDirection: 'row',
+    },
+    botoncajaS: {
+        width: '47.5%',
+        height: 100,
+        marginVertical: 7,
+        marginHorizontal: 5,
+        flexDirection: 'row',
+        padding: 10,
+        borderTopLeftRadius: 10,
+        borderTopRightRadius: 10,
+        borderBottomLeftRadius: 10,
+        borderBottomRightRadius: 10,
+        backgroundColor: '#dddddd',
+
+    },
+    contenidoboton: {
+        width: '35%',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    contenidobotontext: {
+        width: '65%',
+        justifyContent: 'center',
+    },
+    textboton: {
+        fontSize: 14,
         fontWeight: 'bold',
         color: '#000',
-        textTransform: 'uppercase'
+        textAlign: 'center',
     },
 });
+
+

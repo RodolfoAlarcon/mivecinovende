@@ -6,12 +6,11 @@ import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
 import  ListaNegocioScreen  from './systemScreen/negocioScreen/ListaNegocioScreen'
 import {ConversationsScreen} from './systemScreen/chatScreen/ConversationsScreen'
-import SettingScreen from './systemScreen/SettingScreen'
+import SettingScreen from './systemScreen/settingScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
-
 export default class PrincipalSellerScreens extends Component<{}, any>{
-
+ 
   static contextType = AuthContex
   constructor(props: any) {
     super(props);

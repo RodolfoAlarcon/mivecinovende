@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
-import Listnegocios from '../../components/Listnegocios'
+import ListFollowNegocios from '../../../components/ListFollowNegocios'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { AuthContex } from '../../../context/UsuarioContext'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const navigator = useNavigation()
 
 
-export const ListNegocioScreens = (props: any) => {
+export const ListFollowNegocioScreens = (props: any) => {
 
-    const { params } = props.route;
-
+    const {user} = useContext(AuthContex)
 
     return (
-        <ScrollView style={{ flex: 1 }}>
-
-
+        <SafeAreaView > 
+        <ScrollView nestedScrollEnabled={true} style={{ width: "100%" }}>
             <View style={styles.banner}>
                 <View style={{ width: '80%', flexDirection: 'row', alignItems: 'center', marginRight:15 }}>
                     <TouchableOpacity onPress={() => navigator.goBack()}>
                         <Image
-                            source={require('../../sources/img/back-white.png')}
+                            source={require('../../../sources/img/back-white.png')}
                             style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
                         />
                     </TouchableOpacity>
@@ -30,13 +30,13 @@ export const ListNegocioScreens = (props: any) => {
                         style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
                     />
                     <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17, fontWeight: '600' }}>
-                        {params.sector}
+                        Negocios Favoritos
                     </Text>
                 </View>
                 <View style={{ width: '20%', justifyContent: 'center', alignItems: 'center' }}>
                     <Image
                         source={
-                            require('../../sources/img/bandera.png')
+                            require('../../../sources/img/bandera.png')
                         }
                         style={{ width: 25, height: 25, borderRadius: 25 / 2 }}
                     />
@@ -46,16 +46,11 @@ export const ListNegocioScreens = (props: any) => {
                 </View>
             </View>
 
-            <View style={{ marginVertical: 15 }}>
-                <Text style={{ color: '#000', fontSize: 20, textAlign: 'center', fontWeight: '600' }}>
-                    {params.name}
-                </Text>
-            </View>
-
             <View style={{ width: '100%' }}>
-                <Listnegocios id={params.id} />
+                <ListFollowNegocios id={user.id} />
             </View>
         </ScrollView>
+        </SafeAreaView >
     )
     function goToScreen(routeName: any, id: any) {
         navigator.navigate(routeName as never, { id: id } as never);

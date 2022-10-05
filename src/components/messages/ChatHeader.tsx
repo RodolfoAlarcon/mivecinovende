@@ -2,7 +2,6 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/Feather';
-import { io } from 'socket.io-client';
 import { theme } from "./../../styles/theme";
 
 const ChatHeader = ({ username, bio, picture, onlineStatus, onPress, idChat }: any) => {
@@ -34,9 +33,8 @@ const ChatHeader = ({ username, bio, picture, onlineStatus, onPress, idChat }: a
 		</View>
 	);
 
-	function goToBackScreen() {
-		io().close();
-        navigator.goBack()
+	async function goToBackScreen() {
+        await navigator.goBack()
     }
 };
 
@@ -44,7 +42,7 @@ const styles = StyleSheet.create({
 	container: {
 		flexDirection: "row",
 		backgroundColor: theme.colors.primary,
-		paddingTop: 40,
+		paddingTop: 20,
 		paddingBottom: 10,
 	},
 	backButton: {

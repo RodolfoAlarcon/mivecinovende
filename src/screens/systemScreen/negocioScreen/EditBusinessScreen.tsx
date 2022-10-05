@@ -13,8 +13,8 @@ export const EditBusinessScreen = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
     const { business, editNegocio } = useContext(AuthContex)
-    const [ tempUri, setTempUri ] = useState<any>(params.data.url_logo)
-
+    const [ tempUri, setTempUri ] = useState<any>('')
+    const [image, setImage] = useState<any>(params.data.url_logo);
     const thakePhotoGallery = async () => {
         await launchImageLibrary({
             mediaType: 'photo',
@@ -36,6 +36,7 @@ export const EditBusinessScreen = (props: any) => {
                       : resp.assets[0].uri.replace('file://', ''),*/
                   };
                   //editNegocio(data, []);
+                  setImage(resp.assets[0].uri)
                   setTempUri(data)
             };           
             //console.log(':V')
@@ -54,21 +55,31 @@ export const EditBusinessScreen = (props: any) => {
             <Formik
                 initialValues={{
                     id: params.data.id,
-                    sectores_id: params.data.sectores_id,
+                    //sectores_id: params.data.sectores_id,
                     name: params.data.name,
                     description: params.data.description,
                     phone: params.data.phone,
                     delivery: params.data.delivery.toString(),
                     direccion: params.data.direccion,
                     email: params.data.email,
-                    url_logo: tempUri,
+                    editUrl_logo: tempUri,
                 }}
                 onSubmit={async (values: any) => {
-                    values.url_logo = tempUri;
-                    
-                    console.log(values.url_logo)
-                    await editNegocio(values, business)
-                    goToScreen(params.data)
+                    values.editUrl_logo = tempUri;                   
+                    const res = await editNegocio(values, business)
+                    if (res == true){
+                        /*let arrayREd;
+    
+                        business.map((n: any) => {
+                            if (n.id == params.data.id_negocio) {
+                                arrayREd = n.productos;
+                            } else {
+                                arrayREd = [];
+                            }
+                        })*/
+    
+                        goToScreen(params.data)
+                    }
                 }}
             >
                 {({
@@ -131,7 +142,7 @@ export const EditBusinessScreen = (props: any) => {
                             
                             onPress={thakePhotoGallery}>
                             <Image
-                                source={(params.data.url_logo == null || params.data.url_logo == '') ? require('../../../sources/img/url_default.png') : { uri: params.data.url_logo }}
+                                source={(image == null || image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
                                 style={{ width: 100, height: 100, borderRadius: 200, marginHorizontal: 20, marginVertical: 20 }}
                             />
                             </TouchableOpacity>
@@ -192,11 +203,15 @@ export const EditBusinessScreen = (props: any) => {
                             </Text>
 
                             <MyTextInput
-                                placeholder={"Dirección"}
+
+                                keyboardType='Text'
+                                placeholder={"direccion"}
+                                numberOfLines={6}
+                                multiline={true}
                                 onChangeText={handleChange('direccion')}
                                 onBlur={handleBlur('direccion')}
                                 value={values.direccion}
-                            />
+                            />                   
 
                         </View>
                         <View

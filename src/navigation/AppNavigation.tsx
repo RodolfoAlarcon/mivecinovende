@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 
-import RegisterScreen from '../screens/RegisterScreen'
+import {RegisterScreen} from '../screens/RegisterScreen'
 import IngresarNumeroScreen from '../screens/IngresarNumeroScreen'
 import ValidacionNumeroScreen from '../screens/ValidacionNumeroScreen';
 import SplashScreen from '../screens/SplashScreens'
@@ -17,6 +17,7 @@ import { ListNegocioScreens } from '../screens/systemScreen/ListNegocioScreens'
 import {Result} from '../screens/systemScreen/Result'
 import {EditBusinessScreen} from '../screens/systemScreen/negocioScreen/EditBusinessScreen'
 import { EditCategoriaBusiness } from "../screens/systemScreen/negocioScreen/EditCategoriasBusiness"
+import { CreateCategoriasBusiness } from "../screens/systemScreen/negocioScreen/CreateCategoriasBusiness"
 import {EditConfigNegocioScreen} from '../screens/systemScreen/negocioScreen/EditConfigNegocioScreen'
 import {CreateRedScreen} from '../screens/systemScreen/negocioScreen/CreateRedScreen'
 import {CrearRedSocialScreen} from '../screens/systemScreen/CrearRedSocialScreen'
@@ -31,8 +32,10 @@ import { EditRedSocialScreen } from '../screens/systemScreen/negocioScreen/EditR
 import { EditProductScreen } from '../screens/systemScreen/negocioScreen/EditProductScreen';
 import { EditServiceScreen } from '../screens/systemScreen/negocioScreen/EditServiceScreen';
 import  {MessagesScreen}  from '../screens/systemScreen/chatScreen/MessagesScreen';
-
-
+import  {EditAdressScreen}  from '../screens/systemScreen/settingScreen/EditAdressScreen';
+import {EditProfileScreen} from '../screens/systemScreen/settingScreen/EditProfileScreen'
+import {ListFollowNegocioScreens} from '../screens/systemScreen/settingScreen/ListFollowNegocioScreens'
+import {RequestFormScreen} from '../screens/systemScreen/settingScreen/RequestFormScreen' 
 const Stack = createStackNavigator();
 
 export const Navigation = () => {
@@ -66,6 +69,7 @@ export const Navigation = () => {
                                 <Stack.Screen name="NotificationDetailScreen" component={NotificationDetailScreen} />
                                 <Stack.Screen name="Result" component={Result} />
                                 <Stack.Screen name="EditBusinessScreen" component={EditBusinessScreen}/>
+                                <Stack.Screen name="CreateCategoriasBusiness" component={CreateCategoriasBusiness}/>
                                 <Stack.Screen name='EditCategoriaBusiness' component={EditCategoriaBusiness} />
                                 <Stack.Screen name="EditConfigNegocioScreen" component={EditConfigNegocioScreen}/>
                                 <Stack.Screen name="CrearRedSocialScreen" component={CrearRedSocialScreen} />
@@ -80,6 +84,10 @@ export const Navigation = () => {
                                 <Stack.Screen name='CreateProductScreen' component={CreateProductScreen} />
                                 <Stack.Screen name='EditProductScreen' component={EditProductScreen} />
                                 <Stack.Screen name='MessagesScreen' component={MessagesScreen} />
+                                <Stack.Screen name='EditProfileScreen' component={EditProfileScreen} />
+                                <Stack.Screen name='EditAdressScreen' component={EditAdressScreen} />
+                                <Stack.Screen name='ListFollowNegocioScreens' component={ListFollowNegocioScreens} />
+                                <Stack.Screen name='RequestFormScreen' component={RequestFormScreen} />
                             </>
 
                         )

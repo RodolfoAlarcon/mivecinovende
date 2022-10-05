@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import {
     Text,
     View,
@@ -20,14 +20,39 @@ import SelectRegisterUser from '../components/SelectRegisterUser'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
-export default function RegisterScreen(props: any) {
+export const RegisterScreen = (props: any) => {
 
     const { singUp, user, address } = useContext(AuthContex)
+    const [sectors, setSectors] = useState<any>([])
+    const [citys, setCitys] = useState<any>([])
 
-    let arrayCountrys: any = [];
-    let arrayCitys = [];
+    const [selectCity, setSelectCity] = useState<any>('')
+    const [selectSector, setSelectSector] = useState<any>('')
 
 
+    function getSectors(id: any) {
+        let arraySector: any = [];
+        address.sectors.map((n: any) => {
+            if (n.ciudades_id == id) {
+                arraySector.push({ label: n.name, value: n.id })
+            }
+        })
+        setSectors(arraySector)
+    }
+
+    function getCitys(id: any) {
+        let array: any = [];
+        address.citys.map((n: any) => {
+            if (n.paises_id == id) {
+                array.push({ label: n.name, value: n.id })
+            }
+        })
+        setCitys(array)
+    }
+
+    useEffect(() => {
+        getCitys(user.paises_id)
+    }, [])
     return (
         <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.BannerTitulo}>
@@ -38,8 +63,7 @@ export default function RegisterScreen(props: any) {
             <ScrollView>
                 <View style={{ flex: 1 }}>
 
-                    <StatusBar backgroundColor={color.WHITE} translucent={true} />
-
+                    <StatusBar backgroundColor={color.GRAY} translucent={true} />
 
                     <View style={[Registro.container, { padding: 10 }]}>
                         <View style={{
@@ -48,14 +72,28 @@ export default function RegisterScreen(props: any) {
                             <Formik
                                 validateOnMount={true}
                                 //validationSchema={loginValidationSchema}
-                                initialValues={{ name: '', apellido: '', dni: '', email: '', sexo: '', edad: '', ciudad_id: '', sector_id: '25', rol: 'APPUSER', direccion: '' }}
-                                onSubmit={(values: any) => singUp(values)}>
+                                initialValues={{
+                                    id: user.id,
+                                    name: '',
+                                    apellido: '',
+                                    email: '',
+                                    sexo: '',
+                                    edad: '',
+                                    rol: 'APPUSER',
+                                    direccion: ''
+                                }}
+                                onSubmit={async (values: any) => {
+                                    values.ciudad_id = selectCity;
+                                    values.sector_id = selectSector;
+                                    await singUp(values)
+                                }}>
 
                                 {({
                                     handleChange,
                                     handleBlur,
                                     handleSubmit,
                                     values,
+                                    handleFileUpload,
                                     errors,
                                     touched,
                                     isValid,
@@ -75,16 +113,6 @@ export default function RegisterScreen(props: any) {
                                                 onChangeText={handleChange('apellido')}
                                                 onBlur={handleBlur('apellido')}
                                                 value={values.apellido}
-
-                                            />
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <MyTextInput placeholder='Dni' image='user'
-                                                onChangeText={handleChange('dni')}
-                                                onBlur={handleBlur('dni')}
-                                                value={values.dni}
-                                                type='numeric'
 
                                             />
                                         </View>
@@ -112,39 +140,57 @@ export default function RegisterScreen(props: any) {
                                             <Text style={{ fontSize: 16, textAlign: "center" }}>
                                                 Sexo
                                             </Text>
-                                            <SelectRegisterUser
-                                                data={[
-                                                    { label: 'hombre', value: 'hombre', },
-                                                    { label: 'mujer', value: 'mujer' },
-                                                ]}
-                                                onValueChange={handleChange('sexo')}
-                                                onBlur={handleBlur('sexo')}
-                                                value={values.sexo}
-                                                placeholder={{
-                                                    label: 'selecione su sexo',
-                                                    value: '',
-                                                    color: color.SECONDARYCOLOR,
-                                                }}
-                                            />
+                                            <View style={styles.select}>
+                                                <SelectRegisterUser
+                                                    data={[
+                                                        { label: 'hombre', value: 'hombre', },
+                                                        { label: 'mujer', value: 'mujer' },
+                                                    ]}
+                                                    onValueChange={handleChange('sexo')}
+                                                    onBlur={handleBlur('sexo')}
+                                                    value={values.sexo}
+                                                    placeholder={{
+                                                        label: 'selecione su sexo',
+                                                        value: '',
+                                                        color: color.SECONDARYCOLOR,
+                                                    }}
+                                                />
+                                            </View>
                                         </View>
 
                                         <View style={styles.Margin}>
                                             <Text style={{ fontSize: 16, textAlign: "center" }}>
                                                 Ciudad
                                             </Text>
+                                            <View style={styles.select}>
+                                                <RNPickerSelect
+                                                    value={selectCity}
+                                                    placeholder={{
+                                                        label: 'Ciudad',
+                                                        value: '',
+                                                    }}
+                                                    onValueChange={(e) => { setSelectCity(e); getSectors(e); }}
+                                                    items={citys}
 
-                                            <SelectRegisterUser
+                                                />
+                                            </View>
+                                        </View>
 
-                                                data={arrayCountrys}
-                                                onValueChange={handleChange('ciudad_id')}
-                                                onBlur={handleBlur('ciudad_id')}
-                                                value={values.ciudad_id}
-                                                placeholder={{
-                                                    label: 'selecione su Ciudad',
-                                                    value: '',
-                                                    color: color.SECONDARYCOLOR,
-                                                }}
-                                            />
+                                        <View style={styles.Margin}>
+                                            <Text style={{ fontSize: 16, textAlign: "center" }}>
+                                                Sector
+                                            </Text>
+                                            <View style={styles.select}>
+                                                <RNPickerSelect
+                                                    value={selectSector}
+                                                    placeholder={{
+                                                        label: 'Sectors',
+                                                        value: '',
+                                                    }}
+                                                    onValueChange={(e) => { setSelectSector(e) }}
+                                                    items={sectors}
+                                                />
+                                            </View>
                                         </View>
 
                                         <View style={styles.Margin}>
@@ -200,12 +246,23 @@ const styles = StyleSheet.create({
         width: '100%',
         height: 60,
         backgroundColor: '#000',
-        justifyContent:'center',
-        alignItems:'center',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    TituloBan:{
-        color:'#fff',
-        fontSize:20,
-        fontWeight:'600'
-    }
+    TituloBan: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '600'
+    },
+    select: {
+
+        color: color.PRIMARYCOLOR,
+        borderColor: color.PRIMARYCOLOR,
+        borderWidth: 0.51,
+        borderTopLeftRadius: 4,
+        borderTopRightRadius: 4,
+        borderBottomLeftRadius: 4,
+        borderBottomRightRadius: 4,
+        width: '100%'
+    },
 });

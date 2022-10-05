@@ -1,12 +1,12 @@
 import AsyncStorage from '@react-native-community/async-storage'
 
-const CHATS_KEY = '@chats:key'
+const CART_KEY = '@cart:key'
 
 
-async function saveChats(chats:any){
+async function saveCart(cart:any){
     try {
-        await AsyncStorage.setItem(CHATS_KEY, JSON.stringify(chats))
-        return JSON.stringify(chats)
+        await AsyncStorage.setItem(CART_KEY, JSON.stringify(cart))
+        return JSON.stringify(cart)
     } catch (error) {
         //Error
         console.log('error al guardar: ' + error.message)
@@ -14,9 +14,9 @@ async function saveChats(chats:any){
     }
 }
 
-async function getChats(){
+async function getCart(){
     try {
-        const item:any = await AsyncStorage.getItem(CHATS_KEY)
+        const item:any = await AsyncStorage.getItem(CART_KEY)
         return JSON.parse(item)
     } catch (error) {
         // Error retrieving data
@@ -25,10 +25,10 @@ async function getChats(){
     }
 }
 
-async function deleteChats(){
+async function deleteCart(){
     try {
-        await AsyncStorage.removeItem(CHATS_KEY)
-        const item:any = await AsyncStorage.getItem(CHATS_KEY)
+        await AsyncStorage.removeItem(CART_KEY)
+        const item:any = await AsyncStorage.getItem(CART_KEY)
         return (item == null?"usuario removido":"usuario no removido")
     } catch (error) {
         console.log("Error al eliminar" + error.message)
@@ -36,4 +36,4 @@ async function deleteChats(){
     }
 }
 
-export {saveChats, getChats, deleteChats}
+export {saveCart, getCart, deleteCart}

@@ -1,5 +1,7 @@
 import { Red } from './RedSocialInterface';
-
+import {BusinessCategory} from './BusinessCategoryInterface';
+import {Product} from './ProductInterface';
+import { Service } from './ServiceInterface';
 export interface EditNegocioResponse {
     status:    string;
     negocio:   Negocios;
@@ -25,6 +27,9 @@ export interface Negocios {
     updated_at:       Date;
     taggables:        Etiqueta[];
     redSocial:        Red[];
+    categorias:     BusinessCategory[];
+    productos:      Product[];
+    servicios:        Service[];
 }
 
 export interface Etiqueta {
