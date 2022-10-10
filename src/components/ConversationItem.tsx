@@ -14,8 +14,8 @@ const ConversationItem = ({ picture, username, bio, lastMessage, time, isBlocked
 	const showStoryCircle = () => {
 		if (hasStory) {
 			return {
-				borderColor: theme.colors.storyBorder,
-				borderWidth: 2
+				borderColor: "#453091",
+				borderWidth: 2,
 			}
 		}
 	};
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
 		overflow: 'hidden',
 		alignItems: 'center',
 		justifyContent: 'center',
-		alignSelf: 'center' 
+		alignSelf: 'center' ,
 	},
 	image: {
 		height: 55,
@@ -116,13 +116,13 @@ const styles = StyleSheet.create({
 	},
 	username: {
 		fontSize: theme.fontSize.title,
-		color: theme.colors.title,
+		color: "#453091",
 		width: 210
 	},
 	message: {
 		fontSize: theme.fontSize.message,
 		width: 240,
-		color: theme.colors.subTitle
+		color: "#5F577C"
 	},
 	time: {
 		fontSize: theme.fontSize.subTitle,
@@ -130,7 +130,7 @@ const styles = StyleSheet.create({
 		fontWeight: '300'
 	},
 	notificationCircle: {
-		backgroundColor: theme.colors.primary,
+		backgroundColor: "#453091",
 		borderRadius: 50,
 		height: 20,
 		width: 20,

@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Image, ImageBackground } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import Icon from 'react-native-vector-icons/Feather';
 import { theme } from "./../../styles/theme";
@@ -7,21 +7,18 @@ import { theme } from "./../../styles/theme";
 const ChatHeader = ({ username, bio, picture, onlineStatus, onPress, idChat }: any) => {
 	const navigator = useNavigation();
 	return (
-		<View style={styles.container}>
-			<TouchableOpacity style={styles.backButton} onPress={() => goToBackScreen()}>
-				<Icon name="chevron-left" size={30} color={theme.colors.white} />
-			</TouchableOpacity>
-			<View style={styles.profileOptions}>
-				<TouchableOpacity style={styles.profile}>
-					<Image style={styles.image} source={{ uri: picture }} />
-					<View style={styles.usernameAndOnlineStatus}>
-						<Text style={styles.username}>{username}</Text>
-						{/*<Text style={styles.onlineStatus}>{onlineStatus}</Text>*/}
-					</View>
-				</TouchableOpacity>
-				<View style={styles.options}>
-					
-					<TouchableOpacity style={{ paddingHorizontal: 20 }}>
+
+			<ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
+				<View style={{ width: "20%", justifyContent: "center", alignItems: "center" }}>
+					<TouchableOpacity onPress={() => goToBackScreen()}>
+						<Icon name="chevron-left" size={30} color={theme.colors.white} />
+					</TouchableOpacity>
+				</View>
+				<View style={{ width: "60%", justifyContent: "center", alignItems: "center" }}>
+					<Text style={styles.username}>{username}</Text>
+				</View>
+				<View style={{ width: "20%", justifyContent: "center", alignItems: "center" }}>
+					<TouchableOpacity>
 						<Icon
 							name="more-vertical"
 							size={30}
@@ -29,38 +26,23 @@ const ChatHeader = ({ username, bio, picture, onlineStatus, onPress, idChat }: a
 						/>
 					</TouchableOpacity>
 				</View>
-			</View>
-		</View>
+				<View style={styles.cajita}></View>
+			</ImageBackground>
+
 	);
 
 	async function goToBackScreen() {
-        await navigator.goBack()
-    }
+		await navigator.goBack()
+	}
 };
 
 const styles = StyleSheet.create({
-	container: {
+	BannerTitulo: {
+		width: '100%',
+		height: 120,
+		backgroundColor: '#000',
+		paddingBottom: 30,
 		flexDirection: "row",
-		backgroundColor: theme.colors.primary,
-		paddingTop: 20,
-		paddingBottom: 10,
-	},
-	backButton: {
-		alignSelf: "center",
-		paddingHorizontal: 10,
-	},
-	profileOptions: {
-		flex: 1,
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		paddingHorizontal: 10,
-	},
-	profile: {
-		flexDirection: "row",
-		alignItems: "center",
-		borderColor: "#fff",
-		flex: 4,
 	},
 	image: {
 		height: 65,
@@ -81,12 +63,15 @@ const styles = StyleSheet.create({
 		color: theme.colors.white,
 		fontSize: 16,
 	},
-	options: {
-		flex: 1,
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		alignItems: "center",
-	},
+	cajita:{
+        width:"100%",
+        backgroundColor:"#ffffff",
+        height:35,
+        position:"absolute",
+        bottom:0,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
 });
 
 export default ChatHeader;

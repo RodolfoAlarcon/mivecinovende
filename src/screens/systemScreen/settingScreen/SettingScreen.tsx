@@ -1,12 +1,13 @@
 import React, { useContext, useEffect } from 'react'
-import { Text, View, TouchableOpacity, StatusBar, Alert, BackHandler, Image } from 'react-native'
+import { Text, View, TouchableOpacity, StatusBar, Alert, BackHandler, Image, ImageBackground, StyleSheet, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 import { DataTable } from 'react-native-paper';
 import { AuthContex } from '../../../context/UsuarioContext'
-import {color} from '../../../styles/colors'
+import { color } from '../../../styles/colors'
 import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
-function useBackButton(handler:any) {
+function useBackButton(handler: any) {
     useEffect(() => {
         BackHandler.addEventListener("hardwareBackPress", handler)
         return () => {
@@ -16,138 +17,70 @@ function useBackButton(handler:any) {
     }, [handler])
 }
 
-export default function SettingScreen(props:any) {
+export default function SettingScreen(props: any) {
     //useBackButton(cerrarSesion)
 
 
     const navigator = useNavigation()
-    const {user,logOut,} = useContext(AuthContex)
+    const { user, logOut, } = useContext(AuthContex)
 
 
     return (
-        <View style={{ flex: 1, alignItems: 'center' }}>
-            <StatusBar
-                backgroundColor={color.WHITE}
-                barStyle='dark-content'
-                translucent={true}
-            />
-            {console.log(user)}
-            <Text style={{ textAlign: 'center', marginTop: 80, fontFamily: 'summernote' }}>CONFIGURACION DE CUENTA </Text>
+        <SafeAreaView>
+            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
 
-            <DataTable>
+                <ImageBackground source={require('../../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
+                    <Icon size={30} color="#fff" name={"user"} />
+                    <Text style={styles.TituloBan}>
+                        Configuracion de Cuenta
+                    </Text>
+                    <View style={styles.cajita}></View>
+                </ImageBackground>
+                <View style={{ flex: 1 }}>
+                    <StatusBar
+                        backgroundColor={color.WHITE}
+                        barStyle='dark-content'
+                        translucent={true}
+                    />
+                    {console.log(user)}
 
-                <TouchableOpacity onPress={() => {goToScreen('EditProfileScreen')}} >
-
-                    <DataTable.Row style={{ height: 70, padding: 10 }}>
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Icon size={30} color="grey" name={"user"} />
-                            </View>
-
-                        </DataTable.Cell>
-                        <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}> Editar Perfil </Text>
-                        </DataTable.Cell>
-
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
-                            </View>
-                        </DataTable.Cell>
-
-                    </DataTable.Row>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => {goToScreen('EditAdressScreen')}} >
-
-                    <DataTable.Row style={{ height: 70, padding: 10 }}>
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Icon size={30} color="grey" name={"map-pin"} />
-                            </View>
-
-                        </DataTable.Cell>
-                        <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }} > Cambiar Ubicación </Text>
-                        </DataTable.Cell>
-
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
-                            </View>
-                        </DataTable.Cell>
-
-                    </DataTable.Row>
-                </TouchableOpacity>
-                
-                <TouchableOpacity onPress={() => goToScreen("ListFollowNegocioScreens")}  >
-
-                    <DataTable.Row style={{ height: 70, padding: 10 }}>
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Icon size={30} color="grey" name={"star"} />
-                            </View>
-
-                        </DataTable.Cell>
-                        <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}> Negocios Favoritos </Text>
-                        </DataTable.Cell>
-
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
-                            </View>
-                        </DataTable.Cell>
-
-                    </DataTable.Row>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => goToScreen("RequestFormScreen")}  >
-
-                    <DataTable.Row style={{ height: 70, padding: 10 }}>
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Icon size={30} color="grey" name={"mail"} />
-                            </View>
-
-                        </DataTable.Cell>
-                        <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }}> Solictar Un Negocio </Text>
-                        </DataTable.Cell>
-
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Image source={require('../../../sources/img/arrow.png')} style={{ height: 15, width: 15 }} />
-                            </View>
-                        </DataTable.Cell>
-
-                    </DataTable.Row>
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={() => {}}  >
-
-                    <DataTable.Row style={{ height: 70, padding: 10 }}>
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-                                <Icon size={30} color="grey" name={"log-out"} />
-                            </View>
-
-                        </DataTable.Cell>
-                        <DataTable.Cell style={{ flex: 2 }}>
-                            <Text style={{ fontSize: 20 }} > Cerrar Sesión </Text>
-                        </DataTable.Cell>
-
-                        <DataTable.Cell style={{ flex: 0.3 }}>
-                            <View>
-
-                            </View>
-                        </DataTable.Cell>
-
-                    </DataTable.Row>
-                </TouchableOpacity>
-
-            </DataTable>
-        </View>
+                    <TouchableOpacity
+                        onPress={() => { goToScreen('EditProfileScreen') }}
+                        style={styles.opciones}
+                    >
+                        <Icon size={30} color="grey" name={"user"} />
+                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Editar Perfil </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => { goToScreen('EditAdressScreen') }}
+                        style={styles.opciones}
+                    >
+                        <Icon size={30} color="grey" name={"map-pin"} />
+                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Cambiar Ubicación </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => goToScreen("ListFollowNegocioScreens")}
+                        style={styles.opciones}
+                    >
+                        <Icon size={30} color="grey" name={"star"} />
+                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Negocios Favoritos </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => goToScreen("RequestFormScreen")}
+                        style={styles.opciones}
+                    >
+                        <Icon size={30} color="grey" name={"mail"} />
+                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Solictar Un Negocio </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={styles.opciones}
+                    >
+                        <Icon size={30} color="grey" name={"log-out"} />
+                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Cerrar Sesión </Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
 
     )
     function cerrarSesion() {
@@ -166,9 +99,40 @@ export default function SettingScreen(props:any) {
         )
     }
 
-    function goToScreen(routeName:any) {
+    function goToScreen(routeName: any) {
         navigator.navigate(routeName);
     }
 
 
 }
+
+const styles = StyleSheet.create({
+    BannerTitulo: {
+        width: '100%',
+        height: 120,
+        backgroundColor: '#000',
+        paddingTop: 30,
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    TituloBan: {
+        color: '#fff',
+        marginTop: 3,
+        fontSize: 18,
+        marginLeft: 5
+    },
+    cajita: {
+        width: "100%",
+        backgroundColor: "#ffffff",
+        height: 35,
+        position: "absolute",
+        bottom: 0,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
+    opciones: {
+        flexDirection: "row",
+        marginHorizontal: "5%",
+        marginBottom: 25
+    }
+});

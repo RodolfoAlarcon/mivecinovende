@@ -50,7 +50,7 @@ export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idPropr
 
 		
 	return (
-		<View style={[styles.container]}>
+		<View style={styles.container}>
 			{reply ? (
 				<View style={styles.replyContainer}>
 					<TouchableOpacity
@@ -76,7 +76,7 @@ export const ChatInput = ({ reply, closeReply, isLeft, username, idChat, idPropr
 								showEmojiPicker ? "close" : "x-circle"
 							}
 							size={23}
-							color={theme.colors.description}
+							color="#fff"
 						/>
 					</TouchableOpacity>
 					<TextInput
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
 	},
 	inputAndMicrophone: {
 		flexDirection: "row",
-		backgroundColor: theme.colors.inputBackground,
+		backgroundColor: "#D8D8D8",
 		flex: 3,
 		marginRight: 10,
 		paddingVertical: Platform.OS === "ios" ? 10 : 0,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
 		paddingTop: 20,
 	},
 	sendButton: {
-		backgroundColor: theme.colors.primary,
+		backgroundColor: "#453091",
 		borderRadius: 50,
 		height: 50,
 		width: 50,

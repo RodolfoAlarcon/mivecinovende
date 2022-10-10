@@ -17,7 +17,7 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 		if (isLeft && type === "messageContainer") {
 			return {
 				alignSelf: "flex-start",
-				backgroundColor: "#f0f0f0",
+				backgroundColor: "#E1DFF4",
 				borderTopLeftRadius: 0,
 			};
 		} else if (isLeft && type === "message") {
@@ -26,7 +26,7 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 			};
 		} else if (isLeft && type === "time") {
 			return {
-				color: "darkgray",
+				color: "#fff",
 			};
 		} else {
 			return {
@@ -173,7 +173,7 @@ const styles = StyleSheet.create({
 		marginVertical: 5,
 	},
 	messageContainer: {
-		backgroundColor: theme.colors.messageBackground,
+		backgroundColor: "#5541B7",
 		maxWidth: "80%",
 		alignSelf: "flex-end",
 		flexDirection: "row",

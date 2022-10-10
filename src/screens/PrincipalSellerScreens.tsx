@@ -4,18 +4,18 @@ import Icon from 'react-native-vector-icons/Feather';
 import BottomNavigation, { FullTab } from 'react-native-material-bottom-navigation'
 import { HomeScreens } from './systemScreen/HomeScreens'
 import { NotificationScreen } from './systemScreen/NotificationScreen'
-import  ListaNegocioScreen  from './systemScreen/negocioScreen/ListaNegocioScreen'
-import {ConversationsScreen} from './systemScreen/chatScreen/ConversationsScreen'
+import ListaNegocioScreen from './systemScreen/negocioScreen/ListaNegocioScreen'
+import { ConversationsScreen } from './systemScreen/chatScreen/ConversationsScreen'
 import SettingScreen from './systemScreen/settingScreen/SettingScreen'
 import { AuthContex } from '../context/UsuarioContext';
 
 export default class PrincipalSellerScreens extends Component<{}, any>{
- 
+
   static contextType = AuthContex
   constructor(props: any) {
     super(props);
     this.state = {
-      activeTab: 'HomeScreens', 
+      activeTab: 'HomeScreens',
       tabs: [
         {
           key: 'HomeScreens',
@@ -46,7 +46,7 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
           key: 'ListaNegocios',
           icon: 'codesandbox',
           label: '',
-          screen:<ListaNegocioScreen navigation={this.props.children} />,
+          screen: <ListaNegocioScreen navigation={this.props.children} />,
           barColor: '#ffff',
           pressColor: 'rgba(255, 255, 255, 0.16)'
         },
@@ -65,7 +65,7 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
 
   }
 
- 
+
 
 
   renderScreen = () => (
@@ -78,31 +78,33 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
   )
 
   renderIcon = (icon: any) => ({ isActive }: any) => (
-    <Icon size={25} color="#929392" name={icon} style={{ marginTop: 10 }} />
+    isActive ? <Icon size={23} color="#452f91" name={icon} style={{ marginTop: 10 }} /> : <Icon size={23} color="#442f9194" name={icon} style={{ marginTop: 10 }} />
   )
 
   renderTab = ({ tab, isActive }: any) => (
+
     <FullTab
       isActive={isActive}
       key={tab.key}
       label={tab.label}
       renderIcon={this.renderIcon(tab.icon)}
-      style={{ backgroundColor: "black" }}
     />
+  
   )
 
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 1, }}>
+        <View style={{ flex: 1,}}>
           {this.renderScreen()}
         </View>
         <BottomNavigation
-          activeTab={this.state.activeTab}
-          onTabPress={(newTab: any) => this.setState({ activeTab: newTab.key })}
-          renderTab={this.renderTab}
-          tabs={this.state.tabs}
-        />
+            activeTab={this.state.activeTab}
+            onTabPress={(newTab: any) => this.setState({ activeTab: newTab.key })}
+            renderTab={this.renderTab}
+            tabs={this.state.tabs}
+            style={{width:"80%",padding:0,marginHorizontal:"10%",borderRadius:30,overflow:"hidden", paddingHorizontal:"5%", position:"absolute",bottom:20}}
+          />
       </View>
     )
   }

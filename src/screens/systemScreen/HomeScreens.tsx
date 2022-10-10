@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { ImageBackground, View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { AuthContex } from '../../context/UsuarioContext'
 import SearchableDropdown from 'react-native-searchable-dropdown';
@@ -18,8 +18,8 @@ export const HomeScreens = (props: any) => {
     const [disableTouch, setDisableTouch] = useState(true);
 
     function sectorsFilter(id: any) {
-        let array:any = [];
-        address.sectors.map((n:any) => {
+        let array: any = [];
+        address.sectors.map((n: any) => {
             if (n.ciudades_id == id) {
                 array.push(n)
             }
@@ -28,12 +28,14 @@ export const HomeScreens = (props: any) => {
     }
     return (
         <SafeAreaView>
-            <View style={styles.BannerTitulo}>
+
+            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
+            <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
                 <Text style={styles.TituloBan}>
                     Ubicación
                 </Text>
-            </View>
-            <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
+                <View style={styles.cajita}></View>
+                </ImageBackground>
                 <View style={styles.container}>
                     <Text style={styles.boxtext}>
                         SELECIONA LA CIUDAD
@@ -52,7 +54,8 @@ export const HomeScreens = (props: any) => {
                                 paddingHorizontal: 20,
                                 paddingVertical: 10,
                                 backgroundColor: '#F0F0F0',
-                                color:'#000'
+                                color: '#000',
+                                borderRadius:30,
                             }}
                             itemStyle={{
                                 // Single dropdown item style
@@ -67,7 +70,7 @@ export const HomeScreens = (props: any) => {
                                 // Items container style you can pass maxHeight
                                 // To restrict the items dropdown hieght
                                 maxHeight: 200,
-                                backgroundColor: '#fff',
+                                backgroundColor: '#a4a5a7',
                                 position: 'absolute',
                                 zIndex: 9,
                                 top: 65,
@@ -108,14 +111,16 @@ export const HomeScreens = (props: any) => {
                             // Listner on the searchable input
                             onItemSelect={(items: any) => { setIdSector(items.id); setDisableTouch(false), setnameSector(items.name); setPlaceholderSector(items.name) }}
                             // Called after the selection
-                            containerStyle={{ padding: 5 }}
+                            containerStyle={{ padding: 5, }}
                             // Suggestion container style
                             textInputStyle={{
                                 // Inserted text style
                                 paddingHorizontal: 20,
                                 paddingVertical: 10,
                                 backgroundColor: '#F0F0F0',
-                                color:'#000'
+                                color: '#000',
+                                borderRadius:30,
+                                
                             }}
                             itemStyle={{
                                 // Single dropdown item style
@@ -183,7 +188,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         height: Dimensions.get("window").height,
         flex: 1,
-        justifyContent:'center'
+        justifyContent: 'center',
     },
     banner: {
         height: 50,
@@ -193,40 +198,52 @@ const styles = StyleSheet.create({
     boxtext: {
         fontWeight: 'bold',
         fontSize: 16,
-        color: '#000'
+        color: '#a4a5a7'
     },
     boxtextmargin: {
         marginTop: 30
     },
     button: {
         alignItems: "center",
-        backgroundColor: "#1D1D1B",
-        padding: 10,
+        backgroundColor: "#452f91",
+        padding: 12,
         marginTop: 40,
-        width: 150,
+        width: "52%",
         marginBottom: 50,
-
+        borderRadius:30
     },
     textboton: {
         fontWeight: 'bold',
-        fontSize: 20,
+        fontSize: 16,
         color: '#fff'
     },
     select: {
-        width: '60%'
+        width: '65%'
     },
     BannerTitulo: {
         width: '100%',
-        height: 60,
+        height: 120,
         backgroundColor: '#000',
-        justifyContent:'center',
-        alignItems:'center',
-        position:'absolute',
+        alignItems: 'center',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        paddingTop: 30,
         zIndex:9
     },
-    TituloBan:{
-        color:'#fff',
-        fontSize:20,
-        fontWeight:'600'
-    }
+    TituloBan: {
+        color: '#fff',
+        fontSize: 20,
+        fontWeight: '600',
+    },
+    cajita:{
+        width:"100%",
+        backgroundColor:"#ffffff",
+        height:35,
+        position:"absolute",
+        bottom:0,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
+    },
+
 });
