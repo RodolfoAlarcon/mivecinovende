@@ -57,87 +57,59 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 							isOnLeft('messageContainer'),
 						]}
 					>
-						<DataTable>
-							<DataTable.Row style={{ height: 20, paddingTop: 5, backgroundColor: 'gray' }}>
-
-								<DataTable.Cell style={{ flex: 0.3, borderRightColor: 'white', borderRightWidth: 0.3 }}>
-									<Text style={{ fontSize: 12, color: 'white' }}> # </Text>
-								</DataTable.Cell>
-
-								<DataTable.Cell style={{ flex: 0.5, borderRightColor: 'white', borderRightWidth: 0.3 }}>
-									<Text style={{ fontSize: 12, color: 'white' }}> Foto </Text>
-								</DataTable.Cell>
-
-								<DataTable.Cell style={{ flex: 1.6, borderRightColor: 'white', borderRightWidth: 0.3 }}>
-									<Text style={{ fontSize: 12, color: 'white' }}> Item </Text>
-								</DataTable.Cell>
-
-								<DataTable.Cell style={{ flex: 0.5, borderRightColor: 'white', borderRightWidth: 0.3 }}>
-									<Text style={{ fontSize: 12, color: 'white' }}> P. unit </Text>
-								</DataTable.Cell>
-
-								<DataTable.Cell style={{ flex: 0.4 }}>
-									<Text style={{ fontSize: 12, color: 'white' }}> Total </Text>
-								</DataTable.Cell>
-
-							</DataTable.Row>
-							{message.map((n) => (
-								<DataTable.Row style={{ height: 50, paddingTop: 2, borderBottomWidth: 0.3, borderBottomColor: 'grey' }}>
-
-									<DataTable.Cell style={{ flex: 0.3, borderRightColor: 'grey', borderRightWidth: 0.3 }}>
-										<Text style={{ fontSize: 12, color: 'black' }}> { n.cantidad <= 10 ? '0' + n.cantidad : n.cantidad} </Text>
-									</DataTable.Cell>
-
-									<DataTable.Cell style={{ flex: 0.5, borderRightColor: 'grey', borderRightWidth: 0.3 }}>
-										<Image
-											source={{ uri: n.foto }}
-											style={{ width: 35, height: 35 }}
-										/>
-									</DataTable.Cell>
-
-									<View style={{ flex: 1.6, borderRightColor: 'grey', borderRightWidth: 0.3, justifyContent: 'center' }}>
-										
-											<Text numberOfLines={3} style={{ fontSize: 12, color: 'black', marginLeft:5}}> servicio de albercas y psocinas </Text>
-										
-									</View>
-
-									<DataTable.Cell style={{ flex: 0.5, borderRightColor: 'grey', borderRightWidth: 0.3, justifyContent: 'center' }}>
-										<Text style={{ fontSize: 14, color: 'black' }}> ${n.precios / n.cantidad} </Text>
-									</DataTable.Cell>
-
-									<DataTable.Cell style={{ flex: 0.4, justifyContent: 'center' }}>
-										<Text style={{ fontSize: 12, color: 'black' }}> ${n.precios} </Text>
-									</DataTable.Cell>
-
-								</DataTable.Row>
-							))}
-
-							<DataTable.Row style={{ height: 20, paddingTop: 5, borderBottomWidth: 0.3, borderBottomColor: 'grey' }}>
-								<DataTable.Cell style={{ flex: 0.4 }}>
-
-								</DataTable.Cell>
-								<DataTable.Cell style={{ flex: 0.4 }}>
-
-								</DataTable.Cell>
-								<DataTable.Cell style={{ flex: 1.5 }}>
-									<Text style={{ fontSize: 12, color: 'black' }}> VALOR TOTAL </Text>
-								</DataTable.Cell>
-
-								<DataTable.Cell style={{ flex: 0.6 }}>
-									<Text style={{ fontSize: 14, color: 'black' }}> </Text>
-								</DataTable.Cell>
-								{message.map((n) => { countCarrito = countCarrito + n.precios })}
-								<DataTable.Cell style={{ flex: 0.4 }}>
-									<Text style={{ fontSize: 14, color: 'black', justifyContent: 'center' }}> ${countCarrito} </Text>
-								</DataTable.Cell>
-
-							</DataTable.Row>
-							<View style={styles.timeView}>
+						<View style={{ width: "100%", flexDirection: "row", height: 50, paddingTop: 5, backgroundColor: '#453091', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
+							<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+								<Text style={{ fontSize: 12, color: 'white' }}> Cant. </Text>
+							</View>
+							<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+								<Text style={{ fontSize: 12, color: 'white' }}> Producto </Text>
+							</View>
+							<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+								<Text style={{ fontSize: 12, color: 'white' }}> P. Unit </Text>
+							</View>
+							<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+								<Text style={{ fontSize: 12, color: 'white' }}> Total </Text>
+							</View>
+						</View>
+						{
+							console.log(message.length)
+						}
+						{message.map((n) => (
+							<View style={{ width: "100%", flexDirection: "row", height: 50, paddingTop: 5, backgroundColor: 'grey' }}>
+								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+									<Text style={{ fontSize: 12, color: 'black' }}> {n.cantidad <= 10 ? '0' + n.cantidad : n.cantidad} </Text>
+								</View>
+								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+									<Text style={{ fontSize: 12, color: 'black' }}> {n.nombre} </Text>
+								</View>
+								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+									<Text style={{ fontSize: 12, color: 'black' }}> {n.cantidad} </Text>
+								</View>
+								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
+									<Text style={{ fontSize: 12, color: 'black' }}> ${n.precios / n.cantidad} </Text>
+								</View>
+							</View>
+						))}
+						<View style={{flexDirection:"row", backgroundColor:"grey",borderBottomLeftRadius: 15, borderBottomRightRadius: 15,}}>
+							<View style={{height:50,justifyContent:"center",alignItems:"center",width:"30%"}}>
+								<Text style={{ fontSize: 12, color: 'black' }}>
+									VALOR TOTAL
+								</Text>
+							</View>
+							<View style={{width:"22%"}}></View>
+							<View style={{width:"23%"}}></View>
+							<View style={{height:50,justifyContent:"center",alignItems:"center",width:"25%"}}>
+								<Text style={{ fontSize: 14, color: 'black'}}>
+									{message.map((n) => { countCarrito = countCarrito + n.precios })}
+									${countCarrito}
+								</Text>
+							</View>
+						</View>
+						<View style={styles.timeView}>
 								<Text style={[styles.time, isOnLeft("time")]}>
 									{time}
 								</Text>
 							</View>
-						</DataTable>
 
 					</View>
 					:
@@ -198,16 +170,10 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 	},
 	messageContainerPoduct: {
-		backgroundColor: '#fff',
-		maxWidth: "95%",
-		//alignSelf: "flex-end",
-		//flexDirection: "row",
-		borderRadius: 15,
-		paddingHorizontal: 5,
-		marginHorizontal: 5,
-		paddingTop: 5,
+		borderTopLeftRadius: 15, 
+		borderTopRightRadius: 15,
+		marginHorizontal: 10,
 		paddingBottom: 10,
-		marginBottom: 25
 	},
 	time: {
 		color: "lightgray",
