@@ -1,6 +1,7 @@
 import React, { useEffect, useState, Component } from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, Dimensions } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { color } from '../styles/colors';
 
 
 
@@ -69,7 +70,7 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
                         data={this.state.dataBanner}
                         renderItem={({ item }) => this._renderItem(item)}
                         keyExtractor={(item: any, index) => index.toString()}
-                        style={{ width: '100%' }}
+                        style={{ width: '90%',marginHorizontal:"5%" }}
                     />
                 </View>
             )
@@ -78,8 +79,10 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
     _renderItem(item: any) {
         const sector = this.props.sector
-        console.log(item.url_imagen)
+        console.log(item)
         let itemImg = item.url_imagen;
+        let colorcaja = `#${item.color}`
+        let centrar = item.short_image
         return (
             <TouchableOpacity
             onPress={
@@ -87,28 +90,22 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
             }
                 style={{
                     width: '32%',
-                    backgroundColor: "white",
-                    borderColor:'#cecece',
                     paddingHorizontal:5,
-                    justifyContent:'center',
-                    alignItems:'center'
+                    height:170
                 }}
             >
-                <View style={styles.contenidoboton}>
-                    <View style={{backgroundColor:'#000', paddingHorizontal:5}}>
-                        <Text style={{color:'#fff', fontWeight:'600'}}>
-                            99
-                        </Text>
-                    </View>
+                <View style={[styles.contenidoboton,{backgroundColor:colorcaja},{paddingTop:centrar ? 10 : 20}]}>
+
                     <Image
                         source={{ uri: itemImg }}
-                        style={{ width: 45, height: 45, resizeMode: 'contain'}}
+                        style={{ width: "80%", resizeMode:"stretch", marginHorizontal:"10%", height:70}}
                     />
-                    <Text style={styles.textboton}>
+                </View>
+                <Text style={styles.textboton}>
                         {item.name}
                     </Text>
-                </View>
             </TouchableOpacity>
+            
         )
 
     }
@@ -116,12 +113,11 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
 const styles = StyleSheet.create({
     contenidoboton: {
-        height:120,
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        height:90,
         width:'100%',
         marginVertical:10,
-
+        borderRadius:10,
+        overflow:"hidden"
     },
     textboton: {
         fontSize: 15,

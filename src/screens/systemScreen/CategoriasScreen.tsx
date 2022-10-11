@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, ScrollView, ImageBackground } from 'react-native';
 import Select from '../../components/Select';
 import { Slider } from 'react-native-elements/dist/slider/Slider';
 import { useNavigation } from '@react-navigation/native';
@@ -21,36 +21,26 @@ export const CategoriasScreen = (props: any) => {
 
     return (
         <ScrollView>
-            <View style={styles.banner}>
-                <View style={{ width: '80%', flexDirection: 'row', alignItems: 'center' }}>
-                    <Image
-                        source={{
-                            uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'
-                        }}
-                        style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
-                    />
-                    <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17, fontWeight: '600' }}>
+            <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.bannerPersona}>
+                <View style={{flexDirection:"row",paddingHorizontal:15,marginVertical:15}}>
+                <Image
+                    source={{
+                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'
+                    }}
+                    style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
+                />
+                    <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17,marginTop:8 }}>
                         hola, Claudia Arteagas
                     </Text>
                 </View>
-                <View style={{ width: '20%', justifyContent:'center',alignItems:'center' }}>
-                    <Image
-                        source={
-                            require('../../sources/img/bandera.png') 
-                        }
-                        style={{ width: 25, height: 25, borderRadius: 25 / 2 }}
-                    />
-                    <Text style={{color:'#fff',fontWeight:'600'}}>
-                        guayaquil
+                <View style={{width:"75%", marginLeft:"25%", alignItems:"center"}}>
+                    <View style={{width:"100%", height:3,backgroundColor:"#fff"}}></View>
+                    <Text style={{ marginTop:10, color: '#fff', paddingLeft: 10, fontSize: 17}}>
+                        Guayaquil - Km. 23 Vía a Daule
                     </Text>
                 </View>
-            </View>
-
-            <View style={{marginVertical:15}}>
-                <Text style={{color:'#000', fontSize:20,textAlign:'center',fontWeight:'600'}}>
-                    Guayaquil - Km. 23 Vía a Daule
-                </Text>
-            </View>
+                <View style={styles.cajita}></View>
+            </ImageBackground>
 
             <View style={styles.buscador}>
                 <Buscador />
@@ -96,8 +86,8 @@ const styles = StyleSheet.create({
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        paddingHorizontal: "5%",
-        marginBottom:10
+        paddingLeft: "5%",
+        marginBottom: 10
     },
     cajaCategoria: {
         width: '100%',
@@ -140,5 +130,18 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: '#000',
         textAlign: 'center',
+    },
+    bannerPersona: {
+        width: "100%",
+        height: 160
+    },
+    cajita:{
+        width:"100%",
+        backgroundColor:"#ffffff",
+        height:35,
+        position:"absolute",
+        bottom:0,
+        borderTopLeftRadius: 30,
+        borderTopRightRadius: 30,
     },
 });
