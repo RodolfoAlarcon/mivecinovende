@@ -34,7 +34,7 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 			};
 		}
 	};
-
+	
 
 
 	return (
@@ -57,7 +57,7 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 							isOnLeft('messageContainer'),
 						]}
 					>
-						<View style={{ width: "100%", flexDirection: "row", height: 50, paddingTop: 5, backgroundColor: '#453091', borderTopLeftRadius: 15, borderTopRightRadius: 15 }}>
+						<View style={{ width: "100%", flexDirection: "row", height: 40, paddingTop: 5, backgroundColor: '#453091', borderTopLeftRadius: 15 }}>
 							<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
 								<Text style={{ fontSize: 12, color: 'white' }}> Cant. </Text>
 							</View>
@@ -71,45 +71,44 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 								<Text style={{ fontSize: 12, color: 'white' }}> Total </Text>
 							</View>
 						</View>
-						{
-							console.log(message.length)
-						}
-						{message.map((n) => (
-							<View style={{ width: "100%", flexDirection: "row", height: 50, paddingTop: 5, backgroundColor: 'grey' }}>
+
+						{message.map((n, index) => (
+							
+							<View style={[{ width: "100%", flexDirection: "row", height: 40, paddingTop: 5 },{backgroundColor: index%2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
-									<Text style={{ fontSize: 12, color: 'black' }}> {n.cantidad <= 10 ? '0' + n.cantidad : n.cantidad} </Text>
+									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.cantidad <= 10 ? '0' + n.cantidad : n.cantidad} </Text>
 								</View>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
-									<Text style={{ fontSize: 12, color: 'black' }}> {n.nombre} </Text>
+									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.nombre} </Text>
 								</View>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
-									<Text style={{ fontSize: 12, color: 'black' }}> {n.cantidad} </Text>
+									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.cantidad} </Text>
 								</View>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
-									<Text style={{ fontSize: 12, color: 'black' }}> ${n.precios / n.cantidad} </Text>
+									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> ${n.precios / n.cantidad} </Text>
 								</View>
 							</View>
 						))}
-						<View style={{flexDirection:"row", backgroundColor:"grey",borderBottomLeftRadius: 15, borderBottomRightRadius: 15,}}>
-							<View style={{height:50,justifyContent:"center",alignItems:"center",width:"30%"}}>
-								<Text style={{ fontSize: 12, color: 'black' }}>
+						<View style={[{flexDirection:"row"},{backgroundColor: message.length%2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}>
+							<View style={{height:40,justifyContent:"center",alignItems:"center",width:"30%"}}>
+								<Text style={{ fontSize: 12, color: '#453091' }}>
 									VALOR TOTAL
 								</Text>
 							</View>
 							<View style={{width:"22%"}}></View>
 							<View style={{width:"23%"}}></View>
-							<View style={{height:50,justifyContent:"center",alignItems:"center",width:"25%"}}>
-								<Text style={{ fontSize: 14, color: 'black'}}>
+							<View style={{height:40,justifyContent:"center",alignItems:"center",width:"25%"}}>
+								<Text style={{ fontSize: 14, color: '#453091'}}>
 									{message.map((n) => { countCarrito = countCarrito + n.precios })}
 									${countCarrito}
 								</Text>
 							</View>
 						</View>
 						<View style={styles.timeView}>
-								<Text style={[styles.time, isOnLeft("time")]}>
+								<Text style={[styles.time, isOnLeft("time"),{marginRight:5,marginTop:5}]}>
 									{time}
 								</Text>
-							</View>
+						</View>
 
 					</View>
 					:
@@ -170,10 +169,10 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 	},
 	messageContainerPoduct: {
-		borderTopLeftRadius: 15, 
-		borderTopRightRadius: 15,
+		borderRadius: 15, 
 		marginHorizontal: 10,
 		paddingBottom: 10,
+		backgroundColor:"#E5E5E5",
 	},
 	time: {
 		color: "lightgray",

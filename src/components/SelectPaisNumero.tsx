@@ -1,6 +1,6 @@
 import React ,{ useState  }from "react";
 import { View, StyleSheet } from "react-native";
-import { color } from "../styles/colors";
+import { color } from '../styles/colors';
 import RNPickerSelect from 'react-native-picker-select';
 //import { reduce } from "core-js/core/array";
 
@@ -27,8 +27,7 @@ function SelectPaisNumero(props:any){
 
 				onValueChange={props.onValueChange}
 				items={array}
-
-
+				style={pickerStyle}
 			/>
 		</View>
 
@@ -45,7 +44,18 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         marginBottom: 15,
         borderColor:'#F0F0F0',
+		borderRadius:50
 	},
 });
+
+const pickerStyle = {
+	inputIOS: {
+		color: '#453091',
+	},
+	inputAndroid: {
+		color: '#453091',
+	},
+	placeholderColor: 'white',
+};
 
 export default SelectPaisNumero
