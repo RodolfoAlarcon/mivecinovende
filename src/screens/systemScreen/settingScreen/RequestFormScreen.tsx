@@ -16,7 +16,7 @@ import apiApp from '../../../api/api'
 export const RequestFormScreen = (props: any) => {
 
     const navigator = useNavigation()
-    const { user, editProfile, address } = useContext(AuthContex)
+    const { user, rquestBusiness, address } = useContext(AuthContex)
     const [tempUri, setTempUri] = useState<any>('')
     const [image, setImage] = useState<any>('');
 
@@ -42,12 +42,13 @@ export const RequestFormScreen = (props: any) => {
             }
         })
         setSectors(array)
-    }
+    } 
 
     function getCitys(id: any) {
         let array: any = [];
+
         address.citys.map((n: any) => {
-            if (n.paises_id == id) {
+            if (n.provincia_id == id) {
                 array.push({ label: n.name, value: n.id })
             }
         })
@@ -104,7 +105,6 @@ export const RequestFormScreen = (props: any) => {
         })
     }
 
-
     useEffect(() => {
         async function allCategorys() {
             const resp = await apiApp.get('/allCategories');
@@ -113,7 +113,7 @@ export const RequestFormScreen = (props: any) => {
             setSubCategorys(resp.data.subcategory)
        
         }
-        getCitys(user.paises_id)
+        getCitys(user.provincias_id)
 
         allCategorys()
     }, [])
@@ -128,6 +128,7 @@ export const RequestFormScreen = (props: any) => {
                 <Formik
                     initialValues={{
                         user: user.id,
+                        nickname: '',
                         name: '',
                         description: '',
                         phone: '',
@@ -135,7 +136,7 @@ export const RequestFormScreen = (props: any) => {
                         email: '',
                         direccion: '',
                         etiquetas: '',
-                        newSybcateogoria: '',
+                        newSubcateogoria: '',
                         newCategoria: '',
                         newCiudad: '',
                         newSector: ''
@@ -148,7 +149,7 @@ export const RequestFormScreen = (props: any) => {
                         values.subcategory_id = selectSubCategorys;
                         values.categorias_id = selectCategorys;
                         values.comprobante = tempUri;
-                        const res = await editProfile(values)
+                        const res = await rquestBusiness(values)
                         if (res == true) {
                             /*let arrayREd;
         
@@ -199,6 +200,34 @@ export const RequestFormScreen = (props: any) => {
                                     onChangeText={handleChange('name')}
                                     onBlur={handleBlur('name')}
                                     value={values.name}
+                                />
+
+                            </View>
+
+                            <View
+                                style={{
+                                    width: "100%",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    paddingVertical: 10,
+                                    paddingHorizontal: "10%",
+                                    minHeight: 100
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        marginBottom: 5
+                                    }}
+                                >
+                                    Nickname de negocio 
+                            </Text>
+
+                                <MyTextInput
+                                    placeholder={"Nickname o apodo de negocio"}
+                                    onChangeText={handleChange('nickname')}
+                                    onBlur={handleBlur('nickname')}
+                                    value={values.nickname}
                                 />
 
                             </View>
@@ -315,9 +344,9 @@ export const RequestFormScreen = (props: any) => {
 
                                 <MyTextInput
                                     placeholder={"Teléfono"}
-                                    value={values.phone}
                                     onChangeText={handleChange('phone')}
                                     onBlur={handleBlur('phone')}
+                                    value={values.phone}
                                 />
 
                             </View>
@@ -500,9 +529,9 @@ export const RequestFormScreen = (props: any) => {
                             </Text>
                             <MyTextInput
                                     placeholder={"Nueva categoria"}
-                                    onChangeText={handleChange('name')}
-                                    onBlur={handleBlur('name')}
-                                    value={values.name}
+                                    onChangeText={handleChange('newCategoria')}
+                                    onBlur={handleBlur('newCategoria')}
+                                    value={values.newCategoria}
                                 />
                             </View>
                             <View
@@ -521,13 +550,13 @@ export const RequestFormScreen = (props: any) => {
                                         marginBottom: 5
                                     }}
                                 >
-                                   si no encontro sub categoria puede solicitar la suya
+                                   si no encontro subcategoria puede solicitar la suya
                             </Text>
                             <MyTextInput
                                     placeholder={"Nueva sub categoria"}
-                                    onChangeText={handleChange('name')}
-                                    onBlur={handleBlur('name')}
-                                    value={values.name}
+                                    onChangeText={handleChange('newSubcateogoria')}
+                                    onBlur={handleBlur('newSubcateogoria')}
+                                    value={values.newSubcateogoria}
                                 />
                             </View>
                               <View
@@ -549,10 +578,10 @@ export const RequestFormScreen = (props: any) => {
                                    si no encontro su ciudad puede solicitar la suya
                             </Text>
                             <MyTextInput
-                                    placeholder={"Nueva sub categoria"}
-                                    onChangeText={handleChange('name')}
-                                    onBlur={handleBlur('name')}
-                                    value={values.name}
+                                    placeholder={"Nueva ciudad"}
+                                    onChangeText={handleChange('newCiudad')}
+                                    onBlur={handleBlur('newCiudad')}
+                                    value={values.newCiudad}
                                 />
                             </View>
                               <View
@@ -574,10 +603,10 @@ export const RequestFormScreen = (props: any) => {
                                    si no encontro su sector puede solicitar la suya
                             </Text>
                             <MyTextInput
-                                    placeholder={"Nueva sub categoria"}
-                                    onChangeText={handleChange('name')}
-                                    onBlur={handleBlur('name')}
-                                    value={values.name}
+                                    placeholder={"Nuevo sector"}
+                                    onChangeText={handleChange('newSector')}
+                                    onBlur={handleBlur('newSector')}
+                                    value={values.newSector}
                                 />
                             </View>
                             <View
@@ -602,12 +631,12 @@ export const RequestFormScreen = (props: any) => {
                                 <MyTextInput
 
                                     keyboardType='Text'
-                                    placeholder={"etiquietas"}
+                                    placeholder={"etiquetas"}
                                     numberOfLines={6}
                                     multiline={true}
-                                    onChangeText={handleChange('direccion')}
-                                    onBlur={handleBlur('direccion')}
-                                    value={values.direccion}
+                                    onChangeText={handleChange('etiquetas')}
+                                    onBlur={handleBlur('etiquetas')}
+                                    value={values.etiquetas}
                                 />
 
                             </View>

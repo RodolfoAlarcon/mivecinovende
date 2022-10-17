@@ -33,6 +33,7 @@ export interface User {
     apellido: string;
     sexo: string;
     edad: string;
+    url_imagen: string;
     email: string;
     phone: string;
     dni: string;

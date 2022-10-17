@@ -1,6 +1,7 @@
 export interface Address {
     countrys: Country[];
     citys:    City[];
+    provinces: Provinces[];
     sectors: Sectors[];
 } 
 
@@ -13,11 +14,21 @@ export interface Country {
     updated_at:   Date;
 }
 
-export interface City {
+export interface Provinces {
     id:            string;
     nombre:        string;
     status:        number;
     paises_id:   string;
+    created_at:    Date;
+    updated_at:    Date;
+    code_country?: string;
+}
+
+export interface City {
+    id:            string;
+    nombre:        string;
+    status:        number;
+    provincia_id:   string;
     created_at:    Date;
     updated_at:    Date;
     code_country?: string;

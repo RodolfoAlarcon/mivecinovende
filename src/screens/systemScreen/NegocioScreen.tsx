@@ -31,6 +31,7 @@ const DetalleNegocioScreen = (props: any) => {
         "servicios": [],
         "categorias": [],
         "follows": [],
+        "reviews": []
     });
 
     useEffect(() => {
@@ -60,6 +61,7 @@ const DetalleNegocioScreen = (props: any) => {
                         "servicios": [],
                         "categorias": [],
                         "follows": [],
+                        "reviews": [],
                     })
                 }
             })
@@ -70,15 +72,17 @@ const DetalleNegocioScreen = (props: any) => {
     const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites } = useContext(AuthContex)
 
 
-
-
-
     var cartNow = cart.filter((n: any) => n.id_negocio == business.id);
 
     var favorite = favorites.filter((n: any) => n.id_business == business.id && n.id_user == user.id);
 
     if (cartNow.length !== 0) {
         cartNow = cartNow[0]
+    }else{
+        cartNow = {
+            'id_negocio': business.id,
+            'productos': []
+        };
     }
     const navigator = useNavigation()
     const [carrito, setCarrito] = useState(cartNow);
@@ -230,17 +234,6 @@ const DetalleNegocioScreen = (props: any) => {
             </Text>
         </View>
     );
-
-
-    //json para reseñas
-    const referencia = [
-        { "name": "Juan Rodriguez", "puntuacion": "4.5", "url_imagen": "https://14.sdcecuador.com/storage/categorias_negocio/d9300a30-54ee-4363-848c-a3d1e52c8703.jpg", "descripcion": "este es el mejor plato" },
-        { "name": "Hector Lopez", "puntuacion": "4.3", "url_imagen": "https://14.sdcecuador.com/storage/categorias_negocio/d9300a30-54ee-4363-848c-a3d1e52c8703.jpg", "descripcion": "este es el mejor plato" },
-        { "name": "Luis Reyes", "puntuacion": "4.6", "url_imagen": "https://14.sdcecuador.com/storage/categorias_negocio/d9300a30-54ee-4363-848c-a3d1e52c8703.jpg", "descripcion": "este es el mejor plato" },
-        { "name": "Luisa Suares", "puntuacion": "4.5", "url_imagen": "https://14.sdcecuador.com/storage/categorias_negocio/d9300a30-54ee-4363-848c-a3d1e52c8703.jpg", "descripcion": "este es el mejor plato" },
-        { "name": "Elvis Crespo", "puntuacion": "4.4", "url_imagen": "https://14.sdcecuador.com/storage/categorias_negocio/d9300a30-54ee-4363-848c-a3d1e52c8703.jpg", "descripcion": "este es el mejor plato" },
-        { "name": "Juan Rodriguez", "puntuacion": "4.4", "url_imagen": "https://14.sdcecuador.com/storage/categorias_negocio/d9300a30-54ee-4363-848c-a3d1e52c8703.jpg", "descripcion": "este es el mejor plato" },
-    ]
 
     const renderReferencia = ({ item }: BusinessCategory) => (
         <View style={{ width: 120, marginRight: 20, backgroundColor: "#9175DC", padding: 10, flexWrap: 'wrap', borderRadius: 20 }}>
@@ -681,7 +674,7 @@ const DetalleNegocioScreen = (props: any) => {
                     <View style={styles.ContainerAdd}>
                         <FlatList
                             horizontal={true}
-                            data={referencia}
+                            data={business.reviews}
                             renderItem={renderReferencia}
                             keyExtractor={(item: any) => item.id}
                         />

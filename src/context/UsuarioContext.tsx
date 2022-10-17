@@ -27,13 +27,13 @@ type AuthContextProps = {
     chats: postChatResponse[] | null | '';
     cart: [] | null | '';
     favorites: Follows[] | null | '';
-    sing: (data: any, address: any, notifications: any, business: any, chats: any, cart: any, responseFavorite:any) => void;
+    sing: (data: any, address: any, notifications: any, business: any, chats: any, cart: any, responseFavorite: any) => void;
     singUp: (data: any) => void;
     logOut: () => void;
     sendCode: (phone: string, rol: string, country: any) => void;
     confirmCode: (data: any) => void;
-    editProfile:(data: any) => void;
-    editAddress:(data: any) => void;
+    editProfile: (data: any) => void;
+    editAddress: (data: any) => void;
     getCountry: () => void;
     recoveryCountry: (address: any) => void;
     getNotificationsApi: (id: any) => void;
@@ -53,8 +53,9 @@ type AuthContextProps = {
     editSliderProduct: (data: any, negocios: any) => void
     modifiedCart: (data: any, cart: any, id_negocio: any) => void
     emptyCart: (id_negocio: any, cart: any) => void,
-    followBussiness:(id_user: any, id_business: any)=> void,
-    unFollowBussiness:(id_user: any, id_business: any)=> void
+    followBussiness: (id_user: any, id_business: any) => void,
+    unFollowBussiness: (id_user: any, id_business: any) => void
+    rquestBusiness: (data: any) => void;
     //removeError: () => void;
 }
 
@@ -83,7 +84,7 @@ const UserProvider = ({ children }: any) => {
     const [login, dispatch] = useReducer(userReducer, initialSatate);
 
 
-    const sing = (user: any, address: any, notifications: any, business: any, chats: any, cart: any, favorites:any) => {
+    const sing = (user: any, address: any, notifications: any, business: any, chats: any, cart: any, favorites: any) => {
 
         dispatch({ type: 'sing-in', payload: { user: user, address: address, notifications: notifications, business: business, chats: chats, cart: cart, favorites: favorites } })
     }
@@ -121,10 +122,10 @@ const UserProvider = ({ children }: any) => {
     }
 
     const confirmCode = async (data: any) => {
-        try { 
+        try {
 
             const resp = await apiApp.post<confirmNumberResponse>('/confirmCode', data)
-            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user, business: resp.data.business, notifications: resp.data.notifications, chats: resp.data.chats, cart: [], favorites: resp.data.follows} })
+            dispatch({ type: 'confirmedNumber', payload: { access_token: resp.data.access_token, user: resp.data.user, business: resp.data.business, notifications: resp.data.notifications, chats: resp.data.chats, cart: [], favorites: resp.data.follows } })
             return true;
         } catch (error) {
             dispatch({ type: 'addError', payload: error.response.data.message })
@@ -166,7 +167,7 @@ const UserProvider = ({ children }: any) => {
             if (typeof resp === 'object') {
                 await dispatch({ type: 'getCountry', payload: { address: resp.data } })
             } else {
-                await dispatch({ type: 'getCountry', payload: { address: { 'countrys': [], 'citys': [], 'sectors': [] } } })
+                await dispatch({ type: 'getCountry', payload: { address: { 'countrys': [], 'provinces': [], 'citys': [], 'sectors': [] } } })
             }
 
         } catch (error) {
@@ -222,7 +223,7 @@ const UserProvider = ({ children }: any) => {
     async function postChat(data: any) {
 
         if (data.status == 200) {
-           return dispatch({ type: 'postChat', payload: { chats: data.body } })
+            return dispatch({ type: 'postChat', payload: { chats: data.body } })
         } else if (data.status == 403) {
             dispatch({ type: 'addErrorsistem', payload: data.body })
         }
@@ -584,15 +585,15 @@ const UserProvider = ({ children }: any) => {
         formData.append('id_product', data.id_product);
         formData.append('id', data.id);
         formData.append('image_request', data.image_request);
-        if(data.image_request == 'add'){
+        if (data.image_request == 'add') {
             formData.append('url_imagen',
-            {
-                name: data.slider.name,
-                type: data.slider.type,
-                size: data.slider.size,
-                uri: data.slider.uri
+                {
+                    name: data.slider.name,
+                    type: data.slider.type,
+                    size: data.slider.size,
+                    uri: data.slider.uri
 
-            });
+                });
         }
 
         try {
@@ -663,7 +664,7 @@ const UserProvider = ({ children }: any) => {
         })
         dispatch({ type: 'modifiedCart', payload: { cart: cart } })
     }
-    
+
     const followBussiness = async (id_user: any, id_business: any) => {
         try {
             const resp = await apiApp.post<FollowBusinessResponse>('/follow-bussines', {
@@ -685,10 +686,65 @@ const UserProvider = ({ children }: any) => {
                 id_user: id_user
             })
 
-            dispatch({ type: 'unFollowBussiness', payload: { id_user: id_user,  id_business: id_business } })
+            dispatch({ type: 'unFollowBussiness', payload: { id_user: id_user, id_business: id_business } })
         } catch (error) {
 
             dispatch({ type: 'addErrorsistem', payload: error.response.data.status })
+        }
+    }
+
+    const rquestBusiness = async (data: any) => {
+
+        const formData = new FormData();
+        formData.append('user', data.user);
+        formData.append('name', data.name);
+        formData.append('nickname', data.nickname);
+        formData.append('description', data.description);
+        formData.append('phone', data.phone);
+        formData.append('delivery', data.delivery);
+        formData.append('email', data.email);
+        formData.append('direccion', data.direccion);
+        formData.append('etiquetas', data.etiquetas);
+        formData.append('newSybcateogoria', data.newSybcateogoria);
+        formData.append('newCategoria', data.newCategoria);
+        formData.append('newCiudad', data.newCiudad);
+        formData.append('newSector', data.newSector); 
+
+        if (data.comprobante.length !== 0) {
+            formData.append('comprobante',
+                {
+                    name: data.comprobante.name,
+                    type: data.comprobante.type,
+                    size: data.comprobante.size,
+                    uri: data.comprobante.uri
+
+                });
+        }
+        try {
+            const resp = await apiApp.post('/solicitudNegocio', formData,
+
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data;charset=utf8mb4',
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    transformRequest: (data, error) => {
+                        return formData;
+                    }
+                })/* .then(function (response) {
+              
+          console.log(response.data)
+        })
+        .catch(function (error) {
+          console.log(error.response.data.message)
+        });*/
+
+           
+            return true;
+        } catch (error) {
+
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.message })
+            return false;
         }
     }
 
@@ -723,7 +779,8 @@ const UserProvider = ({ children }: any) => {
             emptyCart,
             postChat,
             followBussiness,
-            unFollowBussiness
+            unFollowBussiness,
+            rquestBusiness
 
         }} >
             {children}
