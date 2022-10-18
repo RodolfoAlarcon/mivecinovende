@@ -79,7 +79,6 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
     _renderItem(item: any) {
         const sector = this.props.sector
-        console.log(item)
         let itemImg = item.url_imagen;
         let colorcaja = `#${item.color}`
         let centrar = item.short_image

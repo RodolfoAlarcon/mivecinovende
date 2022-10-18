@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, Alert, Image } from "react-native";
+import { View, Text, StyleSheet, Alert, Image, TouchableOpacity, Modal } from "react-native";
 import {
 	FlingGestureHandler,
 	Directions,
@@ -34,7 +34,9 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 			};
 		}
 	};
-	
+
+	const [modalDescripcion, setModalDescripcion] = useState('');
+
 
 
 	return (
@@ -73,13 +75,53 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 						</View>
 
 						{message.map((n, index) => (
-							
-							<View style={[{ width: "100%", flexDirection: "row", height: 40, paddingTop: 5 },{backgroundColor: index%2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}>
+
+							<View style={[{ width: "100%", flexDirection: "row", height: 40, paddingTop: 5 }, { backgroundColor: index % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
 									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.cantidad <= 10 ? '0' + n.cantidad : n.cantidad} </Text>
 								</View>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
-									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.nombre} </Text>
+									<TouchableOpacity
+										onPress={
+											() => setModalDescripcion(n.id)
+										}
+										style={{ justifyContent: "center", alignItems: "center", width: "100%" }}
+									>
+										<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.nombre} </Text>
+									</TouchableOpacity>
+									{modalDescripcion ? (
+										modalDescripcion === n.id ?
+											<Modal
+												animationType="slide"
+												transparent={true}
+												visible={true}
+											>
+												<View style={{ justifyContent: "center", alignItems: "center", flex: 1, backgroundColor: "#0000005c", }}>
+													<View style={{ width: 300, borderRadius: 15, backgroundColor: "#fff",overflow:"hidden"}}>
+														<Image
+															source={(n.foto == '') ? require('../../sources/img/Captura.jpg') : { uri: n.foto }}
+															style={{ width: 300, height: 175, resizeMode:"cover", marginBottom:15 }}
+														/>
+														<Text style={{color:'#453091', fontWeight:"900",fontSize:25, paddingHorizontal:15}}>
+															{n.nombre}
+														</Text>
+														<Text style={{color:'#453091', fontWeight:"900",fontSize:20, paddingHorizontal:15}}>
+															${n.precios}
+														</Text>
+														<TouchableOpacity 
+															style={{ backgroundColor: '#9175DC', width:"60%",height:45, borderRadius:50, justifyContent:"center", alignItems:"center",marginHorizontal:"20%",marginVertical:20}}
+															onPress={() => { setModalDescripcion('') }}
+														>
+															<Text style={{color:"#fff", fontWeight:"900"}}>
+																Regresar
+															</Text>
+														</TouchableOpacity>
+													</View>
+												</View>
+											</Modal> : <>
+											</>
+
+									) : null}
 								</View>
 								<View style={{ width: "25%", justifyContent: "center", alignItems: "center" }}>
 									<Text style={{ fontSize: 12, color: '#A8A8A8' }}> {n.cantidad} </Text>
@@ -89,25 +131,25 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 								</View>
 							</View>
 						))}
-						<View style={[{flexDirection:"row"},{backgroundColor: message.length%2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}>
-							<View style={{height:40,justifyContent:"center",alignItems:"center",width:"30%"}}>
+						<View style={[{ flexDirection: "row" }, { backgroundColor: message.length % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}>
+							<View style={{ height: 40, justifyContent: "center", alignItems: "center", width: "30%" }}>
 								<Text style={{ fontSize: 12, color: '#453091' }}>
 									VALOR TOTAL
 								</Text>
 							</View>
-							<View style={{width:"22%"}}></View>
-							<View style={{width:"23%"}}></View>
-							<View style={{height:40,justifyContent:"center",alignItems:"center",width:"25%"}}>
-								<Text style={{ fontSize: 14, color: '#453091'}}>
+							<View style={{ width: "22%" }}></View>
+							<View style={{ width: "23%" }}></View>
+							<View style={{ height: 40, justifyContent: "center", alignItems: "center", width: "25%" }}>
+								<Text style={{ fontSize: 14, color: '#453091' }}>
 									{message.map((n) => { countCarrito = countCarrito + n.precios })}
 									${countCarrito}
 								</Text>
 							</View>
 						</View>
 						<View style={styles.timeView}>
-								<Text style={[styles.time, isOnLeft("time"),{marginRight:5,marginTop:5}]}>
-									{time}
-								</Text>
+							<Text style={[styles.time, isOnLeft("time"), { marginRight: 5, marginTop: 5 }]}>
+								{time}
+							</Text>
 						</View>
 
 					</View>
@@ -169,10 +211,10 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 	},
 	messageContainerPoduct: {
-		borderRadius: 15, 
+		borderRadius: 15,
 		marginHorizontal: 10,
 		paddingBottom: 10,
-		backgroundColor:"#E5E5E5",
+		backgroundColor: "#E5E5E5",
 	},
 	time: {
 		color: "lightgray",

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ImageBackground, View, AppRegistry, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Linking, ScrollView, FlatList, Modal } from 'react-native';
+import { ImageBackground, View, AppRegistry, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Linking, ScrollView, FlatList, Modal, BackHandler } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
 import ToolBar from '../../components/Toolbar';
@@ -10,6 +10,7 @@ import { AuthContex } from '../../context/UsuarioContext'
 import { getCart } from '../../storage/CartAsyncStorage';
 import { io } from 'socket.io-client';
 import { FadeInLeft } from 'react-native-reanimated';
+import Textarea from 'react-native-textarea';
 
 const DetalleNegocioScreen = (props: any) => {
     const { params } = props.route;
@@ -78,7 +79,7 @@ const DetalleNegocioScreen = (props: any) => {
 
     if (cartNow.length !== 0) {
         cartNow = cartNow[0]
-    }else{
+    } else {
         cartNow = {
             'id_negocio': business.id,
             'productos': []
@@ -226,6 +227,8 @@ const DetalleNegocioScreen = (props: any) => {
 
     }
 
+    const [modalreferencia, setModalreferencia] = useState(false)
+
 
     const renderItem = ({ item }: BusinessCategory) => (
         <View style={{ marginRight: 5 }}>
@@ -372,9 +375,9 @@ const DetalleNegocioScreen = (props: any) => {
                                                     () => setModalPrecioFinal(!modalPrecioFinal)
                                                 }
                                             >
-                                                <Icon name='x' size={25} color='#453091' style={{fontWeight:"900"}} />
+                                                <Icon name='x' size={25} color='#453091' style={{ fontWeight: "900" }} />
                                             </TouchableOpacity>
-                                            <View style={{ width: 280, flexDirection: 'row',backgroundColor:'#453091',borderTopLeftRadius: 20,borderTopRightRadius: 20,height:40}}>
+                                            <View style={{ width: 280, flexDirection: 'row', backgroundColor: '#453091', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: 40 }}>
                                                 <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                     <Text style={{ color: '#fff' }}>
                                                         Titulo
@@ -393,7 +396,7 @@ const DetalleNegocioScreen = (props: any) => {
                                             </View>
                                             {
                                                 carrito.productos.map((n: any, index: any) =>
-                                                    <View style={[{ width: 280, flexDirection: 'row',height:40 },{backgroundColor: index%2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
+                                                    <View style={[{ width: 280, flexDirection: 'row', height: 40 }, { backgroundColor: index % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
                                                         key={n.id}
                                                     >
                                                         <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
@@ -414,7 +417,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                     </View>
                                                 )
                                             }
-                                            <View style={[{ width: 280, flexDirection: 'row',height:40,borderBottomLeftRadius: 20,borderBottomRightRadius: 20, }, {backgroundColor: carrito.productos.length%2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
+                                            <View style={[{ width: 280, flexDirection: 'row', height: 40, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, }, { backgroundColor: carrito.productos.length % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
                                             >
                                                 <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                     <Text style={{ color: '#000' }}>
@@ -431,9 +434,9 @@ const DetalleNegocioScreen = (props: any) => {
                                                     </Text>
                                                 </View>
                                             </View>
-                                            <View style={{ flexDirection: 'row', marginVertical: 20,justifyContent:"space-between" }}
+                                            <View style={{ flexDirection: 'row', marginVertical: 20, justifyContent: "space-between" }}
                                             >
-                                                <TouchableOpacity onPress={() => vaciarCarro()} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height:45, borderRadius:50 }}>
+                                                <TouchableOpacity onPress={() => vaciarCarro()} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}>
                                                     <View >
                                                         <Text style={{ color: '#ffff', fontWeight: '800' }}>
                                                             Vaciar
@@ -441,7 +444,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                     </View>
                                                 </TouchableOpacity>
 
-                                                <TouchableOpacity onPress={() => { sendMessage(carrito.productos) }} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height:45, borderRadius:50 }}>
+                                                <TouchableOpacity onPress={() => { sendMessage(carrito.productos) }} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}>
                                                     <View >
                                                         <Text style={{ color: '#ffff', fontWeight: '800' }}>
                                                             Enviar
@@ -460,11 +463,61 @@ const DetalleNegocioScreen = (props: any) => {
                                 Pagos
                             </Text>
                         </View>
-                        <View style={{ width: "20%", alignItems: "center" }}>
-                            <Image source={require('../../sources/img/referencias.png')} style={{ width: 40, resizeMode: "stretch", maxHeight: 40 }} />
-                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                Referencias
-                            </Text>
+                        <View style={{ width: "20%" }}>
+                            <TouchableOpacity
+                                style={{ alignItems: "center", width: "100%" }}
+                                onPress={() => { setModalreferencia(!modalreferencia) }}
+                            >
+                                <Image source={require('../../sources/img/referencias.png')} style={{ width: 40, resizeMode: "stretch", maxHeight: 40 }} />
+                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                    Referencias
+                                </Text>
+                            </TouchableOpacity>
+                            {modalreferencia ? (
+                                <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={true}
+                                >
+                                    <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                        <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                            <TouchableOpacity
+                                                style={{position:"absolute",right:5,top:5}}
+                                                onPress={() => { setModalreferencia(!modalreferencia) }}
+                                            >
+                                                <Icon name='x' color='#453091' size={25}/>
+                                            </TouchableOpacity>
+                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom:20}}>
+                                                Déjame una refencia aquí
+                                            </Text>
+                                            <Textarea
+                                                containerStyle={{backgroundColor:'#F0F0F0',paddingHorizontal:7,borderRadius:15}}
+                                                maxLength={120}
+                                                placeholder={'Escribir referencia aquí'}
+                                                placeholderTextColor={'#565656'}
+                                                underlineColorAndroid={'transparent'}
+                                            />
+                                            <View style={{width:"100%", flexDirection:"row",justifyContent:"space-between", marginTop:20}}>
+                                                <TouchableOpacity
+                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
+                                                >
+                                                    <Text style={{color:"#fff", fontWeight:"800"}}>
+                                                        Vaciar
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                >
+                                                    <Text style={{color:"#fff", fontWeight:"800"}}>
+                                                        Apectar
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </Modal>
+
+                            ) : null}
                         </View>
                     </View>
                     <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%" }}>
@@ -526,16 +579,16 @@ const DetalleNegocioScreen = (props: any) => {
 
                                         descripcionFoto === n.id ?
                                             <View style={styles.Containerdescripcionfoto}>
-                                                <Text numberOfLines={2} style={{color:"#fff", fontWeight: "bold"}}>
+                                                <Text numberOfLines={2} style={{ color: "#fff", fontWeight: "bold" }}>
                                                     {
                                                         n.producto
                                                     }
                                                 </Text>
-                                                <Text style={{color:"#fff"}}>
+                                                <Text style={{ color: "#fff" }}>
                                                     ${n.precio}
                                                 </Text>
                                                 <TouchableOpacity
-                                                style={{backgroundColor:"#fff", borderRadius:10, position:"absolute",bottom:10,width:"100%",marginLeft:10}}
+                                                    style={{ backgroundColor: "#fff", borderRadius: 10, position: "absolute", bottom: 10, width: "100%", marginLeft: 10 }}
                                                     onPress={
                                                         () => setModalDescripcion(n.id)
                                                     }
@@ -561,27 +614,27 @@ const DetalleNegocioScreen = (props: any) => {
 
                                                         {sliderModal ? (
 
-                                                                <View style={styles.ContainerSlider}>
+                                                            <View style={styles.ContainerSlider}>
 
-                                                                    <Swiper 
-                                                                        activeDotStyle={{ backgroundColor: '#453091' }}
-                                                                        dotStyle={{ backgroundColor: '#fff' }}
-                                                                    >
-                                                                        {
-                                                                            JSON.parse(n.slider).map((e: any) => {
+                                                                <Swiper
+                                                                    activeDotStyle={{ backgroundColor: '#453091' }}
+                                                                    dotStyle={{ backgroundColor: '#fff' }}
+                                                                >
+                                                                    {
+                                                                        JSON.parse(n.slider).map((e: any) => {
 
-                                                                                return (
-                                                                                    <View key={e.id} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                                                                                        <Image
-                                                                                            source={{ uri: e.url }}
-                                                                                            style={{ width: 300, height: 170, resizeMode:"stretch" }}
-                                                                                        />
-                                                                                    </View>
-                                                                                )
-                                                                            })
-                                                                        }
-                                                                    </Swiper>
-                                                                </View>
+                                                                            return (
+                                                                                <View key={e.id} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                                                                    <Image
+                                                                                        source={{ uri: e.url }}
+                                                                                        style={{ width: 300, height: 170, resizeMode: "stretch" }}
+                                                                                    />
+                                                                                </View>
+                                                                            )
+                                                                        })
+                                                                    }
+                                                                </Swiper>
+                                                            </View>
                                                         ) : []}
                                                         <View style={styles.ContainerDescripcion}>
                                                             <Text style={styles.TextTitulo}>
@@ -591,14 +644,14 @@ const DetalleNegocioScreen = (props: any) => {
                                                                 {n.descripcion}
                                                             </Text>
                                                         </View>
-                                                        <View style={{width:"90%",marginHorizontal:"5%",flexDirection:"row", marginVertical:20}}>
+                                                        <View style={{ width: "90%", marginHorizontal: "5%", flexDirection: "row", marginVertical: 20 }}>
                                                             <View style={styles.ContainerPrecio}>
                                                                 <Text style={styles.TextoPrecio}>
                                                                     ${n.precio * numeropedido}
                                                                 </Text>
                                                             </View>
                                                             <View style={styles.ContainerSumaResta}>
-                                                                <View style={{width:"35%",alignItems:"center",justifyContent:"center"}}>
+                                                                <View style={{ width: "35%", alignItems: "center", justifyContent: "center" }}>
                                                                     <TouchableOpacity
                                                                         onPress={
                                                                             () => handleRestar()
@@ -609,12 +662,12 @@ const DetalleNegocioScreen = (props: any) => {
                                                                         </Text>
                                                                     </TouchableOpacity>
                                                                 </View>
-                                                                <View style={{width:"30%", backgroundColor:"#ae9dc4", justifyContent:"center", alignItems:"center"}}>
-                                                                        <Text style={{ color: '#fff' }}>
-                                                                            {numeropedido}
-                                                                        </Text>
+                                                                <View style={{ width: "30%", backgroundColor: "#ae9dc4", justifyContent: "center", alignItems: "center" }}>
+                                                                    <Text style={{ color: '#fff' }}>
+                                                                        {numeropedido}
+                                                                    </Text>
                                                                 </View>
-                                                                <View style={{width:"35%",alignItems:"center",justifyContent:"center"}}>
+                                                                <View style={{ width: "35%", alignItems: "center", justifyContent: "center" }}>
                                                                     <TouchableOpacity
                                                                         onPress={
                                                                             () => handleSumar()
@@ -748,7 +801,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         padding: 3,
         color: '#453091',
-        fontSize:10,
+        fontSize: 10,
     },
     Modalcarrito: {
         flex: 1,
@@ -770,10 +823,10 @@ const styles = StyleSheet.create({
         width: '70%',
         justifyContent: 'space-between',
         flexDirection: 'row',
-        backgroundColor:"#f1f1f1",
-        height:45,
-        borderRadius:20,
-        marginLeft:"7%"
+        backgroundColor: "#f1f1f1",
+        height: 45,
+        borderRadius: 20,
+        marginLeft: "7%"
     },
     TextBotonSumarRestar: {
         fontSize: 20,
@@ -795,26 +848,26 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     ContainerBotonesCarrito: {
-        width:"90%",
-        marginHorizontal:"5%",
+        width: "90%",
+        marginHorizontal: "5%",
         flexDirection: 'row',
-        justifyContent:"space-between"
+        justifyContent: "space-between"
     },
     BotonCarrito: {
-        height:45,
+        height: 45,
         justifyContent: 'center',
         width: '45%',
         alignItems: 'center',
-        backgroundColor:"#453091",
-        borderRadius:25,
-        marginBottom:20
+        backgroundColor: "#453091",
+        borderRadius: 25,
+        marginBottom: 20
     },
     TextBotonCarrito: {
         color: '#fff'
     },
     ContainerDescripcion: {
         width: '90%',
-        marginHorizontal:"5%"
+        marginHorizontal: "5%"
     },
     TextoDescripcion: {
         color: '#453091',
@@ -831,9 +884,9 @@ const styles = StyleSheet.create({
         width: '23%',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:"#f1f1f1",
-        height:45,
-        borderRadius:20,
+        backgroundColor: "#f1f1f1",
+        height: 45,
+        borderRadius: 20,
     },
     TextoPrecio: {
         color: '#453091',
@@ -864,17 +917,17 @@ const styles = StyleSheet.create({
         borderRadius: 25,
         paddingHorizontal: 20,
         backgroundColor: '#fff',
-        width:320,
-        paddingTop:30
+        width: 320,
+        paddingTop: 30
     },
     ContainerSlider: {
-        width:300,
-        height:170,
+        width: 300,
+        height: 170,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: '#000000d9',
-        zIndex:99,
-        position:"relative"
+        zIndex: 99,
+        position: "relative"
     },
     BannerTitulo: {
         width: '100%',

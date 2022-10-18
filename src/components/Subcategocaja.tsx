@@ -38,6 +38,7 @@ export default class Subcategocaja extends Component<{ id: any, sector: any }, a
 
 
     render() {
+        console.log(this.props.id)
         let ScreenHeight = Dimensions.get("window").height;
 
         if (this.state.isLoading) {
@@ -61,12 +62,14 @@ export default class Subcategocaja extends Component<{ id: any, sector: any }, a
             return (
                 <View>
                     <FlatList
-                        numColumns={2}
+                        numColumns={3}
+                        columnWrapperStyle={{ justifyContent: 'space-between' }}
                         data={this.state.dataBanner}
                         renderItem={({ item }) => this._renderItem(item)}
                         keyExtractor={(item: any, index) => index.toString()}
-                        style={{ width: '100%' }}
+                        style={{ width: '90%',marginHorizontal:"5%" }}
                     />
+
                 </View>
             )
         }
@@ -74,6 +77,9 @@ export default class Subcategocaja extends Component<{ id: any, sector: any }, a
 
     _renderItem(item: any) {
         const sector = this.props.sector
+        let itemImg = item.url_imagen;
+        let colorcaja = `#${item.color}`
+        let centrar = item.short_image
         return (
 
             <TouchableOpacity
@@ -81,67 +87,37 @@ export default class Subcategocaja extends Component<{ id: any, sector: any }, a
                     () => { goToScreen('ListNegocioScreens', item.id, item.name, sector) }
                 }
                 style={{
-                    width: '100%',
-                    height: 70,
-                    flexDirection: 'row',
-                    backgroundColor: "white",
-                    borderBottomWidth: 1,
-                    borderColor: '#cecece',
-                    paddingHorizontal: 5
+                    width: '32%',
+                    paddingHorizontal:5,
+                    height:170
                 }}
             >
-                <View style={styles.contenidoboton}>
-                    <Image
-                        source={{ uri: item.url_imagen }}
-                        style={{ width: 45, height: 45, resizeMode: 'contain' }}
+                <View style={[styles.contenidoboton,{backgroundColor:colorcaja},{paddingTop:centrar ? 10 : 20}]}>
+                <Image
+                        source={{ uri: itemImg }}
+                        style={{ width: "80%", resizeMode:"stretch", marginHorizontal:"10%", height:70}}
                     />
                 </View>
-                <View style={styles.contenidobotontext}>
-                    <Text style={styles.textboton}>
+                <Text style={styles.textboton}>
                         {item.name}
                     </Text>
-                </View>
-                <View
-                    style={{
-                        width: '10%',
-                        justifyContent: 'center',
-                        alignItems: 'center'
-                    }}
-                >
-                    <Image
-                        source={require('../sources/img/arrow.png')}
-                        style={{ width: 20, height: 20, resizeMode: 'contain' }}
-                    />
-                </View>
             </TouchableOpacity>
         )
     }
 }
 
 const styles = StyleSheet.create({
-    botton: {
-        flexDirection: 'row',
-        height: 70,
-        backgroundColor: '#007ba4',
-        marginBottom: 5,
-        width: '100%',
-        borderTopRightRadius: 10,
-        borderBottomRightRadius: 10,
-    },
-
     contenidoboton: {
-        width: '20%',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    contenidobotontext: {
-        width: '70%',
-        justifyContent: 'center',
+        height:90,
+        width:'100%',
+        marginVertical:10,
+        borderRadius:10,
+        overflow:"hidden"
     },
     textboton: {
-        fontSize: 17,
+        fontSize: 15,
         fontWeight: 'bold',
         color: '#000',
+        textAlign:'center'
     }
-
 })
