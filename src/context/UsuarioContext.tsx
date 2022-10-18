@@ -56,6 +56,7 @@ type AuthContextProps = {
     followBussiness: (id_user: any, id_business: any) => void,
     unFollowBussiness: (id_user: any, id_business: any) => void
     rquestBusiness: (data: any) => void;
+    sendReview: (data: any) => void;
     //removeError: () => void;
 }
 
@@ -747,8 +748,22 @@ const UserProvider = ({ children }: any) => {
             return false;
         }
     }
+    const sendReview = async (data:any) => {
+        try {
+            const resp = await apiApp.post('/reviews-bussines', data)
 
+            Snackbar.show({
+                text: resp.data.status,
+                duration: Snackbar.LENGTH_LONG,
+            })
+            return { response: true, review: resp.data.review }
+        } catch (error) {
 
+            dispatch({ type: 'addErrorsistem', payload: error.response.data.status })
+            return { response: false}
+        }
+    }
+    
     return (
         <AuthContex.Provider value={{
             ...login,
@@ -780,7 +795,8 @@ const UserProvider = ({ children }: any) => {
             postChat,
             followBussiness,
             unFollowBussiness,
-            rquestBusiness
+            rquestBusiness,
+            sendReview
 
         }} >
             {children}

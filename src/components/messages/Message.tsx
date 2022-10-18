@@ -102,11 +102,17 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 															source={(n.foto == '') ? require('../../sources/img/Captura.jpg') : { uri: n.foto }}
 															style={{ width: 300, height: 175, resizeMode:"cover", marginBottom:15 }}
 														/>
-														<Text style={{color:'#453091', fontWeight:"900",fontSize:25, paddingHorizontal:15}}>
+														<Text style={{color:'#453091', fontWeight:"900",fontSize:18, paddingHorizontal:15}}>
 															{n.nombre}
 														</Text>
-														<Text style={{color:'#453091', fontWeight:"900",fontSize:20, paddingHorizontal:15}}>
-															${n.precios}
+														<Text style={{color:'#453091', fontWeight:"900",fontSize:18, paddingHorizontal:15}}>
+															Precio: ${n.precios}
+														</Text>
+														<Text style={{color:'#453091', fontWeight:"900",fontSize:16, paddingHorizontal:15}}>
+															descripción:
+														</Text>
+														<Text style={{color:'#453091', fontWeight:"900",fontSize:16, paddingHorizontal:15}}>
+															{n.descripcion}
 														</Text>
 														<TouchableOpacity 
 															style={{ backgroundColor: '#9175DC', width:"60%",height:45, borderRadius:50, justifyContent:"center", alignItems:"center",marginHorizontal:"20%",marginVertical:20}}

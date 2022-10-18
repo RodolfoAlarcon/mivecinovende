@@ -71,7 +71,7 @@ const DetalleNegocioScreen = (props: any) => {
                 console.log(error)
             })
     }, [])
-    const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites } = useContext(AuthContex)
+    const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites, sendReview } = useContext(AuthContex)
 
 
     var cartNow = cart.filter((n: any) => n.id_negocio == business.id);
@@ -100,6 +100,26 @@ const DetalleNegocioScreen = (props: any) => {
     const [sliderModal, setSliderModal] = useState(false)
     const [descripcionFoto, setDescripcionFoto] = useState('')
     const [modalDescripcion, setModalDescripcion] = useState('')
+
+    //============================encontrar review existente===================================================
+    var review = business.reviews.filter((n: any) => n.user_id == user.id);
+   
+    if (review.length !== 0){
+        
+        review = review[0]
+    } else {
+        console.log('entro 2')
+        review = {
+            'descripcion': '',
+            'puntuacion': 1,
+            'id': ''
+        };
+    }
+    const [reviewState, setReviewState] = useState(review.puntuacion)
+    const [reviewTexArea, setReviewTexArea] = useState(review.descripcion)
+    
+    
+    //=========================================================================================================
 
     const baseUrl = `https://vecinovendechat.herokuapp.com`;
     const socket = io(baseUrl, { transports: ['websocket'] })
@@ -142,11 +162,12 @@ const DetalleNegocioScreen = (props: any) => {
     }
 
 
-    async function handleAceptar(id: string, title: string, precios: number, foto: string) {
+    async function handleAceptar(id: string, title: string, precios: number, foto: string, descripcion: string) {
         const obj = {
             id: id,
             nombre: title,
             cantidad: numeropedido,
+            descripcion: descripcion,
             precios: precios,
             foto: foto
         }
@@ -231,8 +252,36 @@ const DetalleNegocioScreen = (props: any) => {
     const [modalreferencia, setModalreferencia] = useState(false);
 
     //funcion de las estrellas
-    function ratingCompleted(rating) {
-        console.log("Rating is: " + rating)
+    async function ratingCompleted() {
+
+        let data = {
+            'bussiness_id' : business.id,
+            'user_id' : user.id,
+            'descripcion' : reviewTexArea,
+            'puntuacion' : reviewState,
+            'id': review.id,
+        }
+        let responseReview =  await sendReview(data);
+
+        console.log(responseReview.review)
+
+        if (responseReview.response == true){
+            if(review.id == ""){
+                responseReview.review.url_imagen = user.url_imagen
+                responseReview.review.name = user.name
+                business.reviews.push(responseReview.review)
+                setBusiness(business)
+            }else{
+
+                business.reviews.forEach((data, key) => {
+                    if(data['id'] == responseReview.review.id){
+                        business.reviews[key].descripcion = responseReview.review.descripcion; 
+                        business.reviews[key].puntuacion =  responseReview.review.puntuacion;
+                    }
+                })
+                setBusiness(business)
+            }
+        }
     }
 
     const renderItem = ({ item }: BusinessCategory) => (
@@ -496,10 +545,12 @@ const DetalleNegocioScreen = (props: any) => {
                                                 Déjame una refencia aquí
                                             </Text>
                                             <Rating
-                                            onFinishRating={ratingCompleted}
-                                            type='custom'
+                                                startingValue={reviewState}
+                                                onFinishRating={(e:any) => {setReviewState(e)}}
+                                                type='custom'
                                                 ratingColor='#453091'
                                                 imageSize={30}
+                                                fractions={2}
                                                 style={{marginBottom:10}}
                                             />
                                             <Textarea
@@ -508,16 +559,18 @@ const DetalleNegocioScreen = (props: any) => {
                                                 placeholder={'Escribir referencia aquí'}
                                                 placeholderTextColor={'#565656'}
                                                 underlineColorAndroid={'transparent'}
+                                                onChangeText={(e:any) => { setReviewTexArea(e)}}
+                                                defaultValue={reviewTexArea}
                                             />
                                             <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
-                                                <TouchableOpacity
+                                                <TouchableOpacity onPress={() => { setModalreferencia(!modalreferencia) }}
                                                     style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
                                                 >
                                                     <Text style={{ color: "#fff", fontWeight: "800" }}>
-                                                        Vaciar
+                                                        Cancelar
                                                     </Text>
                                                 </TouchableOpacity>
-                                                <TouchableOpacity
+                                                <TouchableOpacity onPress={() => {ratingCompleted()}}
                                                     style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
                                                 >
                                                     <Text style={{ color: "#fff", fontWeight: "800" }}>
@@ -711,7 +764,8 @@ const DetalleNegocioScreen = (props: any) => {
                                                                         const title = n.producto;
                                                                         const precios = n.precio * numeropedido;
                                                                         const foto = n.url_imagen;
-                                                                        handleAceptar(id, title, precios, foto)
+                                                                        const descripcion = n.descripcion;
+                                                                        handleAceptar(id, title, precios, foto, descripcion)
                                                                     }
                                                                 }
                                                             >
