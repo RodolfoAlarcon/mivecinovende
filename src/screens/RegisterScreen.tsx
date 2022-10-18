@@ -5,7 +5,9 @@ import {
     TouchableOpacity,
     StatusBar,
     ScrollView,
-    StyleSheet
+    StyleSheet,
+    ImageBackground,
+    Dimensions
 } from 'react-native'
 import { mainStyles, registroStyles, Registro } from '../styles/styles'
 import MyTextInput from '../components/MyTextInput'
@@ -54,173 +56,180 @@ export const RegisterScreen = (props: any) => {
         getCitys(user.paises_id)
     }, [])
     return (
-        <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.BannerTitulo}>
-                <Text style={styles.TituloBan}>
-                    Regístrate
-                </Text>
-            </View>
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#453091' }}>
             <ScrollView>
-                <View style={{ flex: 1 }}>
-
-                    <StatusBar backgroundColor={color.GRAY} translucent={true} />
-
-                    <View style={[Registro.container, { padding: 10 }]}>
-                        <View style={{
-                            paddingLeft: 30, paddingRight: 30
-                        }}>
-                            <Formik
-                                validateOnMount={true}
-                                //validationSchema={loginValidationSchema}
-                                initialValues={{
-                                    id: user.id,
-                                    name: '',
-                                    apellido: '',
-                                    email: '',
-                                    sexo: '',
-                                    edad: '',
-                                    rol: 'APPUSER',
-                                    direccion: ''
-                                }}
-                                onSubmit={async (values: any) => {
-                                    values.ciudad_id = selectCity;
-                                    values.sector_id = selectSector;
-                                    await singUp(values)
-                                }}>
-
-                                {({
-                                    handleChange,
-                                    handleBlur,
-                                    handleSubmit,
-                                    values,
-                                    handleFileUpload,
-                                    errors,
-                                    touched,
-                                    isValid,
-                                }: any) => (
-                                    <>
-                                        <View style={styles.Margin}>
-                                            <MyTextInput placeholder='Nombre' image='user'
-                                                onChangeText={handleChange('name')}
-                                                onBlur={handleBlur('name')}
-                                                value={values.name}
-
-                                            />
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <MyTextInput placeholder='Apellido' image='user'
-                                                onChangeText={handleChange('apellido')}
-                                                onBlur={handleBlur('apellido')}
-                                                value={values.apellido}
-
-                                            />
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <MyTextInput placeholder='Edad' image='user'
-                                                onChangeText={handleChange('edad')}
-                                                onBlur={handleBlur('edad')}
-                                                value={values.edad}
-                                                type='numeric'
-
-                                            />
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <MyTextInput type='email-address' placeholder='E-mail'
-                                                image='mail'
-                                                onChangeText={handleChange('email')}
-                                                onBlur={handleBlur('email')}
-                                                value={values.email}
-                                            />
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <Text style={{ fontSize: 16, textAlign: "center" }}>
-                                                Sexo
-                                            </Text>
-                                            <View style={styles.select}>
-                                                <SelectRegisterUser
-                                                    data={[
-                                                        { label: 'hombre', value: 'hombre', },
-                                                        { label: 'mujer', value: 'mujer' },
-                                                    ]}
-                                                    onValueChange={handleChange('sexo')}
-                                                    onBlur={handleBlur('sexo')}
-                                                    value={values.sexo}
-                                                    placeholder={{
-                                                        label: 'selecione su sexo',
-                                                        value: '',
-                                                        color: color.SECONDARYCOLOR,
-                                                    }}
-                                                />
-                                            </View>
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <Text style={{ fontSize: 16, textAlign: "center" }}>
-                                                Ciudad
-                                            </Text>
-                                            <View style={styles.select}>
-                                                <RNPickerSelect
-                                                    value={selectCity}
-                                                    placeholder={{
-                                                        label: 'Ciudad',
-                                                        value: '',
-                                                    }}
-                                                    onValueChange={(e) => { setSelectCity(e); getSectors(e); }}
-                                                    items={citys}
-
-                                                />
-                                            </View>
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <Text style={{ fontSize: 16, textAlign: "center" }}>
-                                                Sector
-                                            </Text>
-                                            <View style={styles.select}>
-                                                <RNPickerSelect
-                                                    value={selectSector}
-                                                    placeholder={{
-                                                        label: 'Sectors',
-                                                        value: '',
-                                                    }}
-                                                    onValueChange={(e) => { setSelectSector(e) }}
-                                                    items={sectors}
-                                                />
-                                            </View>
-                                        </View>
-
-                                        <View style={styles.Margin}>
-                                            <MyTextInput placeholder='Direccion' image='user'
-                                                onChangeText={handleChange('direccion')}
-                                                onBlur={handleBlur('direccion')}
-                                                value={values.direccion}
-
-                                            />
-                                        </View>
-                                        <TouchableOpacity
-                                            style={{ marginTop: 20, alignItems: "center" }}
-                                            onPress={() => handleSubmit()}>
-                                            <BotonNumero
-                                                TituloNumero='Aceptar y Continuar'
-
-                                            />
-                                        </TouchableOpacity>
-                                    </>
-                                )}
-                            </Formik>
-                        </View>
-                        <View style={{
-                            alignItems: "center"
+                <ImageBackground source={require("../sources/img/Background.jpg")} style={styles.Header} resizeMode="cover">
+                    <Text style={{
+                        fontSize: 22,
+                        textAlign: "center",
+                        color: '#fff',
+                        fontWeight: "bold"
+                    }}>
+                        Registrate
+                    </Text>
+                    <View style={{ width: "95%", height: 25, backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20, marginHorizontal: "2.5%", position: "absolute", bottom: 0 }}></View>
+                </ImageBackground>
+                <View style={styles.container}>
+                    <Formik
+                        validateOnMount={true}
+                        //validationSchema={loginValidationSchema}
+                        initialValues={{
+                            id: user.id,
+                            name: '',
+                            apellido: '',
+                            email: '',
+                            sexo: '',
+                            edad: '',
+                            rol: 'APPUSER',
+                            direccion: ''
+                        }}
+                        onSubmit={async (values: any) => {
+                            values.ciudad_id = selectCity;
+                            values.sector_id = selectSector;
+                            await singUp(values)
                         }}>
 
-                        </View>
+                        {({
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            values,
+                            handleFileUpload,
+                            errors,
+                            touched,
+                            isValid,
+                        }: any) => (
+                            <>
+                                <View style={styles.Margin}>
+                                    <MyTextInput placeholder='Nombre' image='user'
+                                        onChangeText={handleChange('name')}
+                                        onBlur={handleBlur('name')}
+                                        value={values.name}
 
-                    </View>
+                                    />
+                                </View>
+                                <View style={styles.Margin}>
+                                    <MyTextInput placeholder='Apellido' image='user'
+                                        onChangeText={handleChange('apellido')}
+                                        onBlur={handleBlur('apellido')}
+                                        value={values.apellido}
+
+                                    />
+                                </View>
+                                <View style={styles.Margin}>
+                                    <MyTextInput placeholder='Edad' image='user'
+                                        onChangeText={handleChange('edad')}
+                                        onBlur={handleBlur('edad')}
+                                        value={values.edad}
+                                        type='numeric'
+
+                                    />
+                                </View>
+                                <View style={styles.Margin}>
+                                    <MyTextInput type='email-address' placeholder='E-mail'
+                                        image='mail'
+                                        onChangeText={handleChange('email')}
+                                        onBlur={handleBlur('email')}
+                                        value={values.email}
+                                    />
+                                </View>
+                                <View style={styles.Margin}>
+                                    <View style={styles.select}>
+                                        <SelectRegisterUser
+                                            data={[
+                                                { label: 'hombre', value: 'hombre', },
+                                                { label: 'mujer', value: 'mujer' },
+                                            ]}
+                                            onValueChange={handleChange('sexo')}
+                                            onBlur={handleBlur('sexo')}
+                                            value={values.sexo}
+                                            placeholder={{
+                                                label: 'selecione su sexo',
+                                                value: '',
+                                                color: color.SECONDARYCOLOR,
+                                            }}
+                                        />
+                                    </View>
+                                </View>
+
+                                <View style={styles.Margin}>
+                                    <View style={styles.select}>
+                                        <RNPickerSelect
+                                            value={selectCity}
+                                            placeholder={{
+                                                label: 'Ciudad',
+                                                value: '',
+                                            }}
+                                            onValueChange={(e) => { setSelectCity(e); getSectors(e); }}
+                                            items={citys}
+                                            style={{
+                                                placeholder:{color:"#565656"}
+                                            }} 
+                                        />
+                                    </View>
+                                </View>
+
+                                <View style={styles.Margin}>
+                                    <View style={styles.select}>
+                                        <RNPickerSelect
+                                            value={selectSector}
+                                            placeholder={{
+                                                label: 'Sectors',
+                                                value: '',
+                                            }}
+                                            onValueChange={(e) => { setSelectSector(e) }}
+                                            items={sectors}
+                                            style={{
+                                                placeholder:{color:"#565656"}
+                                            }} 
+                                        />
+                                    </View>
+                                </View>
+
+                                <View style={styles.Margin}>
+                                    <MyTextInput placeholder='Direccion' image='user'
+                                        onChangeText={handleChange('direccion')}
+                                        onBlur={handleBlur('direccion')}
+                                        value={values.direccion}
+
+                                    />
+                                </View>
+                                <TouchableOpacity
+                                    style={{ marginTop: 20, alignItems: "center",width:"100%", backgroundColor: '#453091',height:50,borderRadius:50, justifyContent:"center", marginBottom:10 }}
+                                    onPress={() => handleSubmit()}>
+                                        <Text style={{color:"#fff", fontWeight:"900",fontSize:16}}>
+                                            Aceptar y Continuar
+                                        </Text>
+                                </TouchableOpacity>
+                            </>
+                        )}
+                    </Formik>
                 </View>
+                <View style={{
+                    alignItems:"center",
+                    width:"95%",
+                    position:"absolute",
+                    bottom:0,
+                    height:100,
+                    marginHorizontal:"2.5%",
+                    justifyContent:"flex-end",
+                    paddingBottom:17
+                }}>
+
+                    <ImageBackground source={require("../sources/img/footer.png")} style={{width:"100%", height:100, position:"absolute",top:0,left:0, justifyContent:"flex-end", paddingBottom:16}} resizeMode="stretch">
+                    <Text style={{
+                        textAlign: "center"
+                    }}>
+                        @2021 Allavoyy <Text style={{
+                            color: color.SECONDARYCOLOR
+                        }}
+                            onPress={() => {
+                                goToScreen('RegisterScreen', "lol", "lol")
+                            }}
+                        >Politica y Privacidad</Text>
+                    </Text>
+                    </ImageBackground>
+            </View>
             </ScrollView>
         </SafeAreaView>
     )
@@ -228,41 +237,29 @@ export const RegisterScreen = (props: any) => {
 }
 
 const styles = StyleSheet.create({
-    InputsHomeClient: {
-        paddingLeft: "12%",
-        paddingRight: "12%"
-    },
-    Añadir: {
-        color: color.SECONDARYCOLOR,
-        fontWeight: "bold",
-        marginTop: 30,
-        marginBottom: 30,
-        textAlign: "center"
-    },
     Margin: {
         marginVertical: 10
     },
-    BannerTitulo: {
-        width: '100%',
-        height: 60,
-        backgroundColor: '#000',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    TituloBan: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: '600'
-    },
     select: {
-
-        color: color.PRIMARYCOLOR,
-        borderColor: color.PRIMARYCOLOR,
-        borderWidth: 0.51,
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
-        borderBottomLeftRadius: 4,
-        borderBottomRightRadius: 4,
-        width: '100%'
+        borderRadius:50,
+        width: '100%',
+        overflow:'hidden',
+        backgroundColor:'#F0F0F0',
     },
+    Header: {
+        width: "100%",
+        height: 100,
+        justifyContent: "center",
+        paddingBottom: 25
+    },
+    container: {
+        backgroundColor: "#fff",
+        width: '95%',
+        marginHorizontal: '2.5%',
+        minHeight: Dimensions.get("window").height - 100,
+        paddingHorizontal: '10%',
+        justifyContent: "space-between",
+        position: "relative",
+        paddingBottom:90
+    }
 });

@@ -11,6 +11,7 @@ import { getCart } from '../../storage/CartAsyncStorage';
 import { io } from 'socket.io-client';
 import { FadeInLeft } from 'react-native-reanimated';
 import Textarea from 'react-native-textarea';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 const DetalleNegocioScreen = (props: any) => {
     const { params } = props.route;
@@ -227,8 +228,12 @@ const DetalleNegocioScreen = (props: any) => {
 
     }
 
-    const [modalreferencia, setModalreferencia] = useState(false)
+    const [modalreferencia, setModalreferencia] = useState(false);
 
+    //funcion de las estrellas
+    function ratingCompleted(rating) {
+        console.log("Rating is: " + rating)
+    }
 
     const renderItem = ({ item }: BusinessCategory) => (
         <View style={{ marginRight: 5 }}>
@@ -482,33 +487,40 @@ const DetalleNegocioScreen = (props: any) => {
                                     <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
                                         <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
                                             <TouchableOpacity
-                                                style={{position:"absolute",right:5,top:5}}
+                                                style={{ position: "absolute", right: 5, top: 5 }}
                                                 onPress={() => { setModalreferencia(!modalreferencia) }}
                                             >
-                                                <Icon name='x' color='#453091' size={25}/>
+                                                <Icon name='x' color='#453091' size={25} />
                                             </TouchableOpacity>
-                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom:20}}>
+                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
                                                 Déjame una refencia aquí
                                             </Text>
+                                            <Rating
+                                            onFinishRating={ratingCompleted}
+                                            type='custom'
+                                                ratingColor='#453091'
+                                                imageSize={30}
+                                                style={{marginBottom:10}}
+                                            />
                                             <Textarea
-                                                containerStyle={{backgroundColor:'#F0F0F0',paddingHorizontal:7,borderRadius:15}}
+                                                containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
                                                 maxLength={120}
                                                 placeholder={'Escribir referencia aquí'}
                                                 placeholderTextColor={'#565656'}
                                                 underlineColorAndroid={'transparent'}
                                             />
-                                            <View style={{width:"100%", flexDirection:"row",justifyContent:"space-between", marginTop:20}}>
+                                            <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
                                                 <TouchableOpacity
                                                     style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
                                                 >
-                                                    <Text style={{color:"#fff", fontWeight:"800"}}>
+                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
                                                         Vaciar
                                                     </Text>
                                                 </TouchableOpacity>
                                                 <TouchableOpacity
                                                     style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
                                                 >
-                                                    <Text style={{color:"#fff", fontWeight:"800"}}>
+                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
                                                         Apectar
                                                     </Text>
                                                 </TouchableOpacity>

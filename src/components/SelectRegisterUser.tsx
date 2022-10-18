@@ -18,7 +18,9 @@ function SelectRegisterUser(props:any){
 				disabled={props.disabled}
 				value={props.value}
 				onValueChange={props.onValueChange}
-
+				style={{
+					placeholder:{color:"#565656"}
+				}} 
 			/>
 		</View>
 
