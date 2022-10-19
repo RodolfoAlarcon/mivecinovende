@@ -646,24 +646,15 @@ const DetalleNegocioScreen = (props: any) => {
                                                 Déjame una refencia aquí
                                             </Text>
                                             <Rating
-<<<<<<< Updated upstream
                                                 startingValue={reviewState}
                                                 onFinishRating={(e:any) => {setReviewState(e)}}
                                                 type='custom'
-                                                ratingColor='#453091'
-                                                imageSize={30}
-                                                fractions={2}
-                                                style={{marginBottom:10}}
-=======
-                                                type="custom"
-                                                onFinishRating={ratingCompleted}
                                                 tintColor="white"
                                                 ratingColor="#453091"
                                                 ratingBackgroundColor="#9175dc38"
-                                                startingValue={3}
                                                 imageSize={30}
-                                                style={{ marginBottom: 10 }}
->>>>>>> Stashed changes
+                                                fractions={2}
+                                                style={{marginBottom:10}}
                                             />
                                             <Textarea
                                                 containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
