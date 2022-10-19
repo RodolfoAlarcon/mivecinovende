@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import { Text, View, TouchableOpacity, StatusBar, Alert, BackHandler, Image, ImageBackground, StyleSheet, ScrollView } from 'react-native'
+import { Text, View, TouchableOpacity, Dimensions, Alert, BackHandler, Image, ImageBackground, StyleSheet, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/Feather';
 import { DataTable } from 'react-native-paper';
 import { AuthContex } from '../../../context/UsuarioContext'
@@ -26,7 +26,7 @@ export default function SettingScreen(props: any) {
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
             <ScrollView showsVerticalScrollIndicator={false} nestedScrollEnabled={true} keyboardShouldPersistTaps="handled">
 
                 <ImageBackground source={require('../../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
@@ -36,13 +36,7 @@ export default function SettingScreen(props: any) {
                     </Text>
                     <View style={styles.cajita}></View>
                 </ImageBackground>
-                <View style={{ flex: 1 }}>
-                    <StatusBar
-                        backgroundColor={color.WHITE}
-                        barStyle='dark-content'
-                        translucent={true}
-                    />
-                    {console.log(user)}
+                <View style={styles.container}>
 
                     <TouchableOpacity
                         onPress={() => { goToScreen('EditProfileScreen') }}
@@ -122,17 +116,24 @@ const styles = StyleSheet.create({
         marginLeft: 5
     },
     cajita: {
-        width: "100%",
+        width: "95%",
         backgroundColor: "#ffffff",
         height: 35,
         position: "absolute",
         bottom: 0,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
+        marginHorizontal:"2.5%"
     },
     opciones: {
         flexDirection: "row",
         marginHorizontal: "5%",
         marginBottom: 25
+    },
+    container:{
+        minHeight: Dimensions.get("window").height - 120,
+        width:"95%",
+        marginHorizontal:"2.5%",
+        backgroundColor:"#fff"
     }
 });
