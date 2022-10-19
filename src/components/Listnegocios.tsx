@@ -77,48 +77,12 @@ export default class Listnegocios extends Component<{ id: any }, any>{
                     data={this.state.dataBanner}
                     renderItem={({ item }) => this._renderItem(item)}
                     keyExtractor={(item: any, index) => index.toString()}
-                    style={{ width: '100%', paddingVertical: 15 }}
+                    style={{ width: '100%' }}
                 />
             )
         }
     }
 
-    _delivery(item: any) {
-        if (item.delivery === 1) {
-            return (
-                <View>
-                    <Image
-                        source={require('../sources/img/delivery.png')}
-                        style={{ width: 30, height: 30, resizeMode: 'contain', marginVertical: 23, marginHorizontal: 7 }}
-                    />
-                </View>
-            )
-        }
-    }
-    _phone(item: any) {
-        if (item.phone === 1) {
-            return (
-                <Text>
-                    Camponente nulo
-                </Text>
-            )
-        } else {
-            return (
-                <View>
-                    <TouchableOpacity
-                        onPress={
-                            () => Linking.openURL(`tel:+593${item.phone}`)
-                        }
-                    >
-                        <Image
-                            source={require('../sources/img/llamar.png')}
-                            style={{ width: 30, height: 30, resizeMode: 'contain', marginVertical: 23, marginHorizontal: 7 }}
-                        />
-                    </TouchableOpacity>
-                </View>
-            )
-        }
-    }
 
     _renderItem(item: any) {
 
@@ -129,39 +93,36 @@ export default class Listnegocios extends Component<{ id: any }, any>{
                     () => { goToScreen('NegocioScreen', item.id) }
                 }
                 style={{
-                    width: '100%',
-                    height: 70,
+                    width: '90%',
+                    marginHorizontal:"5%",
                     flexDirection: 'row',
-                    backgroundColor: "white",
-                    borderTopWidth:1,
-                    borderColor:'#cecece',
-                    paddingHorizontal:5
+                    paddingBottom: 5
                 }}
             >
-                <View 
+                <View
                     style={{
-                        width:'15%',
-                        justifyContent:'center',
-                        alignItems:'center'
+                        width: '20%',
+                        justifyContent: 'center',
+                        alignItems: 'center',
                     }}
                 >
-                    <Image
-                        source={{ uri: item.url_logo }}
-                        style={{ width: 50, height: 50,borderRadius: 50 }}
-                    />
+                    <View style={{
+                        padding:3,
+                        borderRadius:50,
+                        borderWidth:2,
+                        borderColor:'#453091'
+                    }}>
+                        <Image
+                            source={{ uri: item.url_logo }}
+                            style={{ width: 40, height: 40, borderRadius: 50,resizeMode:'cover' }}
+                        />
+                    </View>
                 </View>
-                <View style={{ width: '60%',justifyContent:'center'}}>
-                    <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16}}>
+                <View style={{ width: '80%', justifyContent: 'center' }}>
+                    <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16 }}>
+                        {console.log(item)}
                         {item.name}
                     </Text>
-                </View>
-                <View style={{ width: '25%', flexDirection: 'row', justifyContent: "flex-end",}}>
-                    {
-                        this._delivery(item)
-                    }
-                    {
-                        this._phone(item)
-                    }
                 </View>
             </TouchableOpacity>
         )

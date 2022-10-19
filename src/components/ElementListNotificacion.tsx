@@ -49,10 +49,10 @@ const ElementListNotificacion = (props: any) => {
 
             <DataTable.Cell style={{ flex: 2 }}>
               <View>
-                <Text style={{ fontSize: 20 }}>Toque de {n.content.nombre}</Text>
+                <Text style={{ fontSize: 20,color:"red"}}>Toque de {n.content.nombre}</Text>
                 <View style={{ flexDirection: 'row' }}>
                   <Icon size={15} color="black" name={"clock"} />
-                  <Text style={{ fontSize: 13, marginLeft: 5 }}>{n.created_at}</Text>
+                  <Text style={{ fontSize: 13, marginLeft: 5,color:"red" }}>{n.created_at}</Text>
                 </View>
 
               </View>

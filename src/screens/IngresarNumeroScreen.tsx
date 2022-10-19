@@ -40,6 +40,7 @@ function IngresarNumeroScreen(props: any) {
                 </Text>
                 <View style={{ width: "95%", height: 25, backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20,marginHorizontal:"2.5%",position:"absolute",bottom:0 }}></View>
             </ImageBackground>
+            
             <View style={styles.container}>
                 <View>
                     <Text style={{

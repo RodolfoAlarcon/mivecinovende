@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView, SafeAreaView, ImageBackground } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import { color } from "../../../styles/colors";
@@ -15,7 +15,7 @@ export const CreateCategoriasBusiness = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
     const { business, createBusinessCategory } = useContext(AuthContex)
-    const [ tempUri, setTempUri ] = useState<any>('')
+    const [tempUri, setTempUri] = useState<any>('')
     const [image, setImage] = useState<any>('');
 
     const thakePhotoGallery = async () => {
@@ -23,25 +23,25 @@ export const CreateCategoriasBusiness = (props: any) => {
             mediaType: 'photo',
             quality: 0.5,
         }, (resp) => {
-            if(resp.didCancel) return;
-            if( !resp.assets){
+            if (resp.didCancel) return;
+            if (!resp.assets) {
                 return
-            }else{
-              
+            } else {
+
                 let data = {
-                    
+
                     name: resp.assets[0].fileName,
                     type: resp.assets[0].type,
                     size: resp.assets[0].fileSize,
-                    uri:resp.assets[0].uri
-                     /* Platform.OS === 'android'
-                      ? resp.assets[0].uri
-                      : resp.assets[0].uri.replace('file://', ''),*/
-                  };
-                  //editNegocio(data, []);
-                  setImage(resp.assets[0].uri)
-                  setTempUri(data)
-            };           
+                    uri: resp.assets[0].uri
+                    /* Platform.OS === 'android'
+                     ? resp.assets[0].uri
+                     : resp.assets[0].uri.replace('file://', ''),*/
+                };
+                //editNegocio(data, []);
+                setImage(resp.assets[0].uri)
+                setTempUri(data)
+            };
             //console.log(':V')
 
 
@@ -49,24 +49,39 @@ export const CreateCategoriasBusiness = (props: any) => {
         })
     }
     return (
-        <ScrollView>
-            <ToolBar titulo='Agregar Categoriaaa'
-                onPressLeft={() => goToBackScreen()}
-                iconLeft={require('../../../sources/img/back.png')}
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
+            <ImageBackground source={require('../../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
 
-            />
-            <Formik
-                initialValues={{
-                    negocio_id: params.data.id,
-                    name: '',
-                    url_imagen: tempUri,
-                }}
-                onSubmit={async (values: any) => {
-                    values.url_imagen = tempUri;
-            
-                    const res = await createBusinessCategory(values, business)
+                <Text style={{ color: "#fff", marginTop: 5,fontSize:20, fontWeight:"900" }}>
+                    Agregar Categoria
+                </Text>
+                <View style={{
+                    width:"95%",
+                    marginHorizontal:"2.5%",
+                    backgroundColor:"white",
+                    height:20,
+                    position:"absolute",
+                    bottom:0,
+                    borderTopLeftRadius: 20,
+                    borderTopRightRadius: 20,
+                }}>
 
-                        if (res == true){
+                </View>
+            </ImageBackground>
+            <ScrollView>
+                <View style={styles.container}> 
+                <Formik
+                    initialValues={{
+                        negocio_id: params.data.id,
+                        name: '',
+                        url_imagen: tempUri,
+                    }}
+                    onSubmit={async (values: any) => {
+                        values.url_imagen = tempUri;
+
+                        const res = await createBusinessCategory(values, business)
+
+                        if (res == true) {
                             /*let arrayREd;
         
                             business.map((n: any) => {
@@ -76,91 +91,102 @@ export const CreateCategoriasBusiness = (props: any) => {
                                     arrayREd = [];
                                 }
                             })*/
-        
+
                             goToScreen(params.data)
                         }
-                }}
-            >
-                {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    values,
-                    handleFileUpload,
-                    errors,
-                    touched,
-                    isValid,
-                }: any) => (
-                    <>
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%",
-                                minHeight: 100
-                            }}
-                        >
-                            <Text
+                    }}
+                >
+                    {({
+                        handleChange,
+                        handleBlur,
+                        handleSubmit,
+                        values,
+                        handleFileUpload,
+                        errors,
+                        touched,
+                        isValid,
+                    }: any) => (
+                        <>
+                            <View
                                 style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
+                                    width: "100%",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    paddingVertical: 10,
+                                    paddingHorizontal: "10%",
+                                    minHeight: 100
                                 }}
                             >
-                                Nombre de la caegoria
-                            </Text>
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        marginBottom: 5
+                                    }}
+                                >
+                                    Nombre de la caegoria
+                                </Text>
 
-                            <MyTextInput
-                                keyboardType='Text'
-                                placeholder={"Categoria"}
-                                value={values.name}
-                                onChangeText={handleChange('name')}
-                                onBlur={handleBlur('name')}
-                            />
+                                <MyTextInput
+                                    keyboardType='Text'
+                                    placeholder={"Categoria"}
+                                    value={values.name}
+                                    onChangeText={handleChange('name')}
+                                    onBlur={handleBlur('name')}
+                                />
 
-                        </View>
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%"
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Logo de la categoria
-                                
-                            </Text>
-                            <TouchableOpacity
-                            
-                            onPress={thakePhotoGallery}>
-                            <Image
-                                 source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
-                                style={{ width: 100, height: 100, marginHorizontal: 20, marginVertical: 20 }}
-                            />
-                            </TouchableOpacity>
-                     
-                        </View>
-
-                        <TouchableOpacity style={{ marginTop: 20, marginBottom: 30, alignItems: "center" }}
-                            onPress={() => handleSubmit()}>
-                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                <BotonNumero TituloNumero={'Guardar'} />
                             </View>
-                        </TouchableOpacity>
+                            <View
+                                style={{
+                                    width: "100%",
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                    paddingVertical: 10,
+                                    paddingHorizontal: "10%"
+                                }}
+                            >
+                                <Text
+                                    style={{
+                                        fontSize: 18,
+                                        marginBottom: 5
+                                    }}
+                                >
+                                    Logo de la categoria
 
-                    </>
-                )}
-            </Formik>
+                                </Text>
+                                <TouchableOpacity
 
-        </ScrollView>
+                                    onPress={thakePhotoGallery}>
+                                    <Image
+                                        source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
+                                        style={{ width: 100, height: 100, marginHorizontal: 20, marginVertical: 20 }}
+                                    />
+                                </TouchableOpacity>
+
+                            </View>
+
+                            <TouchableOpacity 
+                                style={{ 
+                                    marginTop: 20, 
+                                    alignItems: "center",
+                                    justifyContent:"center",
+                                    borderRadius:50,
+                                    backgroundColor: '#453091',
+                                    width:"70%",
+                                    height:50,
+                                    marginHorizontal:"15%"
+                                }}
+                                onPress={() => handleSubmit()}>
+                                    <Text style={{color:"#fff", fontWeight:"900"}}>
+                                        Guardar
+                                    </Text>
+                            </TouchableOpacity>
+
+                        </>
+                    )}
+                </Formik>
+                </View>
+            </ScrollView>
+        </SafeAreaView>
     )
     function goToBackScreen() {
         navigator.goBack()
@@ -174,7 +200,11 @@ export const CreateCategoriasBusiness = (props: any) => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center'
+        flex: 1,
+        backgroundColor: '#fff',
+        marginHorizontal: "2.5%",
+        width: "95%",
+        height: Dimensions.get("window").height - 100,
     },
     select: {
         color: color.PRIMARYCOLOR,
@@ -185,6 +215,14 @@ const styles = StyleSheet.create({
         borderBottomLeftRadius: 4,
         borderBottomRightRadius: 4,
         width: '100%'
+    },
+    BannerTitulo: {
+        width: '100%',
+        height: 100,
+        backgroundColor: '#000',
+        alignItems: 'center',
+        justifyContent:"center",
+        paddingBottom: 20,
     },
 });
 
