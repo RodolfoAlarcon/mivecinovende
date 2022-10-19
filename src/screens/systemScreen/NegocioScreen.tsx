@@ -284,6 +284,11 @@ const DetalleNegocioScreen = (props: any) => {
         }
     }
 
+    const [modalmensaje, setModalmensaje] = useState(false);
+    
+    const [modalinformacion, setModalinformacion] = useState(false);
+
+
     const renderItem = ({ item }: BusinessCategory) => (
         <View style={{ marginRight: 5 }}>
             <Text style={styles.TextoCategorias}>
@@ -382,17 +387,119 @@ const DetalleNegocioScreen = (props: any) => {
                 <View style={styles.ContainerFotos}>
 
                     <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%" }}>
+                        <View style={{ width: "20%"}}>
+                            <TouchableOpacity
+                                style={{ width: "100%", alignItems: "center" }}   
+                                onPress={ () => setModalinformacion(!modalinformacion) }                   
+                            >
+                            <Image source={require('../../sources/img/informacion.png')} style={{ width: 35, resizeMode: "stretch", height: 35 }} />
+                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                Infomación
+                            </Text>
+                            </TouchableOpacity>
+                            {modalinformacion ? (
+                                <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={true}
+                                >
+                                    <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                        <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                Mi Información
+                                            </Text>
+                                            <Text style={{color:"#000", marginBottom: 10}}>
+                                                {business.description}
+                                            </Text>
+                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                Mi Ubicación
+                                            </Text>
+                                            <Text style={{color:"#000", marginBottom: 10}}>
+                                                {business.direccion}
+                                            </Text>
+                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                Mi Teléfono
+                                            </Text>
+                                            <Text style={{color:"#000", marginBottom: 10}}>
+                                                {business.phone}
+                                            </Text>
+                                            <View style={{ width: "100%", flexDirection: "row", justifyContent: "center" }}>
+                                                <TouchableOpacity
+                                                    style={{ width: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                    onPress={() => { setModalinformacion(!modalinformacion) }}
+                                                >
+                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                        Regresar
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </Modal>
+
+                            ) : null}
+                        </View>
                         <View style={{ width: "20%", alignItems: "center" }}>
-                            <Image source={require('../../sources/img/favorito.png')} style={{ width: 40, resizeMode: "stretch", maxHeight: 40 }} />
+                            <Image source={require('../../sources/img/favorito.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
                             <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
                                 Favoritos
                             </Text>
                         </View>
-                        <View style={{ width: "20%", alignItems: "center" }}>
-                            <Image source={require('../../sources/img/mensajes.png')} style={{ width: 40, resizeMode: "stretch", maxHeight: 40 }} />
-                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                Mensajes
-                            </Text>
+                        <View style={{ width: "20%" }}>
+                            <TouchableOpacity
+                                style={{ alignItems: "center" }}
+                                onPress={() => setModalmensaje(!modalmensaje)}
+                            >
+                                <Image source={require('../../sources/img/mensajes.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
+                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                    Mensajes
+                                </Text>
+                            </TouchableOpacity>
+                            {modalmensaje ? (
+                                <Modal
+                                    animationType="slide"
+                                    transparent={true}
+                                    visible={true}
+                                >
+                                    <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                        <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                            <TouchableOpacity
+                                                style={{ position: "absolute", right: 5, top: 5 }}
+                                                onPress={() => { setModalmensaje(!modalmensaje) }}
+                                            >
+                                                <Icon name='x' color='#453091' size={25} />
+                                            </TouchableOpacity>
+                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                Déjame un mensaje aquí
+                                            </Text>
+                                            <Textarea
+                                                containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
+                                                maxLength={120}
+                                                placeholder={'Escribir mensaje aquí'}
+                                                placeholderTextColor={'#565656'}
+                                                underlineColorAndroid={'transparent'}
+                                            />
+                                            <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
+                                                <TouchableOpacity
+                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
+                                                >
+                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                        Vaciar
+                                                    </Text>
+                                                </TouchableOpacity>
+                                                <TouchableOpacity
+                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                >
+                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                        Apectar
+                                                    </Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
+                                    </View>
+                                </Modal>
+
+                            ) : null}
                         </View>
                         <View style={{ width: "20%", alignItems: "center" }}>
                             <TouchableOpacity
@@ -409,7 +516,7 @@ const DetalleNegocioScreen = (props: any) => {
                                 </View>
                                 <Image
                                     source={require('../../sources/img/pedir.png')}
-                                    style={{ width: 40, resizeMode: "stretch", maxHeight: 40, zIndex: -99 }}
+                                    style={{ width: 35, resizeMode: "stretch", maxHeight: 35, zIndex: -99 }}
                                 />
                                 <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
                                     Pedir
@@ -511,18 +618,12 @@ const DetalleNegocioScreen = (props: any) => {
                                 </Modal>
                             ) : null}
                         </View>
-                        <View style={{ width: "20%", alignItems: "center" }}>
-                            <Image source={require('../../sources/img/pagos.png')} style={{ width: 40, resizeMode: "stretch", maxHeight: 40 }} />
-                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                Pagos
-                            </Text>
-                        </View>
                         <View style={{ width: "20%" }}>
                             <TouchableOpacity
                                 style={{ alignItems: "center", width: "100%" }}
                                 onPress={() => { setModalreferencia(!modalreferencia) }}
                             >
-                                <Image source={require('../../sources/img/referencias.png')} style={{ width: 40, resizeMode: "stretch", maxHeight: 40 }} />
+                                <Image source={require('../../sources/img/referencias.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
                                 <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
                                     Referencias
                                 </Text>
@@ -545,6 +646,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                 Déjame una refencia aquí
                                             </Text>
                                             <Rating
+<<<<<<< Updated upstream
                                                 startingValue={reviewState}
                                                 onFinishRating={(e:any) => {setReviewState(e)}}
                                                 type='custom'
@@ -552,6 +654,16 @@ const DetalleNegocioScreen = (props: any) => {
                                                 imageSize={30}
                                                 fractions={2}
                                                 style={{marginBottom:10}}
+=======
+                                                type="custom"
+                                                onFinishRating={ratingCompleted}
+                                                tintColor="white"
+                                                ratingColor="#453091"
+                                                ratingBackgroundColor="#9175dc38"
+                                                startingValue={3}
+                                                imageSize={30}
+                                                style={{ marginBottom: 10 }}
+>>>>>>> Stashed changes
                                             />
                                             <Textarea
                                                 containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
