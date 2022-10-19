@@ -35,7 +35,7 @@ const ConversationItem = ({ picture, username, bio, lastMessage, time, isBlocked
 	};
 
 	return (
-		<View style={styles.container}>
+		<View>
 			<TouchableOpacity style={styles.conversation}
 			onPress={() => navigation.navigate('MessagesScreen' as never, {
 				username: username,
@@ -51,25 +51,28 @@ const ConversationItem = ({ picture, username, bio, lastMessage, time, isBlocked
 
 				<TouchableOpacity 
 					onPress={() => setModalVisible(currentValue => !currentValue)}
-					style={[styles.imageContainer, showStoryCircle()]}>
-					<Image style={styles.image} source={{ uri: picture }} />
+					style={[styles.imageContainer, /*showStoryCircle()*/]}>
+					<View style={{borderWidth:2,width:50,justifyContent:"center",alignItems:"center", borderRadius:50,height:50, borderColor:"#453091"}}>
+						<Image style={styles.image} source={{ uri: picture }} />
+					</View>
 				</TouchableOpacity>
 				<View style={{
-						flex: 1,
-						justifyContent: 'center'
+						justifyContent: 'center',
+						width:"80%",
+						flexDirection:"row",
 					}}>
 					<View style={{
-						flexDirection: 'row',
-						justifyContent: 'space-between'
+						width:"80%"
 					}}>
 						<Text numberOfLines={1} style={styles.username}>{username}</Text>
-						<Text style={styles.time}>{time}</Text>
+						<Text numberOfLines={1} style={styles.message}>{lastMessage}</Text>
 					</View>
 					<View style={{
-						flexDirection: 'row',
-						justifyContent: 'space-between'
+						justifyContent: 'center',
+						alignItems:"center",
+						width:"20%",
 					}}>
-						<Text style={styles.message}>{lastMessage}</Text>
+						<Text style={styles.time}>{time}</Text>
 						{showNotification('number')}
 					</View>
 				</View>
@@ -97,22 +100,18 @@ const styles = StyleSheet.create({
 	conversation: {
 		flexDirection: 'row',
 		paddingBottom: 25,
-		paddingRight: 20,
-		paddingLeft: 10
+		width:"100%",
 	},
 	imageContainer: {
-		marginRight: 15,
-		borderRadius: 25,
-		height: 50,
-		width: 50,
-		overflow: 'hidden',
-		alignItems: 'center',
-		justifyContent: 'center',
-		alignSelf: 'center' ,
+		width:"20%",
+		alignItems:"center"
 	},
 	image: {
-		height: 55,
-		width: 55
+		height: 43,
+		width: 43,
+		resizeMode:"cover",
+
+		borderRadius:50
 	},
 	username: {
 		fontSize: theme.fontSize.title,

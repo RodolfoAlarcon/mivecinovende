@@ -8,6 +8,7 @@ import Categoria from '../../components/catego'
 import AccordionView from '../../components/acordeon'
 import { Searchbar } from 'react-native-paper';
 import { Buscador } from '../../components/buscador';
+import SafeAreaView from 'react-native-safe-area-view';
 
 export const CategoriasScreen = (props: any) => {
 
@@ -20,7 +21,8 @@ export const CategoriasScreen = (props: any) => {
 
 
     return (
-        <ScrollView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
+                    <ScrollView>
             <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.bannerPersona}>
                 <View style={{flexDirection:"row",paddingHorizontal:15,marginVertical:15}}>
                 <Image
@@ -42,16 +44,19 @@ export const CategoriasScreen = (props: any) => {
                 <View style={styles.cajita}></View>
             </ImageBackground>
 
+            <View style={styles.container}>
             <View style={styles.buscador}>
                 <Buscador />
             </View>
-            <View style={{ width: '100%' }}>
+            <View style={{width:"100%"}}>
                 <Categoria
                     sector={paramsname}
                     id={paramsid}
                 />
             </View>
+            </View>
         </ScrollView>
+        </SafeAreaView>
     )
     function goToScreen(routeName: any, id: any) {
         navigator.navigate(routeName as never, { id: id } as never);
@@ -78,11 +83,12 @@ const styles = StyleSheet.create({
         textTransform: "uppercase"
     },
     container: {
-        flex: 1,
-        flexDirection: 'row'
+        minHeight: Dimensions.get("window").height - 130,
+        backgroundColor:"#fff",
+        width:"95%",
+        marginHorizontal:"2.5%"
     },
     buscador: {
-        height: 60,
         width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
@@ -136,12 +142,13 @@ const styles = StyleSheet.create({
         height: 160
     },
     cajita:{
-        width:"100%",
         backgroundColor:"#ffffff",
         height:35,
         position:"absolute",
         bottom:0,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
+        width:"95%",
+        marginHorizontal:"2.5%"
     },
 });

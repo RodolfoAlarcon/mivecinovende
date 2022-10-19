@@ -13,7 +13,7 @@ export const ListNegocioScreens = (props: any) => {
 
 
     return (
-        <SafeAreaView>
+        <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
 
             <ScrollView>
 
@@ -49,17 +49,20 @@ const styles = StyleSheet.create({
         height: 130,
     },
     cajita: {
-        width: "100%",
+        width: "95%",
         backgroundColor: "#ffffff",
         height: 35,
         position: "absolute",
         bottom: 0,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
+        marginHorizontal:"2.5%"
     },
     container:{
         minHeight: Dimensions.get("window").height - 130,
-        width:"100%"
+        width:"95%",
+        marginHorizontal:"2.5%",
+        backgroundColor:"#fff"
     }
 });
 

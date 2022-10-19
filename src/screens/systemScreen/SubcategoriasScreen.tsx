@@ -1,5 +1,5 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ScrollView, ImageBackground, Dimensions } from 'react-native';
 import { Locales } from '../../components/locales';
 import Subcategocaja from '../../components/Subcategocaja'
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -13,7 +13,7 @@ export const SubcategoriasScreen = (props: any) => {
     const uriImg = params.url_imagen;
 
     return (
-        <ScrollView>
+        <ScrollView style={{ flex: 1, backgroundColor: "#453091" }}>
             <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.bannerPersona}>
                 <View style={{ width: "75%", marginLeft: "25%", alignItems: "center" }}>
                     <Text style={{ marginTop: 10, color: '#fff', paddingLeft: 10, fontSize: 17 }}>
@@ -27,7 +27,7 @@ export const SubcategoriasScreen = (props: any) => {
                 </Text>
             </ImageBackground>
 
-            <View style={{ width: '100%' }}>
+            <View style={styles.container }>
                 <Subcategocaja
                     sector={params.sector}
                     id={params.id}
@@ -46,7 +46,8 @@ const styles = StyleSheet.create({
         height: 130,
     },
     cajita: {
-        width: "100%",
+        width: "95%",
+        marginHorizontal:"2.5%",
         backgroundColor: "#ffffff",
         height: 35,
         position: "absolute",
@@ -54,6 +55,12 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
     },
+    container:{
+        minHeight: Dimensions.get("window").height - 130,
+        backgroundColor:"#fff",
+        width:"95%",
+        marginHorizontal:"2.5%"
+    }
 });
 
 
