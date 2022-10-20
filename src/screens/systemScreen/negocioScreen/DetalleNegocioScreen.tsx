@@ -243,7 +243,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                     <View style={styles.Containermodal}>
 
 
-                                                    {sliderModal ? (
+
 
 <View style={styles.ContainerSlider}>
 
@@ -252,27 +252,24 @@ const DetalleNegocioScreen = (props: any) => {
         dotStyle={{ backgroundColor: '#fff' }}
     >
         {
-            console.log(n.slider)
-        }
-        {
-            n.slider.map((e: any) => {
+            n.slider.map((e: any) => 
 
-                return (
-                    <View key={e.id} style={{ width: 300, height: 170, justifyContent: 'center', alignItems: 'center', }}>
+                {
+                    return(
+                        <View style={{ flex:1, justifyContent: 'center', alignItems: 'center', }}>
                         <Image
                             source={{ uri: e.url }}
                             style={{ width: 300, height: 170, resizeMode: "stretch" }}
                         />
-                        <Text style={{color:"red"}}>
-                            {e.url}
-                        </Text>
                     </View>
-                )
-            })
+                    )
+                }
+                
+)
         }
     </Swiper>
 </View>
-) : []}
+
 
 
                                                         <View style={styles.ContainerDescripcion}>
@@ -549,10 +546,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff'
     },
     ContainerSlider: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        backgroundColor: '#000000d9'
+        backgroundColor: '#000000d9',
+        height:170
     },
     BannerTitulo: {
         width: '100%',
