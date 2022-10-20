@@ -178,7 +178,7 @@ const DetalleNegocioScreen = (props: any) => {
                     <View style={[{ width: '90%', flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: "5%", justifyContent: "flex-start" }, {}]}>
 
                         {
-                            params.business.productos.map((n: any) =>
+                            params.business.productos.map((n: any, key: any) =>
 
                                 <View key={n.id} style={{ width: '30%', marginBottom: '1%', backgroundColor: "#9DCFFB", borderRadius: 20, marginRight: "3.3%" }}>
                                     <TouchableOpacity
@@ -200,10 +200,10 @@ const DetalleNegocioScreen = (props: any) => {
                                                 : <>
                                                 </>
                                         ) : <View style={{ position: "absolute", bottom: 10, right: 7, width: 30, height: 30, backgroundColor: "#453091", borderRadius: 7, justifyContent: "center", alignItems: "center" }}>
-                                            <Text style={{ color: "#fff", fontSize: 10 }}>
-                                                ${n.precio}
-                                            </Text>
-                                        </View>}
+                                                <Text style={{ color: "#fff", fontSize: 10 }}>
+                                                    ${n.precio}
+                                                </Text>
+                                            </View>}
                                     </TouchableOpacity>
                                     {descripcionFoto ? (
 
@@ -242,35 +242,40 @@ const DetalleNegocioScreen = (props: any) => {
                                                 <View style={styles.Modalcarrito}>
                                                     <View style={styles.Containermodal}>
 
+                                                        <View style={styles.ContainerSlider}>
 
+                                                            <Swiper
+                                                                activeDotStyle={{ backgroundColor: '#453091' }}
+                                                                dotStyle={{ backgroundColor: '#fff' }}
+                                                            >
 
+                                                                {
+                                                                    n.slider.id == null && typeof n.slider !== 'object' ?
+                                                                        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                                                            <Image
+                                                                                source={require('../../../sources/img/Background.jpg')}
+                                                                                style={{ width: 300, height: 170, resizeMode: "stretch" }}
+                                                                            />
+                                                                        </View>
+                                                                        :
+                                                                        n.slider.map((e: any) => {
 
-<View style={styles.ContainerSlider}>
+                                                                            return (
+                                                                                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                                                                    <Image
+                                                                                        source={{ uri: e.url }}
+                                                                                        style={{ width: 300, height: 170, resizeMode: "stretch" }}
+                                                                                    />
+                                                                                </View>
+                                                                            )
+                                                                      
+                                                                        
+                                                                    }
 
-    <Swiper
-        activeDotStyle={{ backgroundColor: '#453091' }}
-        dotStyle={{ backgroundColor: '#fff' }}
-    >
-        {
-            n.slider.map((e: any) => 
-
-                {
-                    return(
-                        <View style={{ flex:1, justifyContent: 'center', alignItems: 'center', }}>
-                        <Image
-                            source={{ uri: e.url }}
-                            style={{ width: 300, height: 170, resizeMode: "stretch" }}
-                        />
-                    </View>
-                    )
-                }
-                
-)
-        }
-    </Swiper>
-</View>
-
-
+                                                                    )
+                                                                }
+                                                            </Swiper>
+                                                        </View>
 
                                                         <View style={styles.ContainerDescripcion}>
                                                             <Text style={styles.TextTitulo}>
@@ -281,7 +286,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                             </Text>
                                                         </View>
 
-                                                        <View style={{ width: "90%", marginHorizontal: "5%", flexDirection: "row", justifyContent: "space-between", marginTop:20 }}>
+                                                        <View style={{ width: "90%", marginHorizontal: "5%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
                                                             <TouchableOpacity
                                                                 style={styles.BotonCarrito}
                                                                 onPress={
@@ -325,17 +330,6 @@ const DetalleNegocioScreen = (props: any) => {
                             )
                         }
                     </View>
-
-
-
-
-
-
-
-
-
-
-
                 </View>
 
 
@@ -547,7 +541,7 @@ const styles = StyleSheet.create({
     },
     ContainerSlider: {
         backgroundColor: '#000000d9',
-        height:170
+        height: 170
     },
     BannerTitulo: {
         width: '100%',
