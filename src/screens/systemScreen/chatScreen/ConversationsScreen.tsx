@@ -20,7 +20,7 @@ export const ConversationsScreen = (props: any) => {
 			<ScrollView>
 			<ImageBackground source={require('../../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
 				<Text style={styles.TituloBan}>
-					Ubicación
+					Conversaciones
 				</Text>
 				<View style={styles.cajita}></View>
 			</ImageBackground>

@@ -100,18 +100,18 @@ const Message = ({ time, isLeft, message, onSwipe }: any) => {
 													<View style={{ width: 300, borderRadius: 15, backgroundColor: "#fff",overflow:"hidden"}}>
 														<Image
 															source={(n.foto == '') ? require('../../sources/img/Captura.jpg') : { uri: n.foto }}
-															style={{ width: 300, height: 175, resizeMode:"cover", marginBottom:15 }}
+															style={{ width: 300, height: 200, resizeMode:"cover", marginBottom:15 }}
 														/>
 														<Text style={{color:'#453091', fontWeight:"900",fontSize:18, paddingHorizontal:15}}>
 															{n.nombre}
 														</Text>
-														<Text style={{color:'#453091', fontWeight:"900",fontSize:18, paddingHorizontal:15}}>
+														<Text style={{color:'#453091', fontWeight:"500",fontSize:18, paddingHorizontal:15}}>
 															Precio: ${n.precios}
 														</Text>
-														<Text style={{color:'#453091', fontWeight:"900",fontSize:16, paddingHorizontal:15}}>
+														<Text style={{color:'#453091', fontWeight:"500",fontSize:16, paddingHorizontal:15}}>
 															descripción:
 														</Text>
-														<Text style={{color:'#453091', fontWeight:"900",fontSize:16, paddingHorizontal:15}}>
+														<Text style={{color:'#453091', fontWeight:"500",fontSize:16, paddingHorizontal:15}}>
 															{n.descripcion}
 														</Text>
 														<TouchableOpacity 

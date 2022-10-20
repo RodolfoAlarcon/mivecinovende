@@ -83,6 +83,25 @@ export default class Listnegocios extends Component<{ id: any }, any>{
         }
     }
 
+    _delivery(item: any) {
+        if (item.delivery === 1) {
+            return (
+                <View>
+                    <Image
+                        source={require('../sources/img/delivery.png')}
+                        style={{ width: 30, height: 30, resizeMode: 'contain', marginVertical: 23, marginHorizontal: 7 }}
+                    />
+                </View>
+            )
+        }
+        else{
+            return(
+                <>
+                </>
+            )
+        }
+    }
+
 
     _renderItem(item: any) {
 
@@ -118,11 +137,16 @@ export default class Listnegocios extends Component<{ id: any }, any>{
                         />
                     </View>
                 </View>
-                <View style={{ width: '80%', justifyContent: 'center' }}>
+                <View style={{ width: '60%', justifyContent: 'center' }}>
                     <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16 }}>
                         {console.log(item)}
                         {item.name}
                     </Text>
+                </View>
+                <View style={{width:"20%"}}>
+                {
+                        this._delivery(item)
+                    }
                 </View>
             </TouchableOpacity>
         )

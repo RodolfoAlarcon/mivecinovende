@@ -44,7 +44,7 @@ export default class PrincipalSellerScreens extends Component<{}, any>{
         },
         {
           key: 'ListaNegocios',
-          icon: 'codesandbox',
+          icon: 'briefcase',
           label: '',
           screen: <ListaNegocioScreen navigation={this.props.children} />,
           barColor: '#ffff',

@@ -23,6 +23,11 @@ const ListaNegocioScreen = (props: any) => {
                 </ImageBackground>
                 <View style={styles.container}>
 
+                    {
+                        business.map((n:any)=>{
+                            console.log(n.description)
+                        })
+                    }
 
                     {business.map((n: any) => (
                         <TouchableOpacity key={n.id} onPress={() => {
@@ -42,6 +47,7 @@ const ListaNegocioScreen = (props: any) => {
 
                             <View style={{ width: "80%",justifyContent:"center" }}>
                                 <Text style={{ fontSize: 20, color: "#453091", fontWeight: "900" }}> {n.name} </Text>
+                                <Text numberOfLines={1} style={{  color: "#453091", fontWeight: "600" }}> {n.description} </Text>
                             </View>
 
                         </TouchableOpacity>

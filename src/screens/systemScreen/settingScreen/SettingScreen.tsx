@@ -42,35 +42,35 @@ export default function SettingScreen(props: any) {
                         onPress={() => { goToScreen('EditProfileScreen') }}
                         style={styles.opciones}
                     >
-                        <Icon size={30} color="grey" name={"user"} />
-                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Editar Perfil </Text>
+                        <Icon size={25} color="grey" name={"user"} />
+                        <Text style={{ fontSize: 16, color: "grey", marginLeft: 20, marginTop: 3 }}> Editar Perfil </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => { goToScreen('EditAdressScreen') }}
                         style={styles.opciones}
                     >
-                        <Icon size={30} color="grey" name={"map-pin"} />
-                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Cambiar Ubicación </Text>
+                        <Icon size={25} color="grey" name={"map-pin"} />
+                        <Text style={{ fontSize: 16, color: "grey", marginLeft: 20, marginTop: 3 }}> Cambiar Ubicación </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => goToScreen("ListFollowNegocioScreens")}
                         style={styles.opciones}
                     >
-                        <Icon size={30} color="grey" name={"star"} />
-                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Negocios Favoritos </Text>
+                        <Icon size={25} color="grey" name={"star"} />
+                        <Text style={{ fontSize: 16, color: "grey", marginLeft: 20, marginTop: 3 }}> Negocios Favoritos </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => goToScreen("RequestFormScreen")}
                         style={styles.opciones}
                     >
-                        <Icon size={30} color="grey" name={"mail"} />
-                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Solictar Un Negocio </Text>
+                        <Icon size={25} color="grey" name={"mail"} />
+                        <Text style={{ fontSize: 16, color: "grey", marginLeft: 20, marginTop: 3 }}> Solictar Un Negocio </Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={styles.opciones}
                     >
-                        <Icon size={30} color="grey" name={"log-out"} />
-                        <Text style={{ fontSize: 20, color: "grey", marginLeft: 20, marginTop: 3 }}> Cerrar Sesión </Text>
+                        <Icon size={25} color="grey" name={"log-out"} />
+                        <Text style={{ fontSize: 16, color: "grey", marginLeft: 20, marginTop: 3 }}> Cerrar Sesión </Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>

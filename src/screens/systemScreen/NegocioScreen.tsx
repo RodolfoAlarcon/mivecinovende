@@ -779,7 +779,9 @@ const DetalleNegocioScreen = (props: any) => {
                                             >
                                                 <View style={styles.Modalcarrito}>
                                                     <View style={styles.Containermodal}>
-
+                                                        {
+                                                            console.log(n.slider)
+                                                        }
                                                         {sliderModal ? (
 
                                                             <View style={styles.ContainerSlider}>
