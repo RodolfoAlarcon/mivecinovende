@@ -83,7 +83,11 @@ const DetalleNegocioScreen = (props: any) => {
                             </View>
                         </View>
                         <View style={{ width: "5%" }}>
-                            <Icon name="more-vertical" size={25} color="#fff" />
+                            <TouchableOpacity
+                                onPress={() => goToScreen('EditBusinessScreen', params.business)}
+                            >
+                                <Icon name="more-vertical" size={25} color="#fff" />
+                            </TouchableOpacity>
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", width: "95%", marginVertical: 15, justifyContent: "space-between" }}>
