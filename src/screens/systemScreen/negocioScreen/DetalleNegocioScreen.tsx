@@ -61,9 +61,12 @@ const DetalleNegocioScreen = (props: any) => {
                         <View style={{ width: "25%" }}>
                             <View style={{ borderWidth: 2, padding: 3, borderRadius: 100, borderColor: "#fff", width: 70 }}>
                                 <Image
-                                    source={(params.business.url_logoo == null || params.business.url_logo == '') ? require('../../../sources/img/url_default.png') : { uri: params.business.url_logo }}
+                                    source={(params.business.url_logo == null || params.business.url_logo == '') ? require('../../../sources/img/url_default.png') : { uri: params.business.url_logo }}
                                     style={{ width: 60, height: 60, borderRadius: 200, }}
                                 />
+                                {
+                                    console.log(params.business.url_logo)
+                                }
                             </View>
                         </View>
                         <View style={{ width: "70%" }}>
