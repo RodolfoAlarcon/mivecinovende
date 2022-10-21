@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from 'react';
-import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Alert, ScrollView, ImageBackground } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { Formik } from 'formik';
 import { color } from '../../../styles/colors';
@@ -9,6 +9,7 @@ import ToolBar from '../../../components/Toolbar';
 import RNPickerSelect from 'react-native-picker-select';
 import BotonNumero from '../../../components/BotonNumero';
 import { launchImageLibrary } from 'react-native-image-picker';
+import SafeAreaView from 'react-native-safe-area-view';
 
 export const EditProductScreen = (props: any) => {
     const { params } = props.route;
@@ -44,7 +45,7 @@ export const EditProductScreen = (props: any) => {
                      ? resp.assets[0].uri
                      : resp.assets[0].uri.replace('file://', ''),*/
                 };
-                
+
 
                 //setImage(resp.assets[0].uri)
                 setNewSlider([...newSlider, data.slider])
@@ -85,14 +86,14 @@ export const EditProductScreen = (props: any) => {
             image_request: 'delete',
             slider: ''
         }
-        oldSlider = oldSlider.filter((n: any, key:any) => n.id !== id);
+        oldSlider = oldSlider.filter((n: any, key: any) => n.id !== id);
         setOldSlider(oldSlider)
         setTempSlider([...tempSlider, data])
     }
 
     function deleteNewSlider(uri: any) {
-        tempSlider = tempSlider.filter((n: any, key:any) => n.slider.uri !== uri);
-        newSlider = newSlider.filter((n: any, key:any) => n.uri !== uri);
+        tempSlider = tempSlider.filter((n: any, key: any) => n.slider.uri !== uri);
+        newSlider = newSlider.filter((n: any, key: any) => n.uri !== uri);
         setNewSlider(newSlider)
         setTempSlider(tempSlider)
     }
@@ -103,247 +104,261 @@ export const EditProductScreen = (props: any) => {
     })
 
     return (
-        <ScrollView>
-            <ToolBar titulo='Crear Producto'
-                onPressLeft={() => goToBackScreen()}
-                iconLeft={require('../../../sources/img/back.png')}
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#453091' }}>
+            <ScrollView>
+                <ImageBackground source={require("../../../sources/img/Background.jpg")} style={styles.Header} resizeMode="cover">
+                    <Text style={{
+                        fontSize: 22,
+                        textAlign: "center",
+                        color: '#fff',
+                        fontWeight: "bold"
+                    }}>
+                        Editar Producto
+                    </Text>
+                    <View style={{ width: "95%", height: 25, backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20, marginHorizontal: "2.5%", position: "absolute", bottom: 0 }}></View>
+                </ImageBackground>
+                <View style={styles.container}>
+                    <Formik
+                        initialValues={{
+                            negocio_id: params.data.id_negocio,
+                            producto: params.data.producto,
+                            url_imagen: params.data.url_imagen,
+                            descripcion: params.data.descripcion,
+                            precio: params.data.precio,
+                            bussinesCategoryId: params.data.bussinesCategoryId,
+                            id: params.data.id
+                        }}
+                        onSubmit={async (values: any) => {
+                            values.url_imagen = tempUri;
+                            const res = await editProduct(values, business)
 
-            />
-            <Formik
-                initialValues={{
-                    negocio_id: params.data.id_negocio,
-                    producto: params.data.producto,
-                    url_imagen: params.data.url_imagen,
-                    descripcion: params.data.descripcion,
-                    precio: params.data.precio,
-                    bussinesCategoryId: params.data.bussinesCategoryId,
-                    id: params.data.id
-                }}
-                onSubmit={async (values: any) => {
-                    values.url_imagen = tempUri;
-                    const res = await editProduct(values, business)
+                            if (tempSlider.length !== 0) {
+                                await tempSlider.map(async (n: any) => {
 
-                    if (tempSlider.length !== 0) {
-                        await tempSlider.map(async (n: any) => {
+                                    await editSliderProduct(n, business)
+                                })
 
-                            await editSliderProduct(n, business)
-                        })
-
-                    }
-
-                    if (res == true) {
-                        /*let arrayREd;
-    
-                        business.map((n: any) => {
-                            if (n.id == params.data.id_negocio) {
-                                arrayREd = n.productos;
-                            } else {
-                                arrayREd = [];
                             }
-                        })*/
 
-                        goToScreen(params.business)
-                    }
-                }}
-            >
-                {({
-                    handleChange,
-                    handleBlur,
-                    handleSubmit,
-                    values,
-                    errors,
-                    touched,
-                    isValid,
-                }: any) => (
-                    <>
-                        <TouchableOpacity
+                            if (res == true) {
+                                /*let arrayREd;
+            
+                                business.map((n: any) => {
+                                    if (n.id == params.data.id_negocio) {
+                                        arrayREd = n.productos;
+                                    } else {
+                                        arrayREd = [];
+                                    }
+                                })*/
 
-                            onPress={thakePhoto}>
-                            <Text style={{ textAlign: 'center', fontSize: 20 }}>Agregar Foto</Text>
-                            <Image
-                                source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
-                                style={{ width: 100, height: 100, marginHorizontal: 20, marginVertical: 20, marginLeft: '30%' }}
-                            />
-                        </TouchableOpacity>
-                        <Text
-                            style={{
-                                fontSize: 18,
-                                marginBottom: 5,
-                                textAlign: 'center'
-                            }}
-                        >
-                            Categoria del Producto
-                        </Text>
-                        <View style={styles.select}>
-                            <RNPickerSelect
-                                placeholder={{
-                                    label: 'Categoria',
-                                    value: '',
-                                }}
-
-                                onValueChange={handleChange('bussinesCategoryId')}
-                                items={categoryArray}
-                                value={params.data.bussinesCategoryId}
-
-                            />
-                        </View>
-
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%",
-                                minHeight: 100
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Nombre del producto
-                            </Text>
-
-                            <MyTextInput
-                                keyboardType='Text'
-                                placeholder={"Nombre del producto"}
-                                value={values.producto}
-                                onChangeText={handleChange('producto')}
-                                onBlur={handleBlur('producto')}
-                            />
-
-
-                        </View>
-
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%",
-                                minHeight: 100
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Precio del producto
-                            </Text>
-
-                            <MyTextInput
-                                keyboardType='numeric'
-                                value={values.precio.toString()}
-                                onChangeText={handleChange('precio')}
-                                onBlur={handleBlur('precio')}
-                            />
-
-                        </View>
-                        <View
-                            style={{
-                                width: "100%",
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                paddingVertical: 10,
-                                paddingHorizontal: "10%",
-                                minHeight: 100
-                            }}
-                        >
-                            <Text
-                                style={{
-                                    fontSize: 18,
-                                    marginBottom: 5
-                                }}
-                            >
-                                Descripcion del producto
-                            </Text>
-
-                            <MyTextInput
-                                keyboardType='Text'
-                                placeholder={"descripcion"}
-                                numberOfLines={6}
-                                multiline={true}
-                                onChangeText={handleChange('descripcion')}
-                                onBlur={handleBlur('descripcion')}
-                                value={values.descripcion}
-                            />
-
-                        </View>
-                        <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap' }}>
-                            <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
+                                goToScreen(params.business)
+                            }
+                        }}
+                    >
+                        {({
+                            handleChange,
+                            handleBlur,
+                            handleSubmit,
+                            values,
+                            errors,
+                            touched,
+                            isValid,
+                        }: any) => (
+                            <>
                                 <TouchableOpacity
-                                    onPress={() => {
-                                        thakePhotoGallery()
-                                    }}
-                                >
+                                    style={{ justifyContent: "center", alignItems: "center" }}
+                                    onPress={thakePhoto}>
+                                    <Text style={{ textAlign: 'center', color: "#453091", fontWeight:"800" }}>AGREGAR FOTO</Text>
                                     <Image
-                                        source={require('../../../sources/img/Captura.jpg')}
-                                        style={{ width: '100%', height: 150 }}
+                                        source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
+                                        style={{ width: 100, height: 100, }}
                                     />
                                 </TouchableOpacity>
-                            </View>
+                                <Text
+                                    style={{
+                                        marginTop: 15,
+                                        marginBottom: 5,
+                                        textAlign: 'center',
+                                        color: "#453091",
+                                        fontWeight:"800"
+                                    }}
+                                >
+                                    CATEGORIA DEL PRODUCTO
+                                </Text>
+                                <View style={styles.select}>
+                                    <RNPickerSelect
+                                        placeholder={{
+                                            label: 'Categoria',
+                                            value: '',
+                                        }}
 
-                            {oldSlider.map((n: any) =>
+                                        onValueChange={handleChange('bussinesCategoryId')}
+                                        items={categoryArray}
+                                        value={params.data.bussinesCategoryId}
+                                        style={pickerStyle}
+                                    />
+                                </View>
 
-                                <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
-                                    <TouchableOpacity
-                                        style={{ width: '50%', alignItems: 'flex-end', marginLeft: '50%' }}
-                                        onPress={
-                                            () => { deleteOldSlider(n.id) }
-                                        }
+                                <View
+                                    style={{
+                                        width: "100%",
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        paddingVertical: 10,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            marginBottom: 5,
+                                            color: "#453091",
+                                            fontWeight:"800"
+                                        }}
                                     >
-                                        <Text style={{ backgroundColor: 'red', textAlign: 'right', color: 'white', paddingHorizontal: 10 }}>borrar</Text>
+                                        NOMBRE DEL PRODUCTO
+                                    </Text>
 
-                                    </TouchableOpacity>
-                                    <Image
-                                        source={{ uri: n.url }}
-                                        style={{ width: '100%', height: 100, marginHorizontal: 0, marginVertical: 0, marginLeft: '1%' }}
+                                    <MyTextInput
+                                        keyboardType='Text'
+                                        placeholder={"Nombre del producto"}
+                                        value={values.producto}
+                                        onChangeText={handleChange('producto')}
+                                        onBlur={handleBlur('producto')}
                                     />
 
 
                                 </View>
-                            )}
 
-                            {newSlider.map((n: any) =>
-
-                                <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%' }}>
-                                    <TouchableOpacity
-                                        style={{ width: '50%', alignItems: 'flex-end', marginLeft: '50%' }}
-                                        onPress={
-                                            () => { deleteNewSlider(n.uri) }
-                                        }
+                                <View
+                                    style={{
+                                        width: "100%",
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        paddingVertical: 10,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color: "#453091",
+                                            fontWeight:"800",
+                                            marginBottom: 5
+                                        }}
                                     >
-                                        <Text style={{ backgroundColor: 'red', textAlign: 'right', color: 'white', paddingHorizontal: 10 }}>borrar</Text>
+                                        PRECIO DEL PRODUCTO
+                                    </Text>
 
-                                    </TouchableOpacity>
-                                    <Image
-                                        source={{ uri: n.uri }}
-                                        style={{ width: '100%', height: 100, marginHorizontal: 0, marginVertical: 0, marginLeft: '1%' }}
+                                    <MyTextInput
+                                        keyboardType='numeric'
+                                        value={values.precio.toString()}
+                                        onChangeText={handleChange('precio')}
+                                        onBlur={handleBlur('precio')}
                                     />
 
+                                </View>
+                                <View
+                                    style={{
+                                        width: "100%",
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                        paddingVertical: 10,
+                                    }}
+                                >
+                                    <Text
+                                        style={{
+                                            color: "#453091",
+                                            fontWeight:"800",
+                                            marginBottom: 5
+                                        }}
+                                    >
+                                        DESCRIPCIÓN DEL PRODUCTO
+                                    </Text>
+
+                                    <MyTextInput
+                                        keyboardType='Text'
+                                        placeholder={"descripcion"}
+                                        numberOfLines={6}
+                                        multiline={true}
+                                        onChangeText={handleChange('descripcion')}
+                                        onBlur={handleBlur('descripcion')}
+                                        value={values.descripcion}
+                                    />
 
                                 </View>
-                            )}
+                                <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap' }}>
+                                    <View style={{width:"100%", justifyContent:"center", alignItems:"center",marginVertical:10}}>
+                                        <Text style={{marginBottom:5,                                         color: "#453091",
+                                        fontWeight:"800"}}>
+                                            GALERÍA
+                                        </Text>
+                                    </View>
 
-                        </View>
-                        <TouchableOpacity style={{ marginTop: 20, marginBottom: 30, alignItems: "center" }}
-                            onPress={() => handleSubmit()}>
-                            <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                <BotonNumero TituloNumero={'Guardar'} />
-                            </View>
-                        </TouchableOpacity>
+                                    <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
+                                        <TouchableOpacity
+                                            onPress={() => {
+                                                thakePhotoGallery()
+                                            }}
+                                        >
+                                            <Image
+                                                source={require('../../../sources/img/Captura.jpg')}
+                                                style={{ width: '100%', height: 100 }}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
 
-                    </>
-                )}
-            </Formik>
+                                    {oldSlider.map((n: any) =>
 
-        </ScrollView>
+                                        <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: 15 }}>
+                                            <Image
+                                                source={{ uri: n.url }}
+                                                style={{ width: '100%', height: 100, marginHorizontal: 0, marginVertical: 0, marginLeft: '1%' }}
+                                            />
+                                            <TouchableOpacity
+                                                style={{ width: '70%', backgroundColor:"#453091", marginHorizontal:"15%",height:20, borderRadius:20, marginTop:5, alignItems:"center", justifyContent:"center" }}
+                                                onPress={
+                                                    () => { deleteOldSlider(n.id) }
+                                                }
+                                            >
+                                                <Text style={{ textAlign: 'center', color: 'white',fontSize:10}}>BORRAR</Text>
+
+                                            </TouchableOpacity>
+
+                                        </View>
+                                    )}
+
+                                    {newSlider.map((n: any) =>
+
+                                        <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: 10 }}>
+                                            <Image
+                                                source={{ uri: n.uri }}
+                                                style={{ width: '100%', height: 100, marginHorizontal: 0, marginVertical: 0, marginLeft: '1%' }}
+                                            />
+                                            <TouchableOpacity
+                                                style={{ width: '70%', backgroundColor:"#453091", marginHorizontal:"15%",height:20, borderRadius:20, marginTop:5, alignItems:"center", justifyContent:"center" }}
+                                                onPress={
+                                                    () => { deleteNewSlider(n.uri) }
+                                                }
+                                            >
+                                                <Text style={{ textAlign: 'center', color: 'white',fontSize:10 }}>BORRAR</Text>
+
+                                            </TouchableOpacity>
+
+                                        </View>
+                                    )}
+
+                                </View>
+                                <TouchableOpacity style={{ marginTop: 10, marginBottom: 30, width:"80%", backgroundColor:"#453091", height:45, justifyContent:"center", alignItems:"center", borderRadius:50, marginHorizontal:"10%"}}
+                                    onPress={() => handleSubmit()}>
+                                        <Text style={{ color: "#fff", fontWeight: "900" }}>
+                                            Guardar
+                                        </Text>
+                                </TouchableOpacity>
+
+                            </>
+                        )}
+                    </Formik>
+                </View>
+
+            </ScrollView>
+        </SafeAreaView>
     )
     function goToBackScreen() {
         navigator.goBack()
@@ -362,16 +377,33 @@ export const EditProductScreen = (props: any) => {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center'
+        width: "95%",
+        marginHorizontal: "2.5%",
+        minHeight: Dimensions.get("window").height - 100,
+        backgroundColor: "#fff",
+        paddingHorizontal: "10%"
     },
     select: {
-        color: color.PRIMARYCOLOR,
-        borderTopLeftRadius: 4,
-        borderTopRightRadius: 4,
-        borderBottomLeftRadius: 4,
-        borderBottomRightRadius: 4,
-        width: '80%',
-        marginHorizontal: '10%',
-        backgroundColor: '#F0F0F0'
+        borderRadius: 50,
+        overflow: 'hidden',
+        width: '100%',
+        backgroundColor: '#F0F0F0',
+        marginBottom: 10
     },
+    Header: {
+        width: "100%",
+        height: 100,
+        justifyContent: "center",
+        paddingBottom: 25
+    }
 });
+
+const pickerStyle = {
+    inputIOS: {
+        color: '#453091',
+    },
+    inputAndroid: {
+        color: '#453091',
+    },
+    placeholderColor: 'white',
+};

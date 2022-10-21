@@ -119,11 +119,12 @@ export const CreateCategoriasBusiness = (props: any) => {
                             >
                                 <Text
                                     style={{
-                                        fontSize: 18,
+                                        color: "#453091",
+                                        fontWeight:"800",
                                         marginBottom: 5
                                     }}
                                 >
-                                    Nombre de la caegoria
+                                    NOMBRE DE LA CATEGORIA
                                 </Text>
 
                                 <MyTextInput
@@ -145,12 +146,13 @@ export const CreateCategoriasBusiness = (props: any) => {
                                 }}
                             >
                                 <Text
-                                    style={{
-                                        fontSize: 18,
-                                        marginBottom: 5
-                                    }}
+                                        style={{
+                                            color: "#453091",
+                                            fontWeight:"800",
+                                            marginBottom: 5
+                                        }}
                                 >
-                                    Logo de la categoria
+                                    LOGO DE LA CATEGORIA
 
                                 </Text>
                                 <TouchableOpacity

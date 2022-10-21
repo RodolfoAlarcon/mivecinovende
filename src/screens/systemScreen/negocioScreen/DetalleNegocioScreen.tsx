@@ -51,7 +51,6 @@ const DetalleNegocioScreen = (props: any) => {
         </View>
     );
 
-    const sera = ['']
     // y aqui finaliza
 
     return (
@@ -180,7 +179,7 @@ const DetalleNegocioScreen = (props: any) => {
                         {
                             params.business.productos.map((n: any, key: any) =>
 
-                                <View key={n.id} style={{ width: '30%', marginBottom: '1%', backgroundColor: "#9DCFFB", borderRadius: 20, marginRight: "3.3%" }}>
+                                <View key={n.id} style={{ width: '30%', marginBottom: 15, backgroundColor: "#9DCFFB", borderRadius: 20, marginRight: "3.3%" }}>
                                     <TouchableOpacity
                                         style={{ height: 100, justifyContent: "center", alignItems: "center" }}
                                         onPress={
@@ -248,7 +247,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                                 activeDotStyle={{ backgroundColor: '#453091' }}
                                                                 dotStyle={{ backgroundColor: '#fff' }}
                                                             >
-
+ 
                                                                 {
                                                                     n.slider.id == null && typeof n.slider !== 'object' ?
                                                                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
@@ -280,6 +279,9 @@ const DetalleNegocioScreen = (props: any) => {
                                                         <View style={styles.ContainerDescripcion}>
                                                             <Text style={styles.TextTitulo}>
                                                                 {n.producto}
+                                                            </Text>
+                                                            <Text style={[styles.TextoDescripcion,{fontWeight:"900",fontSize:18}]}>
+                                                                Precio: ${n.precio}
                                                             </Text>
                                                             <Text style={styles.TextoDescripcion}>
                                                                 {n.descripcion}
@@ -331,28 +333,6 @@ const DetalleNegocioScreen = (props: any) => {
                         }
                     </View>
                 </View>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </ScrollView>
         </SafeAreaView>
     )

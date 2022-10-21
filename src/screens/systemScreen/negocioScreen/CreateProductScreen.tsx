@@ -150,15 +150,27 @@ export const CreateProductScreen = (props: any) => {
                             <>
                                 <TouchableOpacity
                                     style={{
-                                        alignItems:'center'
+                                        alignItems:'center',
+                                        justifyContent:"center"
                                     }}
                                     onPress={thakePhoto}>
-                                    <Text style={{ textAlign: 'center', color:"#000" }}>Agregar Foto</Text>
+                                    <Text style={{ textAlign: 'center', color: "#453091", fontWeight:"800" }}>AGREGAR FOTO</Text>
                                     <Image
                                         source={(image == '') ? require('../../../sources/img/url_default.png') : { uri: image }}
                                         style={{ width: 100, height: 100,marginVertical: 15 }}
                                     />
                                 </TouchableOpacity>
+                                <Text
+                                    style={{
+                                        marginTop: 15,
+                                        marginBottom: 5,
+                                        textAlign: 'center',
+                                        color: "#453091",
+                                        fontWeight:"800"
+                                    }}
+                                >
+                                    CATEGORIA DEL PRODUCTO
+                                </Text>
                                 <View style={styles.select}>
                                     <RNPickerSelect
                                         placeholder={{
@@ -173,16 +185,24 @@ export const CreateProductScreen = (props: any) => {
                                         }}
                                     />
                                 </View>
-
                                 <View
                                     style={{
                                         width: "100%",
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         paddingVertical: 10,
-                                        paddingHorizontal: "10%",
+                                        paddingHorizontal:"10%"
                                     }}
                                 >
+                                    <Text
+                                        style={{
+                                            marginBottom: 5,
+                                            color: "#453091",
+                                            fontWeight:"800"
+                                        }}
+                                    >
+                                        NOMBRE DEL PRODUCTO
+                                    </Text>
 
                                     <MyTextInput
                                         keyboardType='Text'
@@ -201,11 +221,18 @@ export const CreateProductScreen = (props: any) => {
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         paddingVertical: 10,
-                                        paddingHorizontal: "10%",
+                                        paddingHorizontal:"10%"
                                     }}
                                 >
-
-
+                                    <Text
+                                        style={{
+                                            color: "#453091",
+                                            fontWeight:"800",
+                                            marginBottom: 5
+                                        }}
+                                    >
+                                        PRECIO DEL PRODUCTO
+                                    </Text>
                                     <MyTextInput
                                         keyboardType='numeric'
                                         value={values.precio.toString()}
@@ -220,10 +247,18 @@ export const CreateProductScreen = (props: any) => {
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                         paddingVertical: 10,
-                                        paddingHorizontal: "10%",
+                                        paddingHorizontal:"10%"
                                     }}
                                 >
-
+                                    <Text
+                                        style={{
+                                            color: "#453091",
+                                            fontWeight:"800",
+                                            marginBottom: 5
+                                        }}
+                                    >
+                                        DESCRIPCIÓN DEL PRODUCTO
+                                    </Text>
                                     <MyTextInput
                                         keyboardType='Text'
                                         placeholder={"descripcion"}
@@ -235,7 +270,13 @@ export const CreateProductScreen = (props: any) => {
                                     />
 
                                 </View>
-                                <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap' }}>
+                                <View style={{ width: '100%', flexDirection: 'row', flexWrap: 'wrap',paddingHorizontal:"10%" }}>
+                                <View style={{width:"100%", justifyContent:"center", alignItems:"center",marginVertical:10}}>
+                                        <Text style={{marginBottom:5,                                         color: "#453091",
+                                        fontWeight:"800"}}>
+                                            GALERÍA
+                                        </Text>
+                                    </View>
                                     <View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
                                         <TouchableOpacity
                                             onPress={() => {
@@ -244,7 +285,7 @@ export const CreateProductScreen = (props: any) => {
                                         >
                                             <Image
                                                 source={require('../../../sources/img/Captura.jpg')}
-                                                style={{ width: '100%', height: 150 }}
+                                                style={{ width: '100%', height: 100 }}
                                             />
                                         </TouchableOpacity>
                                     </View>
@@ -320,7 +361,7 @@ const styles = StyleSheet.create({
         overflow: 'hidden',
         width: '80%',
         marginHorizontal: "10%",
-        marginVertical: 15
+        marginBottom: 15
     },
     BannerTitulo: {
         width: '100%',
