@@ -27,16 +27,16 @@ const ElementListNotificacion = (props: any) => {
             <View style={{width:"20%", justifyContent:"center"}}>
               <View style={{width:55,height:55, justifyContent:"center", alignItems:"center",borderRadius:50, borderWidth:2, borderColor:"#453091", overflow:'hidden'}}>
               <Image
-                source={require("../sources/img/pizza.jpg")}
+                source={(n.content.url_imagen == null || n.content.url_imagen == '') ? require('../sources/img/url_default.png') : { uri: n.content.url_imagen }}
                 style={{width:45,height:45, resizeMode:'cover', borderRadius:50}}
               />
               </View>
             </View>
             <View style={{width:"80%"}}>
-              <Text numberOfLines={1} style={{ fontSize: 18, color: "#453091",fontWeight:"900" }}>Toque de {n.content.nombre}</Text>
-              <Text numberOfLines={1} style={{ color: n.status == 0 ? '#9175DC' : '#453091' }}>{n.content.titulo}</Text>
+              <Text numberOfLines={1} style={{ fontSize: 18, color: "#453091",fontWeight:"900" }}>{n.content.titulo}</Text>
+              <Text numberOfLines={1} style={{ color: n.status == 0 ? '#9175DC' : '#453091' }}>{n.content.mensaje}</Text>
               <View style={{ flexDirection: 'row' }}>
-                {console.log(n)}
+                
                 <Icon size={10} color="black" name={"clock"} />
                 <Text style={{ fontSize: 10, marginLeft: 5, color: "black" }}>{n.created_at}</Text>
               </View>
