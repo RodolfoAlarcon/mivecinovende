@@ -103,9 +103,9 @@ const DetalleNegocioScreen = (props: any) => {
 
     //============================encontrar review existente===================================================
     var review = business.reviews.filter((n: any) => n.user_id == user.id);
-   
-    if (review.length !== 0){
-        
+
+    if (review.length !== 0) {
+
         review = review[0]
     } else {
         console.log('entro 2')
@@ -117,8 +117,8 @@ const DetalleNegocioScreen = (props: any) => {
     }
     const [reviewState, setReviewState] = useState(review.puntuacion)
     const [reviewTexArea, setReviewTexArea] = useState(review.descripcion)
-    
-    
+
+
     //=========================================================================================================
 
     const baseUrl = `https://vecinovendechat.herokuapp.com`;
@@ -255,28 +255,28 @@ const DetalleNegocioScreen = (props: any) => {
     async function ratingCompleted() {
 
         let data = {
-            'bussiness_id' : business.id,
-            'user_id' : user.id,
-            'descripcion' : reviewTexArea,
-            'puntuacion' : reviewState,
+            'bussiness_id': business.id,
+            'user_id': user.id,
+            'descripcion': reviewTexArea,
+            'puntuacion': reviewState,
             'id': review.id,
         }
-        let responseReview =  await sendReview(data);
+        let responseReview = await sendReview(data);
 
         console.log(responseReview.review)
 
-        if (responseReview.response == true){
-            if(review.id == ""){
+        if (responseReview.response == true) {
+            if (review.id == "") {
                 responseReview.review.url_imagen = user.url_imagen
                 responseReview.review.name = user.name
                 business.reviews.push(responseReview.review)
                 setBusiness(business)
-            }else{
+            } else {
 
                 business.reviews.forEach((data, key) => {
-                    if(data['id'] == responseReview.review.id){
-                        business.reviews[key].descripcion = responseReview.review.descripcion; 
-                        business.reviews[key].puntuacion =  responseReview.review.puntuacion;
+                    if (data['id'] == responseReview.review.id) {
+                        business.reviews[key].descripcion = responseReview.review.descripcion;
+                        business.reviews[key].puntuacion = responseReview.review.puntuacion;
                     }
                 })
                 setBusiness(business)
@@ -285,7 +285,7 @@ const DetalleNegocioScreen = (props: any) => {
     }
 
     const [modalmensaje, setModalmensaje] = useState(false);
-    
+
     const [modalinformacion, setModalinformacion] = useState(false);
 
 
@@ -328,53 +328,53 @@ const DetalleNegocioScreen = (props: any) => {
     // y aqui finaliza
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
-            <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
-                <View style={{ flexDirection: "row", width: "95%" }}>
-                    <View style={{ width: "25%" }}>
-                        <View style={{ borderWidth: 2, padding: 3, borderRadius: 100, borderColor: "#fff", width: 70 }}>
-                            <Image
-                                source={(business.url_logo == null || business.url_logo == '') ? require('../../sources/img/url_default.png') : { uri: business.url_logo }}
-                                style={{ width: 60, height: 60, borderRadius: 200, }}
-                            />
+            <ScrollView>
+                <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
+                    <View style={{ flexDirection: "row", width: "95%" }}>
+                        <View style={{ width: "25%" }}>
+                            <View style={{ borderWidth: 2, padding: 3, borderRadius: 100, borderColor: "#fff", width: 70 }}>
+                                <Image
+                                    source={(business.url_logo == null || business.url_logo == '') ? require('../../sources/img/url_default.png') : { uri: business.url_logo }}
+                                    style={{ width: 60, height: 60, borderRadius: 200, }}
+                                />
+                            </View>
+                        </View>
+                        <View style={{ width: "70%" }}>
+                            <View style={{ flexDirection: "row" }}>
+                                <Text style={{ color: "#fff", marginTop: 5, fontSize: 20 }}>
+                                    {business.name}
+                                </Text>
+                                <Image
+                                    source={require('../../sources/img/verificado.png')}
+                                    style={{ width: 20, height: 20, resizeMode: "stretch", marginTop: 10, marginLeft: 10 }}
+                                />
+                            </View>
+                            <View style={{ paddingVertical: 5, backgroundColor: "#6900FF", width: 130, borderRadius: 15 }}>
+                                <Text style={{ color: "#fff", textAlign: "center", fontSize: 12 }}>
+                                    Vendedor Premium
+                                </Text>
+                            </View>
+                        </View>
+                        <View style={{ width: "5%" }}>
+                            <Icon name="more-vertical" size={25} color="#fff" />
                         </View>
                     </View>
-                    <View style={{ width: "70%" }}>
-                        <View style={{ flexDirection: "row" }}>
-                            <Text style={{ color: "#fff", marginTop: 5, fontSize: 20 }}>
-                                {business.name}
-                            </Text>
-                            <Image
-                                source={require('../../sources/img/verificado.png')}
-                                style={{ width: 20, height: 20, resizeMode: "stretch", marginTop: 10, marginLeft: 10 }}
-                            />
+                    <View style={{ flexDirection: "row", width: "95%", marginVertical: 15, justifyContent: "space-between" }}>
+                    <View style={{ width: "32%" }}>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>254</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>FAVORITOS</Text>
                         </View>
-                        <View style={{ paddingVertical: 5, backgroundColor: "#6900FF", width: 130, borderRadius: 15 }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 12 }}>
-                                Vendedor Premium
-                            </Text>
+                        <View style={{ width: "32%" }}>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>198</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>SATISFECHOS</Text>
+                        </View>
+                        <View style={{ width: "32%" }}>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>4.5</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>ESTRELLLAS</Text>
                         </View>
                     </View>
-                    <View style={{ width: "5%" }}>
-                        <Icon name="more-vertical" size={25} color="#fff" />
-                    </View>
-                </View>
-                <View style={{ flexDirection: "row", width: "95%", marginVertical: 15, justifyContent: "space-between" }}>
-                    <View style={{ width: "32%" }}>
-                        <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>254</Text>
-                        <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>CLIENTES FAVORITOS</Text>
-                    </View>
-                    <View style={{ width: "32%" }}>
-                        <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>198</Text>
-                        <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>RESEÑAS DE CLIENTES SATISFECHOS</Text>
-                    </View>
-                    <View style={{ width: "32%" }}>
-                        <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>4.5</Text>
-                        <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>ESTRELLLAS DE PUNTUACION</Text>
-                    </View>
-                </View>
-                <View style={{ width: "95%", height: 25, backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20, }}></View>
-            </ImageBackground>
-            <ScrollView style={styles.container}>
+                    <View style={{ width: "95%", height: 25, backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20, }}></View>
+                </ImageBackground>
                 { //favorite.length == 0 ?
                     //<TouchableOpacity onPress={() => followBussiness(user.id, business.id)} style={[styles.Seguidores, { backgroundColor: 'white', maxHeight: '40%', borderColor: 'gold', borderWidth: 1 }]}>
                     //<Icon name={"star"} style={[styles.TextoSeguidores, { fontSize: 20, marginTop: 0, color: 'gold' }]} />
@@ -384,524 +384,528 @@ const DetalleNegocioScreen = (props: any) => {
                     //<Icon name={"star"} style={[styles.TextoSeguidores, { fontSize: 20, marginTop: 0, color: 'white' }]} />
                     //</TouchableOpacity>
                 }
-                <View style={styles.ContainerFotos}>
+                <View
+                    style={styles.container}
+                >
+                    <View style={styles.ContainerFotos}>
 
-                    <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%" }}>
-                        <View style={{ width: "20%"}}>
-                            <TouchableOpacity
-                                style={{ width: "100%", alignItems: "center" }}   
-                                onPress={ () => setModalinformacion(!modalinformacion) }                   
-                            >
-                            <Image source={require('../../sources/img/informacion.png')} style={{ width: 35, resizeMode: "stretch", height: 35 }} />
-                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                Infomación
-                            </Text>
-                            </TouchableOpacity>
-                            {modalinformacion ? (
-                                <Modal
-                                    animationType="slide"
-                                    transparent={true}
-                                    visible={true}
+                        <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%" }}>
+                            <View style={{ width: "20%" }}>
+                                <TouchableOpacity
+                                    style={{ width: "100%", alignItems: "center" }}
+                                    onPress={() => setModalinformacion(!modalinformacion)}
                                 >
-                                    <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                        <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
-                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
-                                                Mi Información
-                                            </Text>
-                                            <Text style={{color:"#000", marginBottom: 10}}>
-                                                {business.description}
-                                            </Text>
-                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
-                                                Mi Ubicación
-                                            </Text>
-                                            <Text style={{color:"#000", marginBottom: 10}}>
-                                                {business.direccion}
-                                            </Text>
-                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
-                                                Mi Teléfono
-                                            </Text>
-                                            <Text style={{color:"#000", marginBottom: 10}}>
-                                                {business.phone}
-                                            </Text>
-                                            <View style={{ width: "100%", flexDirection: "row", justifyContent: "center" }}>
-                                                <TouchableOpacity
-                                                    style={{ width: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
-                                                    onPress={() => { setModalinformacion(!modalinformacion) }}
-                                                >
-                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
-                                                        Regresar
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </Modal>
-
-                            ) : null}
-                        </View>
-                        <View style={{ width: "20%", alignItems: "center" }}>
-                            <Image source={require('../../sources/img/favorito.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
-                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                Favoritos
-                            </Text>
-                        </View>
-                        <View style={{ width: "20%" }}>
-                            <TouchableOpacity
-                                style={{ alignItems: "center" }}
-                                onPress={() => setModalmensaje(!modalmensaje)}
-                            >
-                                <Image source={require('../../sources/img/mensajes.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
-                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                    Mensajes
-                                </Text>
-                            </TouchableOpacity>
-                            {modalmensaje ? (
-                                <Modal
-                                    animationType="slide"
-                                    transparent={true}
-                                    visible={true}
-                                >
-                                    <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                        <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
-                                            <TouchableOpacity
-                                                style={{ position: "absolute", right: 5, top: 5 }}
-                                                onPress={() => { setModalmensaje(!modalmensaje) }}
-                                            >
-                                                <Icon name='x' color='#453091' size={25} />
-                                            </TouchableOpacity>
-                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
-                                                Déjame un mensaje aquí
-                                            </Text>
-                                            <Textarea
-                                                containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
-                                                maxLength={120}
-                                                placeholder={'Escribir mensaje aquí'}
-                                                placeholderTextColor={'#565656'}
-                                                underlineColorAndroid={'transparent'}
-                                            />
-                                            <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
-                                                <TouchableOpacity
-                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
-                                                >
-                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
-                                                        Vaciar
-                                                    </Text>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity
-                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
-                                                >
-                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
-                                                        Apectar
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </Modal>
-
-                            ) : null}
-                        </View>
-                        <View style={{ width: "20%", alignItems: "center" }}>
-                            <TouchableOpacity
-                                onPress={
-                                    () => { setModalPrecioFinal(!modalPrecioFinal), handleSumaPago() }
-                                }
-                            >
-                                <View style={styles.Badge}>
-                                    <Text style={styles.TextoBadge}>
-                                        {
-                                            contadorcarrito
-                                        }
+                                    <Image source={require('../../sources/img/informacion.png')} style={{ width: 35, resizeMode: "stretch", height: 35 }} />
+                                    <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                        Infomación
                                     </Text>
-                                </View>
-                                <Image
-                                    source={require('../../sources/img/pedir.png')}
-                                    style={{ width: 35, resizeMode: "stretch", maxHeight: 35, zIndex: -99 }}
-                                />
-                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                    Pedir
-                                </Text>
-                            </TouchableOpacity>
-                            {modalPrecioFinal ? (
-                                <Modal
-                                    animationType="fade"
-                                    transparent={true}
-                                    visible={true}
-                                >
-                                    <View style={styles.Modalcarrito}>
-                                        <View style={styles.ContaierPagar}>
-                                            <TouchableOpacity
-                                                style={{ position: 'absolute', right: 10, top: 5 }}
-                                                onPress={
-                                                    () => setModalPrecioFinal(!modalPrecioFinal)
-                                                }
-                                            >
-                                                <Icon name='x' size={25} color='#453091' style={{ fontWeight: "900" }} />
-                                            </TouchableOpacity>
-                                            <View style={{ width: 280, flexDirection: 'row', backgroundColor: '#453091', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: 40 }}>
-                                                <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ color: '#fff' }}>
-                                                        Titulo
-                                                    </Text>
-                                                </View>
-                                                <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ color: '#fff' }}>
-                                                        Cantidad
-                                                    </Text>
-                                                </View>
-                                                <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ color: '#fff' }}>
-                                                        Precios
-                                                    </Text>
-                                                </View>
-                                            </View>
-                                            {
-                                                carrito.productos.map((n: any, index: any) =>
-                                                    <View style={[{ width: 280, flexDirection: 'row', height: 40 }, { backgroundColor: index % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
-                                                        key={n.id}
+                                </TouchableOpacity>
+                                {modalinformacion ? (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={true}
+                                    >
+                                        <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                            <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                    Mi Información
+                                                </Text>
+                                                <Text style={{ color: "#000", marginBottom: 10 }}>
+                                                    {business.description}
+                                                </Text>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                    Mi Ubicación
+                                                </Text>
+                                                <Text style={{ color: "#000", marginBottom: 10 }}>
+                                                    {business.direccion}
+                                                </Text>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                    Mi Teléfono
+                                                </Text>
+                                                <Text style={{ color: "#000", marginBottom: 10 }}>
+                                                    {business.phone}
+                                                </Text>
+                                                <View style={{ width: "100%", flexDirection: "row", justifyContent: "center" }}>
+                                                    <TouchableOpacity
+                                                        style={{ width: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                        onPress={() => { setModalinformacion(!modalinformacion) }}
                                                     >
-                                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                            <Text numberOfLines={1} style={{ color: '#000' }}>
-                                                                {n.nombre}
-                                                            </Text>
-                                                        </View>
-                                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                            <Text style={{ color: '#000' }}>
-                                                                {n.cantidad}
-                                                            </Text>
-                                                        </View>
-                                                        <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                                                            <Text style={{ color: '#000' }}>
-                                                                {n.precios}
-                                                            </Text>
-                                                        </View>
-                                                    </View>
-                                                )
-                                            }
-                                            <View style={[{ width: 280, flexDirection: 'row', height: 40, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, }, { backgroundColor: carrito.productos.length % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
-                                            >
-                                                <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                    <Text style={{ color: '#000' }}>
-                                                        Total:
-                                                    </Text>
-                                                </View>
-                                                <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
-                                                </View>
-                                                <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
-                                                    <Text style={{ color: '#000' }}>
-                                                        {
-                                                            contadorPrecio
-                                                        }
-                                                    </Text>
+                                                        <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                            Regresar
+                                                        </Text>
+                                                    </TouchableOpacity>
                                                 </View>
                                             </View>
-                                            <View style={{ flexDirection: 'row', marginVertical: 20, justifyContent: "space-between" }}
-                                            >
-                                                <TouchableOpacity onPress={() => vaciarCarro()} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}>
-                                                    <View >
-                                                        <Text style={{ color: '#ffff', fontWeight: '800' }}>
+                                        </View>
+                                    </Modal>
+
+                                ) : null}
+                            </View>
+                            <View style={{ width: "20%", alignItems: "center" }}>
+                                <Image source={require('../../sources/img/favorito.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
+                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                    Favoritos
+                                </Text>
+                            </View>
+                            <View style={{ width: "20%" }}>
+                                <TouchableOpacity
+                                    style={{ alignItems: "center" }}
+                                    onPress={() => setModalmensaje(!modalmensaje)}
+                                >
+                                    <Image source={require('../../sources/img/mensajes.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
+                                    <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                        Mensajes
+                                    </Text>
+                                </TouchableOpacity>
+                                {modalmensaje ? (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={true}
+                                    >
+                                        <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                            <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                                <TouchableOpacity
+                                                    style={{ position: "absolute", right: 5, top: 5 }}
+                                                    onPress={() => { setModalmensaje(!modalmensaje) }}
+                                                >
+                                                    <Icon name='x' color='#453091' size={25} />
+                                                </TouchableOpacity>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                    Déjame un mensaje aquí
+                                                </Text>
+                                                <Textarea
+                                                    containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
+                                                    maxLength={120}
+                                                    placeholder={'Escribir mensaje aquí'}
+                                                    placeholderTextColor={'#565656'}
+                                                    underlineColorAndroid={'transparent'}
+                                                />
+                                                <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
+                                                    <TouchableOpacity
+                                                        style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
+                                                    >
+                                                        <Text style={{ color: "#fff", fontWeight: "800" }}>
                                                             Vaciar
                                                         </Text>
-                                                    </View>
-                                                </TouchableOpacity>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity
+                                                        style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                    >
+                                                        <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                            Aceptar
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </Modal>
 
-                                                <TouchableOpacity onPress={() => { sendMessage(carrito.productos) }} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}>
-                                                    <View >
-                                                        <Text style={{ color: '#ffff', fontWeight: '800' }}>
-                                                            Enviar
+                                ) : null}
+                            </View>
+                            <View style={{ width: "20%", alignItems: "center" }}>
+                                <TouchableOpacity
+                                    onPress={
+                                        () => { setModalPrecioFinal(!modalPrecioFinal), handleSumaPago() }
+                                    }
+                                >
+                                    <View style={styles.Badge}>
+                                        <Text style={styles.TextoBadge}>
+                                            {
+                                                contadorcarrito
+                                            }
+                                        </Text>
+                                    </View>
+                                    <Image
+                                        source={require('../../sources/img/pedir.png')}
+                                        style={{ width: 35, resizeMode: "stretch", maxHeight: 35, zIndex: -99 }}
+                                    />
+                                    <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                        Pedir
+                                    </Text>
+                                </TouchableOpacity>
+                                {modalPrecioFinal ? (
+                                    <Modal
+                                        animationType="fade"
+                                        transparent={true}
+                                        visible={true}
+                                    >
+                                        <View style={styles.Modalcarrito}>
+                                            <View style={styles.ContaierPagar}>
+                                                <TouchableOpacity
+                                                    style={{ position: 'absolute', right: 10, top: 5 }}
+                                                    onPress={
+                                                        () => setModalPrecioFinal(!modalPrecioFinal)
+                                                    }
+                                                >
+                                                    <Icon name='x' size={25} color='#453091' style={{ fontWeight: "900" }} />
+                                                </TouchableOpacity>
+                                                <View style={{ width: 280, flexDirection: 'row', backgroundColor: '#453091', borderTopLeftRadius: 20, borderTopRightRadius: 20, height: 40 }}>
+                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Text style={{ color: '#fff' }}>
+                                                            Titulo
                                                         </Text>
                                                     </View>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </Modal>
-                            ) : null}
-                        </View>
-                        <View style={{ width: "20%" }}>
-                            <TouchableOpacity
-                                style={{ alignItems: "center", width: "100%" }}
-                                onPress={() => { setModalreferencia(!modalreferencia) }}
-                            >
-                                <Image source={require('../../sources/img/referencias.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
-                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                    Referencias
-                                </Text>
-                            </TouchableOpacity>
-                            {modalreferencia ? (
-                                <Modal
-                                    animationType="slide"
-                                    transparent={true}
-                                    visible={true}
-                                >
-                                    <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
-                                        <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
-                                            <TouchableOpacity
-                                                style={{ position: "absolute", right: 5, top: 5 }}
-                                                onPress={() => { setModalreferencia(!modalreferencia) }}
-                                            >
-                                                <Icon name='x' color='#453091' size={25} />
-                                            </TouchableOpacity>
-                                            <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
-                                                Déjame una refencia aquí
-                                            </Text>
-                                            <Rating
-                                                startingValue={reviewState}
-                                                onFinishRating={(e:any) => {setReviewState(e)}}
-                                                type='custom'
-                                                tintColor="white"
-                                                ratingColor="#453091"
-                                                ratingBackgroundColor="#9175dc38"
-                                                imageSize={30}
-                                                fractions={2}
-                                                style={{marginBottom:10}}
-                                            />
-                                            <Textarea
-                                                containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
-                                                maxLength={120}
-                                                placeholder={'Escribir referencia aquí'}
-                                                placeholderTextColor={'#565656'}
-                                                underlineColorAndroid={'transparent'}
-                                                onChangeText={(e:any) => { setReviewTexArea(e)}}
-                                                defaultValue={reviewTexArea}
-                                            />
-                                            <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
-                                                <TouchableOpacity onPress={() => { setModalreferencia(!modalreferencia) }}
-                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
-                                                >
-                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
-                                                        Cancelar
-                                                    </Text>
-                                                </TouchableOpacity>
-                                                <TouchableOpacity onPress={() => {ratingCompleted()}}
-                                                    style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
-                                                >
-                                                    <Text style={{ color: "#fff", fontWeight: "800" }}>
-                                                        Apectar
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </View>
-                                    </View>
-                                </Modal>
-
-                            ) : null}
-                        </View>
-                    </View>
-                    <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%" }}>
-                        <Text style={{ color: "#453091", fontSize: 20 }}>
-                            PRODUCTOS
-                        </Text>
-                    </View>
-                    <View style={styles.ContainerAdd}>
-                        <FlatList
-                            horizontal={true}
-                            data={business.categorias}
-                            renderItem={renderItem}
-                            keyExtractor={(item: any) => item.id}
-                        />
-                    </View>
-                    {/*<View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                goToScreen('CreateProductScreen', business)
-                            }}
-                        >
-                            <Image
-                                source={require('../../sources/img/Captura.jpg')}
-                                style={{ width: '100%', height: 150 }}
-                            />
-                        </TouchableOpacity>
-                    </View>*/}
-                    <View style={{ width: '90%', flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: "5%", justifyContent: "space-between" }}>
-
-                        {
-                            business.productos.map((n: any) =>
-
-                                <View key={n.id} style={{ width: '30%', marginBottom: '1%', backgroundColor: "#9DCFFB", borderRadius: 20 }}>
-                                    <TouchableOpacity
-                                        style={{ height: 100, justifyContent: "center", alignItems: "center" }}
-                                        onPress={
-                                            () => { setDescripcionFoto(n.id), handleAlertClick() }
-                                        }
-                                    >
-                                        <Image
-                                            source={(n.url_imagen == '') ? require('../../sources/img/Captura.jpg') : { uri: n.url_imagen }}
-                                            style={{ width: 60, height: 60 }}
-                                        />
-                                        {descripcionFoto ? (
-
-                                            descripcionFoto == n.id ?
-                                                <View>
-
-                                                </View>
-                                                : <>
-                                                </>
-                                        ) : <View style={{ position: "absolute", bottom: 10, right: 7, width: 30, height: 30, backgroundColor: "#453091", borderRadius: 7, justifyContent: "center", alignItems: "center" }}>
-                                            <Text style={{ color: "#fff", fontSize: 10 }}>
-                                                ${n.precio}
-                                            </Text>
-                                        </View>}
-                                    </TouchableOpacity>
-                                    {descripcionFoto ? (
-
-                                        descripcionFoto === n.id ?
-                                            <View style={styles.Containerdescripcionfoto}>
-                                                <Text numberOfLines={2} style={{ color: "#fff", fontWeight: "bold" }}>
-                                                    {
-                                                        n.producto
-                                                    }
-                                                </Text>
-                                                <Text style={{ color: "#fff" }}>
-                                                    ${n.precio}
-                                                </Text>
-                                                <TouchableOpacity
-                                                    style={{ backgroundColor: "#fff", borderRadius: 10, position: "absolute", bottom: 10, width: "100%", marginLeft: 10 }}
-                                                    onPress={
-                                                        () => setModalDescripcion(n.id)
-                                                    }
-                                                >
-                                                    <Text style={styles.Textoinfo}>
-                                                        Info
-                                                    </Text>
-                                                </TouchableOpacity>
-                                            </View> : <>
-                                            </>
-
-                                    ) : null}
-                                    {modalDescripcion ? (
-
-                                        modalDescripcion === n.id ?
-                                            <Modal
-                                                animationType="slide"
-                                                transparent={true}
-                                                visible={true}
-                                            >
-                                                <View style={styles.Modalcarrito}>
-                                                    <View style={styles.Containermodal}>
-                                                        {
-                                                            console.log(n.slider)
-                                                        }
-                                                        {sliderModal ? (
-
-                                                            <View style={styles.ContainerSlider}>
-
-                                                                <Swiper
-                                                                    activeDotStyle={{ backgroundColor: '#453091' }}
-                                                                    dotStyle={{ backgroundColor: '#fff' }}
-                                                                >
-                                                                    {
-                                                                        JSON.parse(n.slider).map((e: any) => {
-
-                                                                            return (
-                                                                                <View key={e.id} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
-                                                                                    <Image
-                                                                                        source={{ uri: e.url }}
-                                                                                        style={{ width: 300, height: 170, resizeMode: "stretch" }}
-                                                                                    />
-                                                                                </View>
-                                                                            )
-                                                                        })
-                                                                    }
-                                                                </Swiper>
-                                                            </View>
-                                                        ) : []}
-                                                        <View style={styles.ContainerDescripcion}>
-                                                            <Text style={styles.TextTitulo}>
-                                                                {n.producto}
-                                                            </Text>
-                                                            <Text style={styles.TextoDescripcion}>
-                                                                {n.descripcion}
-                                                            </Text>
-                                                        </View>
-                                                        <View style={{ width: "90%", marginHorizontal: "5%", flexDirection: "row", marginVertical: 20 }}>
-                                                            <View style={styles.ContainerPrecio}>
-                                                                <Text style={styles.TextoPrecio}>
-                                                                    ${n.precio * numeropedido}
-                                                                </Text>
-                                                            </View>
-                                                            <View style={styles.ContainerSumaResta}>
-                                                                <View style={{ width: "35%", alignItems: "center", justifyContent: "center" }}>
-                                                                    <TouchableOpacity
-                                                                        onPress={
-                                                                            () => handleRestar()
-                                                                        }
-                                                                    >
-                                                                        <Text style={styles.TextBotonSumarRestar}>
-                                                                            -
-                                                                        </Text>
-                                                                    </TouchableOpacity>
-                                                                </View>
-                                                                <View style={{ width: "30%", backgroundColor: "#ae9dc4", justifyContent: "center", alignItems: "center" }}>
-                                                                    <Text style={{ color: '#fff' }}>
-                                                                        {numeropedido}
-                                                                    </Text>
-                                                                </View>
-                                                                <View style={{ width: "35%", alignItems: "center", justifyContent: "center" }}>
-                                                                    <TouchableOpacity
-                                                                        onPress={
-                                                                            () => handleSumar()
-                                                                        }
-                                                                    >
-                                                                        <Text style={styles.TextBotonSumarRestar}>
-                                                                            +
-                                                                        </Text>
-                                                                    </TouchableOpacity>
-                                                                </View>
-                                                            </View>
-                                                        </View>
-                                                        <View style={styles.ContainerBotonesCarrito}>
-                                                            <TouchableOpacity
-                                                                style={styles.BotonCarrito}
-                                                                onPress={
-                                                                    () => { setModalDescripcion(''), handleCancelar() }
-                                                                }
-                                                            >
-                                                                <Text style={styles.TextBotonCarrito}>
-                                                                    Cancelar
-                                                                </Text>
-                                                            </TouchableOpacity>
-                                                            <TouchableOpacity
-                                                                style={styles.BotonCarrito}
-                                                                onPress={
-                                                                    () => {
-                                                                        const id = n.id;
-                                                                        const title = n.producto;
-                                                                        const precios = n.precio * numeropedido;
-                                                                        const foto = n.url_imagen;
-                                                                        const descripcion = n.descripcion;
-                                                                        handleAceptar(id, title, precios, foto, descripcion)
-                                                                    }
-                                                                }
-                                                            >
-                                                                <Text style={styles.TextBotonCarrito}>
-                                                                    Aceptar
-                                                                </Text>
-                                                            </TouchableOpacity>
-                                                        </View>
+                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Text style={{ color: '#fff' }}>
+                                                            Cantidad
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Text style={{ color: '#fff' }}>
+                                                            Precios
+                                                        </Text>
                                                     </View>
                                                 </View>
-                                            </Modal> : <>
-                                            </>
+                                                {
+                                                    carrito.productos.map((n: any, index: any) =>
+                                                        <View style={[{ width: 280, flexDirection: 'row', height: 40 }, { backgroundColor: index % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
+                                                            key={n.id}
+                                                        >
+                                                            <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                                <Text numberOfLines={1} style={{ color: '#000' }}>
+                                                                    {n.nombre}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                                <Text style={{ color: '#000' }}>
+                                                                    {n.cantidad}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                                                                <Text style={{ color: '#000' }}>
+                                                                    {n.precios}
+                                                                </Text>
+                                                            </View>
+                                                        </View>
+                                                    )
+                                                }
+                                                <View style={[{ width: 280, flexDirection: 'row', height: 40, borderBottomLeftRadius: 20, borderBottomRightRadius: 20, }, { backgroundColor: carrito.productos.length % 2 === 0 ? '#E5E5E5' : '#EFEFEF' }]}
+                                                >
+                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Text style={{ color: '#000' }}>
+                                                            Total:
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                    </View>
+                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}>
+                                                        <Text style={{ color: '#000' }}>
+                                                            {
+                                                                contadorPrecio
+                                                            }
+                                                        </Text>
+                                                    </View>
+                                                </View>
+                                                <View style={{ flexDirection: 'row', marginVertical: 20, justifyContent: "space-between" }}
+                                                >
+                                                    <TouchableOpacity onPress={() => vaciarCarro()} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}>
+                                                        <View >
+                                                            <Text style={{ color: '#ffff', fontWeight: '800' }}>
+                                                                Vaciar
+                                                            </Text>
+                                                        </View>
+                                                    </TouchableOpacity>
 
-                                    ) : null}
-                                </View>
+                                                    <TouchableOpacity onPress={() => { sendMessage(carrito.productos) }} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}>
+                                                        <View >
+                                                            <Text style={{ color: '#ffff', fontWeight: '800' }}>
+                                                                Enviar
+                                                            </Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </Modal>
+                                ) : null}
+                            </View>
+                            <View style={{ width: "20%" }}>
+                                <TouchableOpacity
+                                    style={{ alignItems: "center", width: "100%" }}
+                                    onPress={() => { setModalreferencia(!modalreferencia) }}
+                                >
+                                    <Image source={require('../../sources/img/referencias.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
+                                    <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                        Referencias
+                                    </Text>
+                                </TouchableOpacity>
+                                {modalreferencia ? (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={true}
+                                    >
+                                        <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                            <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                                <TouchableOpacity
+                                                    style={{ position: "absolute", right: 5, top: 5 }}
+                                                    onPress={() => { setModalreferencia(!modalreferencia) }}
+                                                >
+                                                    <Icon name='x' color='#453091' size={25} />
+                                                </TouchableOpacity>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                    Déjame una refencia aquí
+                                                </Text>
+                                                <Rating
+                                                    startingValue={reviewState}
+                                                    onFinishRating={(e: any) => { setReviewState(e) }}
+                                                    type='custom'
+                                                    tintColor="white"
+                                                    ratingColor="#453091"
+                                                    ratingBackgroundColor="#9175dc38"
+                                                    imageSize={30}
+                                                    fractions={2}
+                                                    style={{ marginBottom: 10 }}
+                                                />
+                                                <Textarea
+                                                    containerStyle={{ backgroundColor: '#F0F0F0', paddingHorizontal: 7, borderRadius: 15 }}
+                                                    maxLength={120}
+                                                    placeholder={'Escribir referencia aquí'}
+                                                    placeholderTextColor={'#565656'}
+                                                    underlineColorAndroid={'transparent'}
+                                                    onChangeText={(e: any) => { setReviewTexArea(e) }}
+                                                    defaultValue={reviewTexArea}
+                                                />
+                                                <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
+                                                    <TouchableOpacity onPress={() => { setModalreferencia(!modalreferencia) }}
+                                                        style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#9175DC', height: 45, borderRadius: 50 }}
+                                                    >
+                                                        <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                            Cancelar
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                    <TouchableOpacity onPress={() => { ratingCompleted() }}
+                                                        style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                    >
+                                                        <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                            Apectar
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </Modal>
 
-                            )
-                        }
-                    </View>
-                    <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%", marginTop: 20, marginBottom: 10 }}>
-                        <Text style={{ color: "#453091", fontSize: 18 }}>
-                            Reseñas de Clientes Satisfechos
-                        </Text>
-                    </View>
-                    <View style={styles.ContainerAdd}>
-                        <FlatList
-                            horizontal={true}
-                            data={business.reviews}
-                            renderItem={renderReferencia}
-                            keyExtractor={(item: any) => item.id}
-                        />
+                                ) : null}
+                            </View>
+                        </View>
+                        <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%" }}>
+                            <Text style={{ color: "#453091", fontSize: 20 }}>
+                                PRODUCTOS
+                            </Text>
+                        </View>
+                        <View style={styles.ContainerAdd}>
+                            <FlatList
+                                horizontal={true}
+                                data={business.categorias}
+                                renderItem={renderItem}
+                                keyExtractor={(item: any) => item.id}
+                            />
+                        </View>
+                        {/*<View style={{ width: '32%', marginHorizontal: '.64%', marginBottom: '1%', zIndex: 9 }}>
+    <TouchableOpacity
+        onPress={() => {
+            goToScreen('CreateProductScreen', business)
+        }}
+    >
+        <Image
+            source={require('../../sources/img/Captura.jpg')}
+            style={{ width: '100%', height: 150 }}
+        />
+    </TouchableOpacity>
+</View>*/}
+                        <View style={{ width: '90%', flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: "5%", justifyContent: "space-between" }}>
+
+                            {
+                                business.productos.map((n: any) =>
+
+                                    <View key={n.id} style={{ width: '30%', marginBottom: 10, backgroundColor: "#9DCFFB", borderRadius: 20 }}>
+                                        <TouchableOpacity
+                                            style={{ height: 100, justifyContent: "center", alignItems: "center" }}
+                                            onPress={
+                                                () => { setDescripcionFoto(n.id), handleAlertClick() }
+                                            }
+                                        >
+                                            <Image
+                                                source={(n.url_imagen == '') ? require('../../sources/img/Captura.jpg') : { uri: n.url_imagen }}
+                                                style={{ width: 60, height: 60 }}
+                                            />
+                                            {descripcionFoto ? (
+
+                                                descripcionFoto == n.id ?
+                                                    <View>
+
+                                                    </View>
+                                                    : <>
+                                                    </>
+                                            ) : <View style={{ position: "absolute", bottom: 10, right: 7, width: 30, height: 30, backgroundColor: "#453091", borderRadius: 7, justifyContent: "center", alignItems: "center" }}>
+                                                <Text style={{ color: "#fff", fontSize: 10 }}>
+                                                    ${n.precio}
+                                                </Text>
+                                            </View>}
+                                        </TouchableOpacity>
+                                        {descripcionFoto ? (
+
+                                            descripcionFoto === n.id ?
+                                                <View style={styles.Containerdescripcionfoto}>
+                                                    <Text numberOfLines={2} style={{ color: "#fff", fontWeight: "bold" }}>
+                                                        {
+                                                            n.producto
+                                                        }
+                                                    </Text>
+                                                    <Text style={{ color: "#fff" }}>
+                                                        ${n.precio}
+                                                    </Text>
+                                                    <TouchableOpacity
+                                                        style={{ backgroundColor: "#fff", borderRadius: 10, position: "absolute", bottom: 10, width: "100%", marginLeft: 10 }}
+                                                        onPress={
+                                                            () => setModalDescripcion(n.id)
+                                                        }
+                                                    >
+                                                        <Text style={styles.Textoinfo}>
+                                                            Info
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View> : <>
+                                                </>
+
+                                        ) : null}
+                                        {modalDescripcion ? (
+
+                                            modalDescripcion === n.id ?
+                                                <Modal
+                                                    animationType="slide"
+                                                    transparent={true}
+                                                    visible={true}
+                                                >
+                                                    <View style={styles.Modalcarrito}>
+                                                        <View style={styles.Containermodal}>
+                                                            {
+                                                                console.log(n.slider)
+                                                            }
+                                                            {sliderModal ? (
+
+                                                                <View style={styles.ContainerSlider}>
+
+                                                                    <Swiper
+                                                                        activeDotStyle={{ backgroundColor: '#453091' }}
+                                                                        dotStyle={{ backgroundColor: '#fff' }}
+                                                                    >
+                                                                        {
+                                                                            JSON.parse(n.slider).map((e: any) => {
+
+                                                                                return (
+                                                                                    <View key={e.id} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
+                                                                                        <Image
+                                                                                            source={{ uri: e.url }}
+                                                                                            style={{ width: 300, height: 170, resizeMode: "stretch" }}
+                                                                                        />
+                                                                                    </View>
+                                                                                )
+                                                                            })
+                                                                        }
+                                                                    </Swiper>
+                                                                </View>
+                                                            ) : []}
+                                                            <View style={styles.ContainerDescripcion}>
+                                                                <Text style={styles.TextTitulo}>
+                                                                    {n.producto}
+                                                                </Text>
+                                                                <Text style={styles.TextoDescripcion}>
+                                                                    {n.descripcion}
+                                                                </Text>
+                                                            </View>
+                                                            <View style={{ width: "90%", marginHorizontal: "5%", flexDirection: "row", marginVertical: 20 }}>
+                                                                <View style={styles.ContainerPrecio}>
+                                                                    <Text style={styles.TextoPrecio}>
+                                                                        ${n.precio * numeropedido}
+                                                                    </Text>
+                                                                </View>
+                                                                <View style={styles.ContainerSumaResta}>
+                                                                    <View style={{ width: "35%", alignItems: "center", justifyContent: "center" }}>
+                                                                        <TouchableOpacity
+                                                                            onPress={
+                                                                                () => handleRestar()
+                                                                            }
+                                                                        >
+                                                                            <Text style={styles.TextBotonSumarRestar}>
+                                                                                -
+                                                                            </Text>
+                                                                        </TouchableOpacity>
+                                                                    </View>
+                                                                    <View style={{ width: "30%", backgroundColor: "#ae9dc4", justifyContent: "center", alignItems: "center" }}>
+                                                                        <Text style={{ color: '#fff' }}>
+                                                                            {numeropedido}
+                                                                        </Text>
+                                                                    </View>
+                                                                    <View style={{ width: "35%", alignItems: "center", justifyContent: "center" }}>
+                                                                        <TouchableOpacity
+                                                                            onPress={
+                                                                                () => handleSumar()
+                                                                            }
+                                                                        >
+                                                                            <Text style={styles.TextBotonSumarRestar}>
+                                                                                +
+                                                                            </Text>
+                                                                        </TouchableOpacity>
+                                                                    </View>
+                                                                </View>
+                                                            </View>
+                                                            <View style={styles.ContainerBotonesCarrito}>
+                                                                <TouchableOpacity
+                                                                    style={styles.BotonCarrito}
+                                                                    onPress={
+                                                                        () => { setModalDescripcion(''), handleCancelar() }
+                                                                    }
+                                                                >
+                                                                    <Text style={styles.TextBotonCarrito}>
+                                                                        Cancelar
+                                                                    </Text>
+                                                                </TouchableOpacity>
+                                                                <TouchableOpacity
+                                                                    style={styles.BotonCarrito}
+                                                                    onPress={
+                                                                        () => {
+                                                                            const id = n.id;
+                                                                            const title = n.producto;
+                                                                            const precios = n.precio * numeropedido;
+                                                                            const foto = n.url_imagen;
+                                                                            const descripcion = n.descripcion;
+                                                                            handleAceptar(id, title, precios, foto, descripcion)
+                                                                        }
+                                                                    }
+                                                                >
+                                                                    <Text style={styles.TextBotonCarrito}>
+                                                                        Aceptar
+                                                                    </Text>
+                                                                </TouchableOpacity>
+                                                            </View>
+                                                        </View>
+                                                    </View>
+                                                </Modal> : <>
+                                                </>
+
+                                        ) : null}
+                                    </View>
+
+                                )
+                            }
+                        </View>
+                        <View style={{ width: "90%", flexDirection: "row", marginHorizontal: "5%", marginTop: 20, marginBottom: 10 }}>
+                            <Text style={{ color: "#453091", fontSize: 18 }}>
+                                Puntuación
+                            </Text>
+                        </View>
+                        <View style={styles.ContainerAdd}>
+                            <FlatList
+                                horizontal={true}
+                                data={business.reviews}
+                                renderItem={renderReferencia}
+                                keyExtractor={(item: any) => item.id}
+                            />
+                        </View>
                     </View>
                 </View>
 
@@ -1102,7 +1106,7 @@ const styles = StyleSheet.create({
     },
     BannerTitulo: {
         width: '100%',
-        height: 195,
+        height: 183,
         backgroundColor: '#000',
         alignItems: 'center',
         paddingTop: 30,
