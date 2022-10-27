@@ -121,12 +121,6 @@ const DetalleNegocioScreen = (props: any) => {
                                 </Text>
                             </TouchableOpacity>
                         </View>
-                        <View style={{ width: "20%", alignItems: "center" }}>
-                            <Image source={require('../../../sources/img/favorito.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30 }} />
-                            <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                Favoritos
-                            </Text>
-                        </View>
                         <View style={{ width: "20%" }}>
                             <TouchableOpacity
                                 style={{ alignItems: "center" }}
@@ -140,6 +134,20 @@ const DetalleNegocioScreen = (props: any) => {
                                 </Text>
                             </TouchableOpacity>
                         </View>
+                        <View style={{ width: "20%", alignItems: "center" }}>
+                            <TouchableOpacity
+                                style={{ alignItems: "center" }}
+                                onPress={() => {
+                                    goToScreen('ListCategoryScreen', params.business.categorias)
+                                }}
+                            >
+                                <Image source={require('../../../sources/img/favorito.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30 }} />
+                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                    Editar Categorias
+                            </Text>
+                            </TouchableOpacity>
+                        </View>
+
                         <View style={{ width: "20%" }}>
                             <TouchableOpacity
                                 style={{ alignItems: "center", width: "100%" }}
@@ -257,7 +265,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                                 activeDotStyle={{ backgroundColor: '#453091' }}
                                                                 dotStyle={{ backgroundColor: '#fff' }}
                                                             >
- 
+
                                                                 {
                                                                     n.slider.id == null && typeof n.slider !== 'object' ?
                                                                         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', }}>
@@ -277,11 +285,11 @@ const DetalleNegocioScreen = (props: any) => {
                                                                                     />
                                                                                 </View>
                                                                             )
-                                                                      
-                                                                        
-                                                                    }
 
-                                                                    )
+
+                                                                        }
+
+                                                                        )
                                                                 }
                                                             </Swiper>
                                                         </View>
@@ -290,7 +298,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                             <Text style={styles.TextTitulo}>
                                                                 {n.producto}
                                                             </Text>
-                                                            <Text style={[styles.TextoDescripcion,{fontWeight:"900",fontSize:18}]}>
+                                                            <Text style={[styles.TextoDescripcion, { fontWeight: "900", fontSize: 18 }]}>
                                                                 Precio: ${n.precio}
                                                             </Text>
                                                             <Text style={styles.TextoDescripcion}>

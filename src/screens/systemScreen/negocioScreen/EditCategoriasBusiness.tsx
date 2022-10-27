@@ -14,9 +14,9 @@ import { launchImageLibrary } from 'react-native-image-picker';
 export const EditCategoriaBusiness = (props: any) => {
     const { params } = props.route;
     const navigator = useNavigation()
-    const { business, editNegocio } = useContext(AuthContex)
-    const [ tempUri, setTempUri ] = useState<any>(params.data.url_logo)
-    const [image, setImage] = useState<any>('');
+    const { business, editBusinessCategory } = useContext(AuthContex)
+    const [ tempUri, setTempUri ] = useState<any>('')
+    const [image, setImage] = useState<any>(params.data.url_imagen);
 
     const thakePhotoGallery = async () => {
         await launchImageLibrary({
@@ -24,7 +24,7 @@ export const EditCategoriaBusiness = (props: any) => {
             quality: 0.5,
         }, (resp) => {
             if(resp.didCancel) return;
-            if( !resp.assets){
+            if(!resp.assets){
                 return
             }else{
                 console.log(resp.assets)
@@ -57,27 +57,27 @@ export const EditCategoriaBusiness = (props: any) => {
             />
             <Formik
                 initialValues={{
-                    id: params.id,
-                    name: params.name,
-                    url_imagen: params.url_imagen,
-                    negocio_id: params.business_id,
+                    id: params.data.id,
+                    name: params.data.name,
+                    url_imagen: params.data.url_imagen,
+                    negocio_id: params.data.business_id,
                 }}
                 onSubmit={async (values: any) => {
-                    values.url_logo = tempUri;
+                    values.url_imagen = tempUri;
                     
-                    const res =   await editNegocio(values, business)
+                    const res =   await editBusinessCategory(values, business)
                     if (res == true){
-                        /*let arrayREd;
+                        let arrayREd;
     
                         business.map((n: any) => {
-                            if (n.id == params.data.id_negocio) {
-                                arrayREd = n.productos;
+                            if (n.id == params.data.business_id) {
+                                arrayREd = n.categorias;
                             } else {
                                 arrayREd = [];
                             }
-                        })*/
+                        })
     
-                        goToScreen(params.data)
+                        goToScreen(arrayREd)
                     }
                 }}
             >
@@ -112,8 +112,10 @@ export const EditCategoriaBusiness = (props: any) => {
                             </Text>
 
                             <MyTextInput
-                                keyboardType='Text'
-                                placeholder={"Categoria"}
+                                 placeholder={"Nombre de categoria"}
+                                 value={values.name}
+                                 onChangeText={handleChange('name')}
+                                 onBlur={handleBlur('name')}
                             />
 
                         </View>
@@ -162,10 +164,11 @@ export const EditCategoriaBusiness = (props: any) => {
     function goToBackScreen() {
         navigator.goBack()
     }
-    function goToScreen(values: any) {
-
-        navigator.navigate("DetalleNegocioScreen" as never, { business: values, onGoBack: true } as never)
-
+    
+    function goToScreen(values:any) {
+        
+        navigator.navigate("ListCategoryScreen" as never, {data:values, onGoBack: true } as never)
+    
     }
 }
 

@@ -39,7 +39,7 @@ export const CreateRedScreen = (props: any) => {
                         }else{
                             arrayREd = [];
                         }
-                    })
+                    }) 
                     
                     goToScreen(arrayREd, params.id_negocio)
                 }}
@@ -143,7 +143,7 @@ export const CreateRedScreen = (props: any) => {
         
         navigator.navigate("ListaRedSocialScreen" as never, {data:values, id_negocio:id_negocio, onGoBack: true } as never)
     
-}
+    }
 }
 
 const styles = StyleSheet.create({

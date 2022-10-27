@@ -551,16 +551,15 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
 
             newArrayEditBusinessCategory.forEach((data, key) => {
 
-                if (data['id'] == newEditProduct['business_id']) {
+                if (data['id'] == newEditBusinessCategory['business_id']) {
 
                     newArrayEditBusinessCategory[key].categorias.forEach((data2: any, key2: any) => {
-                        if (data2['id'] == newEditProduct['id']) {
+                        if (data2['id'] == newEditBusinessCategory['id']) {
                             newArrayEditBusinessCategory[key].categorias[key2].name = newEditBusinessCategory['name'];
                             newArrayEditBusinessCategory[key].categorias[key2].url_imagen = newEditBusinessCategory['url_imagen'];
                             newArrayEditBusinessCategory[key].categorias[key2].updated_at = newEditBusinessCategory['updated_at'];
                         }
                     })
-                    //ESTO LE FALTAAAA ESTA MALOOOOO
                 }
             })
 

@@ -500,7 +500,8 @@ const UserProvider = ({ children }: any) => {
         formData.append('id', data.id);
         formData.append('negocio_id', data.negocio_id);
         formData.append('name', data.name);
-        if (data.url_imagen.length !== 0) {
+
+         if (data.url_imagen.length !== 0) {
             formData.append('url_imagen',
                 {
                     name: data.url_imagen.name,
@@ -513,14 +514,14 @@ const UserProvider = ({ children }: any) => {
         try {
             const resp = await apiApp.post('/editar-categoria', formData,
 
-                {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    },
-                    transformRequest: (data, error) => {
-                        return formData;
-                    }
-                })/* .then(function (response) {
+            {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                transformRequest: (data, error) => {
+                    return formData;
+                }
+            })/* .then(function (response) {
               
           console.log(response.data)
         })
