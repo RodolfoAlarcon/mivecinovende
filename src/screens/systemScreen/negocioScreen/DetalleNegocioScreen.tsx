@@ -130,10 +130,13 @@ const DetalleNegocioScreen = (props: any) => {
                         <View style={{ width: "20%" }}>
                             <TouchableOpacity
                                 style={{ alignItems: "center" }}
+                                onPress={() => {
+                                    goToReviews('ReviewsBusinessScreen', params.business.id)
+                                }}
                             >
                                 <Image source={require('../../../sources/img/mensajes.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30 }} />
                                 <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                    Mensajes
+                                    Reviews
                                 </Text>
                             </TouchableOpacity>
                         </View>
@@ -350,6 +353,11 @@ const DetalleNegocioScreen = (props: any) => {
     function goToScreen(routeName: any, data: any) {
         navigator.navigate(routeName as never, { data: data } as never);
     }
+
+    function goToReviews(routeName: any, id: any) {
+        navigator.navigate(routeName as never, { id: id } as never);
+    }
+
     function goToEditProductScreen(routeName: any, id: any, business: any, data: any) {
         navigator.navigate(routeName as never, { id: id, business: business, data: data } as never);
     }

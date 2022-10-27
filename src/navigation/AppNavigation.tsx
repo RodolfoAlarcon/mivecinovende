@@ -23,6 +23,7 @@ import {CreateRedScreen} from '../screens/systemScreen/negocioScreen/CreateRedSc
 import {CrearRedSocialScreen} from '../screens/systemScreen/CrearRedSocialScreen'
 import {ListaRedSocialScreen} from '../screens/systemScreen/negocioScreen/ListaRedSocialScreen'
 import DetalleNegocioScreen from '../screens/systemScreen/negocioScreen/DetalleNegocioScreen'
+import {ReviewsBusinessScreen} from '../screens/systemScreen/negocioScreen/ReviewsBusinessScreen'
 import {ListaProductoScreen} from '../screens/systemScreen/negocioScreen/ListaProductoScreen'
 import {ListaServicioScreen} from '../screens/systemScreen/negocioScreen/ListaServicioScreen'
 import { NotificationDetailScreen } from '../screens/systemScreen/NotificationDetailScreen'
@@ -77,6 +78,7 @@ export const Navigation = () => {
                                 <Stack.Screen name='ListaProductoScreen' component={ListaProductoScreen}/>
                                 <Stack.Screen name='ListaServicioScreen' component={ListaServicioScreen}/>
                                 <Stack.Screen name='DetalleNegocioScreen' component={DetalleNegocioScreen} />
+                                <Stack.Screen name="ReviewsBusinessScreen" component={ReviewsBusinessScreen} />
                                 <Stack.Screen name='createRedScreen' component={CreateRedScreen} />
                                 <Stack.Screen name='EditRedSocialScreen' component={EditRedSocialScreen} />
                                 <Stack.Screen name='CreateServiceScreen' component={CreateServiceScreen} />
