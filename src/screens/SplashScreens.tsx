@@ -38,7 +38,7 @@ const SplashScreen = () => {
                     margin: 100,
                     resizeMode:'contain'
                 }}
-                source={require('../sources/img/icono.png')}
+                source={require('../sources/img/loading.png')}
             />
         </View>
     )

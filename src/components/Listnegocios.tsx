@@ -1,7 +1,8 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Linking, ScrollView, SafeAreaView, VirtualizedList, ActivityIndicator, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Linking, ScrollView, SafeAreaView, Modal, VirtualizedList, ActivityIndicator, Dimensions } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { ListItem } from 'react-native-elements';
+import * as Animateable from 'react-native-animatable'
 
 
 
@@ -51,22 +52,38 @@ export default class Listnegocios extends Component<{ id: any }, any>{
 
         if (this.state.isLoading) {
             return (
-                <View
-                    style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: ScreenHeight,
-                        width: "100%",
-                        marginTop: -200,
-                        backgroundColor: "#f1f2f3"
-                    }}
-                >
-                    <Image
-                        source={require('../sources/img/loading.gif')}
-                        style={{
-                            width: 200
-                        }}
-                    />
+                <View>
+                    <Modal
+                        transparent={true}
+                        visible={true}
+                    >
+                        <View
+                            style={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "white",
+                                position: 'relative',
+                                zIndex: 999,
+                                flex: 1,
+                                height: ScreenHeight,
+
+                            }}
+                        >
+                            <Animateable.Image
+                                animation="pulse"
+                                easing="ease-out"
+                                iterationCount="infinite"
+                                style={{
+                                    width: 300,
+                                    height: 213,
+                                    margin: 100,
+                                    resizeMode: 'contain'
+                                }}
+                                source={require('../sources/img/loading.png')}
+                            />
+
+                        </View>
+                    </Modal>
                 </View>
             )
         } else {

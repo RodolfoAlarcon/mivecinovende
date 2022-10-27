@@ -22,40 +22,40 @@ export const CategoriasScreen = (props: any) => {
 
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
-                    <ScrollView>
-            <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.bannerPersona}>
-                <View style={{flexDirection:"row",paddingHorizontal:15,marginVertical:15}}>
-                <Image
-                    source={{
-                        uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'
-                    }}
-                    style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
-                />
-                    <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17,marginTop:8 }}>
-                        hola, Claudia Arteagas
-                    </Text>
-                </View>
-                <View style={{width:"75%", marginLeft:"25%", alignItems:"center"}}>
-                    <View style={{width:"100%", height:3,backgroundColor:"#fff"}}></View>
-                    <Text style={{ marginTop:10, color: '#fff', paddingLeft: 10, fontSize: 17}}>
-                        Guayaquil - Km. 23 Vía a Daule
-                    </Text>
-                </View>
-                <View style={styles.cajita}></View>
-            </ImageBackground>
+            <ScrollView>
+                <ImageBackground source={require('../../sources/img/Background.jpg')} resizeMode="cover" style={styles.bannerPersona}>
+                    <View style={{ flexDirection: "row", paddingHorizontal: 15, marginVertical: 15 }}>
+                        <Image
+                            source={{
+                                uri: 'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png'
+                            }}
+                            style={{ width: 40, height: 40, borderRadius: 40 / 2 }}
+                        />
+                        <Text style={{ color: '#fff', paddingLeft: 10, fontSize: 17, marginTop: 8 }}>
+                            hola, Claudia Arteagas
+                        </Text>
+                    </View>
+                    <View style={{ width: "75%", marginLeft: "25%", alignItems: "center" }}>
+                        <View style={{ width: "100%", height: 3, backgroundColor: "#fff" }}></View>
+                        <Text style={{ marginTop: 10, color: '#fff', paddingLeft: 10, fontSize: 17 }}>
+                            Guayaquil - Km. 23 Vía a Daule
+                        </Text>
+                    </View>
+                    <View style={styles.cajita}></View>
+                </ImageBackground>
 
-            <View style={styles.container}>
-            <View style={styles.buscador}>
-                <Buscador />
-            </View>
-            <View style={{width:"100%"}}>
-                <Categoria
-                    sector={paramsname}
-                    id={paramsid}
-                />
-            </View>
-            </View>
-        </ScrollView>
+                <View style={styles.container}>
+                    <View style={styles.buscador}>
+                        <Buscador />
+                    </View>
+                    <View style={{ width: "100%" }}>
+                        <Categoria
+                            sector={paramsname}
+                            id={paramsid}
+                        />
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     )
     function goToScreen(routeName: any, id: any) {
@@ -84,9 +84,9 @@ const styles = StyleSheet.create({
     },
     container: {
         minHeight: Dimensions.get("window").height - 130,
-        backgroundColor:"#fff",
-        width:"95%",
-        marginHorizontal:"2.5%"
+        backgroundColor: "#fff",
+        width: "95%",
+        marginHorizontal: "2.5%"
     },
     buscador: {
         width: '100%',
@@ -141,14 +141,14 @@ const styles = StyleSheet.create({
         width: "100%",
         height: 160
     },
-    cajita:{
-        backgroundColor:"#ffffff",
-        height:35,
-        position:"absolute",
-        bottom:0,
+    cajita: {
+        backgroundColor: "#ffffff",
+        height: 35,
+        position: "absolute",
+        bottom: 0,
         borderTopLeftRadius: 30,
         borderTopRightRadius: 30,
-        width:"95%",
-        marginHorizontal:"2.5%"
+        width: "95%",
+        marginHorizontal: "2.5%"
     },
 });

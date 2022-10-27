@@ -1,14 +1,15 @@
 import React, { useEffect, useState, Component } from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, ActivityIndicator, Dimensions, Modal, StatusBar } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import { color } from '../styles/colors';
+import * as Animateable from 'react-native-animatable'
 
 
 
 const navigator = useNavigation()
 
 function goToScreen(routeName: any, id: any, name: string, sector: any, icono: any) {
-    navigator.navigate(routeName as never, { id: id, name: name, sector: sector, icono:icono} as never,);
+    navigator.navigate(routeName as never, { id: id, name: name, sector: sector, icono: icono } as never,);
 }
 
 export default class Categoria extends Component<{ id: any, sector: any }, any>{
@@ -18,7 +19,8 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
         this.state = {
             isLoading: true,
             dataBanner: [],
-            sectorTitulo: ""
+            sectorTitulo: "",
+
         }
     }
 
@@ -41,24 +43,42 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
 
     render() {
+
         let ScreenHeight = Dimensions.get("window").height;
         if (this.state.isLoading) {
             return (
-                <View
-                    style={{
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: ScreenHeight,
-                        width: "100%",
-                        backgroundColor: "#f1f2f3",
-                        top: -330,
-                        position: 'relative',
-                        zIndex: 999
-                    }}
-                >
+                <View>
+                    <Modal
+                        transparent={true}
+                        visible={true}
+                    >
+                        <View
+                            style={{
+                                justifyContent: "center",
+                                alignItems: "center",
+                                backgroundColor: "white",
+                                position: 'relative',
+                                zIndex: 999,
+                                flex: 1,
+                                height: ScreenHeight,
 
-                    <Image source={require('../sources/img/loading.gif')}
-                        style={{ width: 200, height: 200 }} />
+                            }}
+                        >
+                            <Animateable.Image
+                                animation="pulse"
+                                easing="ease-out"
+                                iterationCount="infinite"
+                                style={{
+                                    width: 300,
+                                    height: 213,
+                                    margin: 100,
+                                    resizeMode: 'contain'
+                                }}
+                                source={require('../sources/img/loading.png')}
+                            />
+
+                        </View>
+                    </Modal>
                 </View>
             )
         } else {
@@ -70,7 +90,7 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
                         data={this.state.dataBanner}
                         renderItem={({ item }) => this._renderItem(item)}
                         keyExtractor={(item: any, index) => index.toString()}
-                        style={{ width: '90%',marginHorizontal:"5%" }}
+                        style={{ width: '90%', marginHorizontal: "5%" }}
                     />
                 </View>
             )
@@ -84,27 +104,27 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
         let centrar = item.short_image
         return (
             <TouchableOpacity
-            onPress={
-                () => { goToScreen('SubcategoriasScreen', item.id, item.name, sector, itemImg) }
-            }
+                onPress={
+                    () => { goToScreen('SubcategoriasScreen', item.id, item.name, sector, itemImg) }
+                }
                 style={{
                     width: '32%',
-                    paddingHorizontal:5,
-                    height:170
+                    paddingHorizontal: 5,
+                    height: 170
                 }}
             >
-                <View style={[styles.contenidoboton,{backgroundColor:colorcaja},{paddingTop:centrar ? 10 : 20}]}>
+                <View style={[styles.contenidoboton, { backgroundColor: colorcaja }, { paddingTop: centrar ? 10 : 20 }]}>
 
                     <Image
                         source={{ uri: itemImg }}
-                        style={{ width: "80%", resizeMode:"stretch", marginHorizontal:"10%", height:70}}
+                        style={{ width: "80%", resizeMode: "stretch", marginHorizontal: "10%", height: 70 }}
                     />
                 </View>
                 <Text style={styles.textboton}>
-                        {item.name}
-                    </Text>
+                    {item.name}
+                </Text>
             </TouchableOpacity>
-            
+
         )
 
     }
@@ -112,17 +132,17 @@ export default class Categoria extends Component<{ id: any, sector: any }, any>{
 
 const styles = StyleSheet.create({
     contenidoboton: {
-        height:90,
-        width:'100%',
-        marginVertical:10,
-        borderRadius:10,
-        overflow:"hidden"
+        height: 90,
+        width: '100%',
+        marginVertical: 10,
+        borderRadius: 10,
+        overflow: "hidden"
     },
     textboton: {
         fontSize: 15,
         fontWeight: 'bold',
         color: '#000',
-        textAlign:'center'
+        textAlign: 'center'
     }
 });
 
