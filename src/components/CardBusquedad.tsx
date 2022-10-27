@@ -68,30 +68,6 @@ export default class CardBusquedad extends Component<{ id: any }, any>{
             )
         }
     }
-    _phone(item: any) {
-        if (item.phone === 1) {
-            return (
-                <Text>
-                    Camponente nulo
-                </Text>
-            )
-        } else {
-            return (
-                <View>
-                    <TouchableOpacity
-                        onPress={
-                            () => Linking.openURL(`tel:+593${item.phone}`)
-                        }
-                    >
-                        <Image
-                            source={require('../sources/img/llamar.png')}
-                            style={{ width: 30, height: 30, resizeMode: 'contain', marginVertical: 23, marginHorizontal: 7 }}
-                        />
-                    </TouchableOpacity>
-                </View>
-            )
-        }
-    }
 
     _renderItem(item: any) {
 
@@ -102,32 +78,27 @@ export default class CardBusquedad extends Component<{ id: any }, any>{
                 }
                 style={{
                     width: '100%',
-                    height: 70,
                     flexDirection: 'row',
-                    backgroundColor: "white",
-                    borderTopWidth: 1,
-                    borderBottomWidth: 1,
-                    borderColor: '#cecece',
-                    paddingHorizontal: 5,
                 }}
             >
                 <View style={{ width: '20%', justifyContent:'center', alignItems:'center' }}>
+                    <View style={{borderWidth:2,width:50,justifyContent:"center",alignItems:"center", borderRadius:50,height:50, borderColor:"#453091"}}>
                     <Image
                         source={{ uri: item.url_logo }}
-                        style={{ width: 50, height: 50, borderRadius: 50 }}
+                        style={{ height: 43, width: 43, resizeMode:"cover", borderRadius:50 }}
                     />
+                    </View>
                 </View>
-                <View style={{width:'55%', justifyContentg: 'center' }}>
-                    <Text style={{ color: '#000', fontWeight: 'bold', fontSize: 16}}>
+                <View style={{width:'60%', justifyContent: 'center' }}>
+                    <Text
+                    numberOfLines={1}
+                    style={{ color: '#453091', fontWeight: 'bold', fontSize: 16}}>
                         {item.name}
                     </Text>
                 </View>
-                <View style={{ width: '25%', flexDirection: 'row', justifyContent: "flex-end", marginRight: "2%" }}>
+                <View style={{ width: '20%', alignItems:"center", justifyContent: "flex-end" }}>
                     {
                         this._delivery(item)
-                    }
-                    {
-                        this._phone(item)
                     }
                 </View>
             </TouchableOpacity>
