@@ -17,11 +17,13 @@ export const EditProfileScreen = (props: any) => {
     const navigator = useNavigation()
     const { user, editProfile } = useContext(AuthContex)
     const [tempUri, setTempUri] = useState<any>('')
-    ///const [image, setImage] = useState<any>(params.data.url_logo);
+    const [image, setImage] = useState<any>(user.url_imagen);
     const thakePhotoGallery = async () => {
         await launchImageLibrary({
             mediaType: 'photo',
             quality: 0.5,
+            maxWidth: 400,
+            maxHeight:400
         }, (resp) => {
             if (resp.didCancel) return;
             if (!resp.assets) {
@@ -66,7 +68,7 @@ export const EditProfileScreen = (props: any) => {
                         email: user.email
                     }}
                     onSubmit={async (values: any) => {
-                        values.editUrl_logo = tempUri;
+                        values.url_imagen = tempUri;
                         const res = await editProfile(values)
                         if (res == true) {
                             /*let arrayREd;
@@ -121,7 +123,7 @@ export const EditProfileScreen = (props: any) => {
                                 />
 
                             </View>
-                            {/*<View
+                            <View
                             style={{
                                 width: "100%",
                                 alignItems: 'center',
@@ -136,7 +138,7 @@ export const EditProfileScreen = (props: any) => {
                                     marginBottom: 5
                                 }}
                             >
-                                Logo
+                                Imagen de perfil
                                 
                             </Text>
                             <TouchableOpacity
@@ -148,7 +150,7 @@ export const EditProfileScreen = (props: any) => {
                             />
                             </TouchableOpacity>
                      
-                            </View>*/}
+                            </View>
 
 
                             <View

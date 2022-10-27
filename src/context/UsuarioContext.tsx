@@ -52,7 +52,7 @@ type AuthContextProps = {
     createSliderProduct: (data: any, negocios: any) => void;
     editSliderProduct: (data: any, negocios: any) => void;
     modifiedCart: (data: any, cart: any, id_negocio: any) => void;
-    deleteProductCart:(id: any, cart: any, id_negocio: any) => void;
+    deleteProductCart: (id: any, cart: any, id_negocio: any) => void;
     emptyCart: (id_negocio: any, cart: any) => void;
     followBussiness: (id_user: any, id_business: any) => void;
     unFollowBussiness: (id_user: any, id_business: any) => void;
@@ -136,8 +136,46 @@ const UserProvider = ({ children }: any) => {
     }
 
     const editProfile = async (data: any) => {
+        const formData = new FormData();
+        formData.append('id', data.id);
+        formData.append('name', data.name);
+        formData.append('apellido', data.apellido);
+        formData.append('sexo', data.sexo);
+        formData.append('edad', data.edad);
+        formData.append('email', data.email);
+
+        if (data.url_imagen.length !== 0) {
+
+            formData.append('url_imagen',
+                {
+                    name: data.url_imagen.name,
+                    type: data.url_imagen.type,
+                    size: data.url_imagen.size,
+                    uri: data.url_imagen.uri
+
+                }
+            );
+        }
+
         try {
-            const resp = await apiApp.post('/actulizarDatos', data)
+
+            const resp = await apiApp.post('/actulizarDatos', formData,
+
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    transformRequest: (data, error) => {
+                        return formData;
+                    }
+                })/*.then(function (response) {
+                      
+                  console.log(response.data)
+                })
+                .catch(function (error) {
+                  console.log(error.response.data.message)
+                });*/
+
 
             dispatch({ type: 'editProfile', payload: { user: resp.data.user } })
             return true;
@@ -501,7 +539,7 @@ const UserProvider = ({ children }: any) => {
         formData.append('negocio_id', data.negocio_id);
         formData.append('name', data.name);
 
-         if (data.url_imagen.length !== 0) {
+        if (data.url_imagen.length !== 0) {
             formData.append('url_imagen',
                 {
                     name: data.url_imagen.name,
@@ -514,14 +552,14 @@ const UserProvider = ({ children }: any) => {
         try {
             const resp = await apiApp.post('/editar-categoria', formData,
 
-            {
-                headers: {
-                    'Content-Type': 'multipart/form-data'
-                },
-                transformRequest: (data, error) => {
-                    return formData;
-                }
-            })/* .then(function (response) {
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    },
+                    transformRequest: (data, error) => {
+                        return formData;
+                    }
+                })/* .then(function (response) {
               
           console.log(response.data)
         })
@@ -667,12 +705,12 @@ const UserProvider = ({ children }: any) => {
 
                 let verication_product = n.productos.filter((n: any) => n.id !== id);
                 n['productos'] = verication_product;
-          
+
             }
         })
         //console.log(cart[0])
         dispatch({ type: 'modifiedCart', payload: { cart: cart } })
-        
+
     }
 
 
@@ -728,7 +766,7 @@ const UserProvider = ({ children }: any) => {
         formData.append('newSybcateogoria', data.newSybcateogoria);
         formData.append('newCategoria', data.newCategoria);
         formData.append('newCiudad', data.newCiudad);
-        formData.append('newSector', data.newSector); 
+        formData.append('newSector', data.newSector);
 
         if (data.comprobante.length !== 0) {
             formData.append('comprobante',
@@ -759,7 +797,7 @@ const UserProvider = ({ children }: any) => {
           console.log(error.response.data.message)
         });*/
 
-           
+
             return true;
         } catch (error) {
 
@@ -767,7 +805,7 @@ const UserProvider = ({ children }: any) => {
             return false;
         }
     }
-    const sendReview = async (data:any) => {
+    const sendReview = async (data: any) => {
         try {
             const resp = await apiApp.post('/reviews-bussines', data)
 
@@ -779,10 +817,10 @@ const UserProvider = ({ children }: any) => {
         } catch (error) {
 
             dispatch({ type: 'addErrorsistem', payload: error.response.data.status })
-            return { response: false}
+            return { response: false }
         }
     }
-    
+
     return (
         <AuthContex.Provider value={{
             ...login,

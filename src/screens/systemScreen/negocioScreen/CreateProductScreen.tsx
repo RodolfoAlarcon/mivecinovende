@@ -23,6 +23,8 @@ export const CreateProductScreen = (props: any) => {
         await launchImageLibrary({
             mediaType: 'photo',
             quality: 0.5,
+            maxWidth: 400,
+            maxHeight:400
         }, (resp) => {
             if (resp.didCancel) return;
             if (!resp.assets) {
@@ -49,6 +51,8 @@ export const CreateProductScreen = (props: any) => {
         await launchImageLibrary({
             mediaType: 'photo',
             quality: 0.5,
+            maxWidth: 400,
+            maxHeight:400
         }, (resp) => {
             if (resp.didCancel) return;
             if (!resp.assets) {

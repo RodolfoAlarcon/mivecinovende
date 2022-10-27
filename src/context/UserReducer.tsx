@@ -190,6 +190,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             state.user.dni = action.payload.user.dni
             state.user.edad = action.payload.user.edad
             state.user.email = action.payload.user.email
+            state.user.url_imagen = action.payload.user.url_imagen
    
             saveUsuario(state.user).then((msg) => {
                 console.log('address save')
