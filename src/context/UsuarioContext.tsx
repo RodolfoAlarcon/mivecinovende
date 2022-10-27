@@ -49,12 +49,13 @@ type AuthContextProps = {
     editService: (data: any, negocios: any) => void;
     createBusinessCategory: (data: any, negocios: any) => void;
     editBusinessCategory: (data: any, negocios: any) => void;
-    createSliderProduct: (data: any, negocios: any) => void
-    editSliderProduct: (data: any, negocios: any) => void
-    modifiedCart: (data: any, cart: any, id_negocio: any) => void
-    emptyCart: (id_negocio: any, cart: any) => void,
-    followBussiness: (id_user: any, id_business: any) => void,
-    unFollowBussiness: (id_user: any, id_business: any) => void
+    createSliderProduct: (data: any, negocios: any) => void;
+    editSliderProduct: (data: any, negocios: any) => void;
+    modifiedCart: (data: any, cart: any, id_negocio: any) => void;
+    deleteProductCart:(id: any, cart: any, id_negocio: any) => void;
+    emptyCart: (id_negocio: any, cart: any) => void;
+    followBussiness: (id_user: any, id_business: any) => void;
+    unFollowBussiness: (id_user: any, id_business: any) => void;
     rquestBusiness: (data: any) => void;
     sendReview: (data: any) => void;
     //removeError: () => void;
@@ -657,6 +658,23 @@ const UserProvider = ({ children }: any) => {
         }
     }
 
+    const deleteProductCart = async (id: any, cart: any, id_negocio: any) => {
+
+        cart.map((n: any) => {
+
+            if (n['id_negocio'] == id_negocio) {
+
+                let verication_product = n.productos.filter((n: any) => n.id !== id);
+                n['productos'] = verication_product;
+          
+            }
+        })
+        //console.log(cart[0])
+        dispatch({ type: 'modifiedCart', payload: { cart: cart } })
+        
+    }
+
+
     const emptyCart = async (id_negocio: any, cart: any) => {
         cart.map((n: any) => {
             if (n['id_negocio'] == id_negocio) {
@@ -791,6 +809,7 @@ const UserProvider = ({ children }: any) => {
             createSliderProduct,
             editSliderProduct,
             modifiedCart,
+            deleteProductCart,
             emptyCart,
             postChat,
             followBussiness,

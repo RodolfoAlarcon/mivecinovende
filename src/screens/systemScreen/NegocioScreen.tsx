@@ -71,7 +71,7 @@ const DetalleNegocioScreen = (props: any) => {
                 console.log(error)
             })
     }, [])
-    const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites, sendReview } = useContext(AuthContex)
+    const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites, sendReview, deleteProductCart } = useContext(AuthContex)
 
 
     var cartNow = cart.filter((n: any) => n.id_negocio == business.id);
@@ -93,6 +93,8 @@ const DetalleNegocioScreen = (props: any) => {
 
     const [contadorPrecio, setContadorPrecio] = useState(0)
     const [numeropedido, setNumeropedido] = useState(1)
+
+    const [mensaje, setMensaje] = useState('')
 
     const [contadorcarrito, setContadorcarrito] = useState(carrito.length == 0 ? 0 : carrito.productos.length);
 
@@ -194,6 +196,31 @@ const DetalleNegocioScreen = (props: any) => {
         await handleSumaPago();
     }
 
+    async function quitarProducto(id: string, precios: string) {
+    
+        /*const { hijoarray } = array
+        hijoarray.push(boatData)
+        setArray({
+            ...array,
+            hijoarray
+        })*/
+
+        deleteProductCart(id, cart, business.id);
+        let newCarrito = await getCart();
+        newCarrito = newCarrito.filter((n: any) => n.id_negocio == business.id)
+
+        if (newCarrito == null) {
+            newCarrito = []
+        }
+
+        if (newCarrito.length !== 0) {
+            newCarrito = newCarrito[0]
+        }
+        await setCarrito(newCarrito)
+        //await setContadorPrecio(contadorPrecio - parseInt(precios))
+        await setContadorcarrito(newCarrito.productos.length)
+    }
+
     async function vaciarCarro() {
 
         emptyCart(business.id, cart);
@@ -228,7 +255,7 @@ const DetalleNegocioScreen = (props: any) => {
         return setContadorPrecio(count)
     }
 
-    function sendMessage(msg: any) {
+    function sendcartMessage(msg: any) {
 
         let stateUSer = true;//borrar y cambiar por el status de usuario
         if (stateUSer) {
@@ -244,6 +271,27 @@ const DetalleNegocioScreen = (props: any) => {
             })
 
             vaciarCarro()
+
+        }
+
+    }
+
+    function sendMessage() {
+
+        let stateUSer = true;//borrar y cambiar por el status de usuario
+        if (stateUSer) {
+
+            socket.emit('newChat', {
+                room: '',
+                idSender: user.id,
+                id_user: user.id,
+                msg: mensaje,
+                token: user.access_token,
+                idBusiness: business.id,
+                idProprietor: business.user_id,
+            })
+
+            setModalmensaje(false)
 
         }
 
@@ -481,6 +529,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                     placeholder={'Escribir mensaje aquí'}
                                                     placeholderTextColor={'#565656'}
                                                     underlineColorAndroid={'transparent'}
+                                                    onChangeText={(e: any) => { setMensaje(e) }}
                                                 />
                                                 <View style={{ width: "100%", flexDirection: "row", justifyContent: "space-between", marginTop: 20 }}>
                                                     <TouchableOpacity
@@ -491,6 +540,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                         </Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
+                                                        onPress={()=>{sendMessage(); setMensaje('')}}
                                                         style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
                                                     >
                                                         <Text style={{ color: "#fff", fontWeight: "800" }}>
@@ -547,7 +597,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                             Titulo
                                                         </Text>
                                                     </View>
-                                                    <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                    <View style={{ width: '23.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                         <Text style={{ color: '#fff' }}>
                                                             Cantidad
                                                         </Text>
@@ -555,6 +605,11 @@ const DetalleNegocioScreen = (props: any) => {
                                                     <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                         <Text style={{ color: '#fff' }}>
                                                             Precios
+                                                        </Text>
+                                                    </View>
+                                                    <View style={{ width: '10.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                        <Text style={{ color: '#fff' }}>
+                                                            
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -568,7 +623,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                                     {n.nombre}
                                                                 </Text>
                                                             </View>
-                                                            <View style={{ width: '33.33%', justifyContent: 'center', alignItems: 'center' }}>
+                                                            <View style={{ width: '23.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                                 <Text style={{ color: '#000' }}>
                                                                     {n.cantidad}
                                                                 </Text>
@@ -578,6 +633,14 @@ const DetalleNegocioScreen = (props: any) => {
                                                                     {n.precios}
                                                                 </Text>
                                                             </View>
+                                                            <TouchableOpacity
+                                                                onPress={()=> {quitarProducto(n.id, n.precios); setContadorPrecio(contadorPrecio - n.precios)}} 
+                                                                style={{ width: '10.33%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
+                                                            >
+                                                                <Text style={{ color: '#fff', backgroundColor: '#453091', padding: 5, borderRadius:50 }}>
+                                                                    X
+                                                                </Text>
+                                                            </TouchableOpacity>
                                                         </View>
                                                     )
                                                 }
@@ -608,7 +671,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                         </View>
                                                     </TouchableOpacity>
 
-                                                    <TouchableOpacity onPress={() => { sendMessage(carrito.productos) }} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}>
+                                                    <TouchableOpacity onPress={() => { sendcartMessage(carrito.productos) }} style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}>
                                                         <View >
                                                             <Text style={{ color: '#ffff', fontWeight: '800' }}>
                                                                 Enviar

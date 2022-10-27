@@ -12,6 +12,7 @@ export const HomeScreens = (props: any) => {
     const navigator = useNavigation()
     const [items, setItems] = useState<any[]>([]);
     const [placeholderCity, setPlaceholderCity] = useState('ciudad');
+    const [citys, setCitys] = useState(address.citys.filter((n: any) => n.provincia_id == user.provincias_id));
     const [placeholderSector, setPlaceholderSector] = useState('Sector');
     const [idSector, setIdSector] = useState('');
     const [nameSector, setnameSector] = useState('');
@@ -80,7 +81,7 @@ export const HomeScreens = (props: any) => {
                                 borderWidth: 1,
                             }}
                             nestedScrollEnabled={true}
-                            items={address.citys}
+                            items={address.citys}//REEPLAZAR POR EL STATE CITYS
                             // Mapping of item array
 
                             // Default selected item index
