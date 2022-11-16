@@ -12,17 +12,18 @@ import { useNavigation } from '@react-navigation/native'
 import OneSignal from 'react-native-onesignal';
 import { getCart } from '../storage/CartAsyncStorage'
 import { getFollows } from '../storage/FavoritesAsyncStorage'
+import { getVersion } from '../storage/VersionAsyncStorage'
 
 const SplashScreen = () => {
 
     const navigator = useNavigation()
 
-    const { sing, status, getCountry, recoveryCountry, getNotificationsApi, getChatsApi, connectSockect} = useContext(AuthContex)
+    const { sing, status, getCountry, recoveryCountry, getNotificationsApi, getChatsApi, connectSockect, version } = useContext(AuthContex)
 
     useEffect(() => {
         fetchSession(sing)
     }, [])
-    const goToScreen = (routeName:any) => {
+    const goToScreen = (routeName: any) => {
         navigator.navigate(routeName)
     }
     return (
@@ -36,13 +37,13 @@ const SplashScreen = () => {
                     width: 300,
                     height: 213,
                     margin: 100,
-                    resizeMode:'contain'
+                    resizeMode: 'contain'
                 }}
                 source={require('../sources/img/loading.png')}
             />
         </View>
     )
-    async function fetchSession(singl:any) {
+    async function fetchSession(singl: any) {
         const responseUser = await getUsuario();
         let responseAddress = await getAddress();
         let responseBusiness = await getBusiness();
@@ -50,12 +51,13 @@ const SplashScreen = () => {
         let responseChat = await getChats();
         let responseFavorite = await getFollows();
         let responseCart = await getCart()
-      
+        let serverVersion = await getVersion();
+
         if (responseAddress == null) {
-            
+
             await getCountry();
             responseAddress = await getAddress();
-            
+
         }
 
         if (responseBusiness == null) {
@@ -74,21 +76,29 @@ const SplashScreen = () => {
             responseFavorite = [];
         }
 
+        if (serverVersion == null) {
+
+            serverVersion = {
+                'id': '',
+                'version': ''
+            };
+
+        }
 
         if (responseUser == null) {
-            
+
             responseNotifications = [];
             responseChat = [];
             await recoveryCountry(responseAddress)
             setTimeout(() => {
                 goToScreen('IngresarNumeroScreen',)
             }, 3000)
-            
- 
-        }else{
-            
+
+
+        } else {
+
             OneSignal.setExternalUserId(responseUser['id']);
-            await OneSignal.promptForPushNotificationsWithUserResponse(response => {});
+            await OneSignal.promptForPushNotificationsWithUserResponse(response => { });
             await connectSockect(responseUser['id']);
             await getCountry();
             responseAddress = await getAddress();
@@ -97,21 +107,21 @@ const SplashScreen = () => {
             await getChatsApi(responseUser['id'])
             responseChat = await getChats();
 
-            sing(responseUser,responseAddress, responseNotifications, responseBusiness, responseChat, responseCart, responseFavorite)
+            sing(responseUser, responseAddress, responseNotifications, responseBusiness, responseChat, responseCart, responseFavorite)
         }
 
-        
 
-       
-        
         setTimeout(() => {
             if (status === 'registered-phone') {
                 goToScreen('RegisterScreen')
             } else if (status === 'authenticated') {
                 goToScreen('PrincipalScreen')
             }
-
         }, 500)
+
+
+
+
     }
 
 }

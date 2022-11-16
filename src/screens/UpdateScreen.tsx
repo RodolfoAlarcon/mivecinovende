@@ -1,30 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet,  Alert, BackHandler, ScrollView, Image, Modal,ImageBackground, Dimensions } from 'react-native'
-import { AuthContex } from '../../../context/UsuarioContext'
+import { AuthContex } from '../context/UsuarioContext'
 import SafeAreaView from 'react-native-safe-area-view';
 import { useNavigation } from '@react-navigation/native';
-import ElementListReviews from '../../../components/ElementListReviews'
-import {color} from '../../../styles/colors'
+import ElementListNotificacion from '../components/ElementListNotificacion'
+import { color } from '../styles/colors';
 
-export const  ReviewsBusinessScreen = (props: any) => {
-    const { params } = props.route;
-	
+export const  UpdateScreen = (props: any) => {     
        
+   
         return (
             <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
 			<ScrollView>
-			<ImageBackground source={require('../../../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
+			<ImageBackground source={require('../sources/img/Background.jpg')} resizeMode="cover" style={styles.BannerTitulo}>
 				<Text style={styles.TituloBan}>
-					Reseñas de usuarios
+					Advertencia
 				</Text>
 				<View style={styles.cajita}></View>
 			</ImageBackground>
       
             <View style={styles.container}>
-            <ElementListReviews 
-                    reviewsBusiness = {params.data}
-                    colorIcon= {color.BLACK}
-                />
+				<Text style={{fontSize:18, marginHorizontal:10, textAlign:'justify', color: 'gray'}}>Hay una nueva actualización por favor actualiza para seguir usando la aplicación</Text>
             </View>
                 </ScrollView>
                

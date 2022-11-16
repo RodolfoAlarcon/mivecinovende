@@ -4,6 +4,7 @@ import {RegisterScreen} from '../screens/RegisterScreen'
 import IngresarNumeroScreen from '../screens/IngresarNumeroScreen'
 import ValidacionNumeroScreen from '../screens/ValidacionNumeroScreen';
 import SplashScreen from '../screens/SplashScreens'
+import {UpdateScreen} from '../screens/UpdateScreen'
 
 import PrincipalScreens from '../screens/PrincipalScreens'
 import PrincipalSellerScreens from '../screens/PrincipalSellerScreens'
@@ -38,11 +39,12 @@ import  {EditAdressScreen}  from '../screens/systemScreen/settingScreen/EditAdre
 import {EditProfileScreen} from '../screens/systemScreen/settingScreen/EditProfileScreen'
 import {ListFollowNegocioScreens} from '../screens/systemScreen/settingScreen/ListFollowNegocioScreens'
 import {RequestFormScreen} from '../screens/systemScreen/settingScreen/RequestFormScreen' 
+
 const Stack = createStackNavigator();
 
 export const Navigation = () => {
 
-    const { status, user } = useContext(AuthContex)
+    const { status, user, version } = useContext(AuthContex)
 
     return (
         <Stack.Navigator
@@ -55,7 +57,7 @@ export const Navigation = () => {
         >
             { 
                 (function () {
-
+                    //if(version)
                     if (status === 'authenticated') {
                         return (
                             <>
@@ -99,6 +101,12 @@ export const Navigation = () => {
                         return (
                             <>
                             <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+                            </>
+                        )
+                    }else if (status === 'update') {
+                        return (
+                            <>
+                            <Stack.Screen name="UpdateScreen" component={UpdateScreen} />
                             </>
                         )
                     } else {

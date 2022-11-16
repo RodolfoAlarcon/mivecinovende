@@ -62,7 +62,7 @@ export default class ListFollowNegocios extends Component<{ id: any }, any>{
                     }}
                 >
                     <Image
-                        source={require('../sources/img/loading.gif')}
+                        source={require('../sources/img/loading.png')}
                         style={{
                             width: 200
                         }}

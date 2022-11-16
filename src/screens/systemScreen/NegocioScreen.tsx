@@ -35,7 +35,7 @@ const DetalleNegocioScreen = (props: any) => {
         "follows": [],
         "reviews": []
     });
-
+    const [allStar, setAllStar] = useState(0);
     useEffect(() => {
         const url = `https://14.sdcecuador.com/api/data-negocio/${params.id}`;
         fetch(url)
@@ -70,6 +70,7 @@ const DetalleNegocioScreen = (props: any) => {
             .catch((error: any) => {
                 console.log(error)
             })
+        totalStar(business.reviews);
     }, [])
     const { modifiedCart, cart, emptyCart, user, unFollowBussiness, followBussiness, favorites, sendReview, deleteProductCart } = useContext(AuthContex)
 
@@ -197,7 +198,7 @@ const DetalleNegocioScreen = (props: any) => {
     }
 
     async function quitarProducto(id: string, precios: string) {
-    
+
         /*const { hijoarray } = array
         hijoarray.push(boatData)
         setArray({
@@ -311,14 +312,13 @@ const DetalleNegocioScreen = (props: any) => {
         }
         let responseReview = await sendReview(data);
 
-        console.log(responseReview.review)
-
         if (responseReview.response == true) {
             if (review.id == "") {
                 responseReview.review.url_imagen = user.url_imagen
                 responseReview.review.name = user.name
                 business.reviews.push(responseReview.review)
                 setBusiness(business)
+                totalStar(business.reviews)
             } else {
 
                 business.reviews.forEach((data, key) => {
@@ -328,6 +328,7 @@ const DetalleNegocioScreen = (props: any) => {
                     }
                 })
                 setBusiness(business)
+                totalStar(business.reviews)
             }
         }
     }
@@ -373,6 +374,27 @@ const DetalleNegocioScreen = (props: any) => {
         </View>
     );
 
+
+
+
+    function totalStar(datas:any) {
+        console.log('los datos son:' +datas)
+        let conter = 0;
+        if (datas == null || datas.length == 0) {
+            setAllStar(conter)
+        } else {
+            datas.forEach((data, key) => {
+                conter = data.puntuacion + conter;
+            })
+            conter = conter / datas.length;
+            conter = parseFloat(conter.toFixed(2));
+            setAllStar(conter)
+
+        }
+
+    }
+
+
     // y aqui finaliza
     return (
         <SafeAreaView style={{ flex: 1, backgroundColor: "#453091" }}>
@@ -397,41 +419,38 @@ const DetalleNegocioScreen = (props: any) => {
                                     style={{ width: 20, height: 20, resizeMode: "stretch", marginTop: 10, marginLeft: 10 }}
                                 />
                             </View>
-                            <View style={{ paddingVertical: 5, backgroundColor: "#6900FF", width: 130, borderRadius: 15 }}>
-                                <Text style={{ color: "#fff", textAlign: "center", fontSize: 12 }}>
-                                    Vendedor Premium
-                                </Text>
+                            {business.delivery == 0 ?
+                            <View style={{ paddingVertical: 2, backgroundColor: "#6900FF", width: 40, borderRadius: 7, marginTop: 2, height:40}}>
+                                <Image source={require('../../sources/img/not-delivery-white.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30, marginLeft:4 }} />
                             </View>
+                            :
+                            <View style={{ paddingVertical: 2, backgroundColor: "#6900FF", width: 40, borderRadius: 7, marginTop: 2, height:40 }}>
+                                <Image source={require('../../sources/img/delivery-white.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30, marginLeft:4 }} />
+                            </View>
+                        }
                         </View>
                         <View style={{ width: "5%" }}>
                             <Icon name="more-vertical" size={25} color="#fff" />
                         </View>
                     </View>
                     <View style={{ flexDirection: "row", width: "95%", marginVertical: 15, justifyContent: "space-between" }}>
-                    <View style={{ width: "32%" }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>254</Text>
+                        <View style={{ width: "32%" }}>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>{favorite.length}</Text>
                             <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>FAVORITOS</Text>
                         </View>
                         <View style={{ width: "32%" }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>198</Text>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>SATISFECHOS</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>{business.reviews.length}</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>RESEÑAS</Text>
                         </View>
                         <View style={{ width: "32%" }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>4.5</Text>
+
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>{allStar}</Text>
                             <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>ESTRELLLAS</Text>
                         </View>
                     </View>
                     <View style={{ width: "95%", height: 25, backgroundColor: "white", borderTopLeftRadius: 20, borderTopRightRadius: 20, }}></View>
                 </ImageBackground>
-                { //favorite.length == 0 ?
-                    //<TouchableOpacity onPress={() => followBussiness(user.id, business.id)} style={[styles.Seguidores, { backgroundColor: 'white', maxHeight: '40%', borderColor: 'gold', borderWidth: 1 }]}>
-                    //<Icon name={"star"} style={[styles.TextoSeguidores, { fontSize: 20, marginTop: 0, color: 'gold' }]} />
-                    //</TouchableOpacity>
-                    //:
-                    //<TouchableOpacity onPress={() => unFollowBussiness(user.id, business.id)} style={[styles.Seguidores, { backgroundColor: 'gold', maxHeight: '40%' }]}>
-                    //<Icon name={"star"} style={[styles.TextoSeguidores, { fontSize: 20, marginTop: 0, color: 'white' }]} />
-                    //</TouchableOpacity>
-                }
+
                 <View
                     style={styles.container}
                 >
@@ -456,22 +475,22 @@ const DetalleNegocioScreen = (props: any) => {
                                     >
                                         <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
                                             <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
-                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10, fontSize: 18 }}>
                                                     Mi Información
                                                 </Text>
-                                                <Text style={{ color: "#000", marginBottom: 10 }}>
+                                                <Text style={{ color: "#000", marginBottom: 10, fontSize: 18 }}>
                                                     {business.description}
                                                 </Text>
-                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10, fontSize: 18 }}>
                                                     Mi Ubicación
                                                 </Text>
-                                                <Text style={{ color: "#000", marginBottom: 10 }}>
+                                                <Text style={{ color: "#000", marginBottom: 10, fontSize: 18 }}>
                                                     {business.direccion}
                                                 </Text>
-                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10 }}>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10, fontSize: 18 }}>
                                                     Mi Teléfono
                                                 </Text>
-                                                <Text style={{ color: "#000", marginBottom: 10 }}>
+                                                <Text style={{ color: "#000", marginBottom: 10, fontSize: 18 }}>
                                                     {business.phone}
                                                 </Text>
                                                 <View style={{ width: "100%", flexDirection: "row", justifyContent: "center" }}>
@@ -491,10 +510,19 @@ const DetalleNegocioScreen = (props: any) => {
                                 ) : null}
                             </View>
                             <View style={{ width: "20%", alignItems: "center" }}>
-                                <Image source={require('../../sources/img/favorito.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
-                                <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
-                                    Favoritos
-                                </Text>
+                                {favorite.length == 0 ?
+                                    <TouchableOpacity onPress={() => followBussiness(user.id, business.id)}>
+                                        <Image source={require('../../sources/img/favorito.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
+                                        <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
+                                            Favoritos
+                                        </Text>
+                                    </TouchableOpacity>
+                                    :
+                                    <TouchableOpacity onPress={() => unFollowBussiness(user.id, business.id)}>
+                                        <Image source={require('../../sources/img/en-favorito.png')} style={{ width: 35, resizeMode: "stretch", maxHeight: 35 }} />
+                                    </TouchableOpacity>
+                                }
+
                             </View>
                             <View style={{ width: "20%" }}>
                                 <TouchableOpacity
@@ -540,7 +568,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                         </Text>
                                                     </TouchableOpacity>
                                                     <TouchableOpacity
-                                                        onPress={()=>{sendMessage(); setMensaje('')}}
+                                                        onPress={() => { sendMessage(); setMensaje('') }}
                                                         style={{ width: '48%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
                                                     >
                                                         <Text style={{ color: "#fff", fontWeight: "800" }}>
@@ -609,7 +637,7 @@ const DetalleNegocioScreen = (props: any) => {
                                                     </View>
                                                     <View style={{ width: '10.33%', justifyContent: 'center', alignItems: 'center' }}>
                                                         <Text style={{ color: '#fff' }}>
-                                                            
+
                                                         </Text>
                                                     </View>
                                                 </View>
@@ -634,10 +662,10 @@ const DetalleNegocioScreen = (props: any) => {
                                                                 </Text>
                                                             </View>
                                                             <TouchableOpacity
-                                                                onPress={()=> {quitarProducto(n.id, n.precios); setContadorPrecio(contadorPrecio - n.precios)}} 
+                                                                onPress={() => { quitarProducto(n.id, n.precios); setContadorPrecio(contadorPrecio - n.precios) }}
                                                                 style={{ width: '10.33%', justifyContent: 'center', alignItems: 'center', flexDirection: 'row' }}
                                                             >
-                                                                <Text style={{ color: '#fff', backgroundColor: '#453091', padding: 5, borderRadius:50 }}>
+                                                                <Text style={{ color: '#fff', backgroundColor: '#453091', padding: 5, borderRadius: 50 }}>
                                                                     X
                                                                 </Text>
                                                             </TouchableOpacity>
@@ -804,10 +832,10 @@ const DetalleNegocioScreen = (props: any) => {
                                                     : <>
                                                     </>
                                             ) : <View style={{ position: "absolute", bottom: 10, right: 7, width: 30, height: 30, backgroundColor: "#453091", borderRadius: 7, justifyContent: "center", alignItems: "center" }}>
-                                                <Text style={{ color: "#fff", fontSize: 10 }}>
-                                                    ${n.precio}
-                                                </Text>
-                                            </View>}
+                                                    <Text style={{ color: "#fff", fontSize: 10 }}>
+                                                        ${n.precio}
+                                                    </Text>
+                                                </View>}
                                         </TouchableOpacity>
                                         {descripcionFoto ? (
 

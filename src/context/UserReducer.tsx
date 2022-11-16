@@ -3,6 +3,7 @@ import { saveUsuario, deleteUsuario } from '../storage/UsuarioAsyncStorage'
 import { saveDataForm, getDataForm, deleteDataForm, saveAddress, getAddress, deleteAddress } from '../storage/FormDataAsyncStorage'
 import { saveBusiness, getBusiness, deleteBusiness } from '../storage/BusnessAsyncStorage'
 import { saveNotifications, getNotifications, deleteNotifications } from '../storage/NotificationsAsyncStorage'
+import { saveVersion, getVersion, deleteVersion } from '../storage/VersionAsyncStorage'
 import { getChats, saveChats, deleteChats } from '../storage/ChatsAsyncStorage'
 import { getCart, saveCart, deleteCart } from '../storage/CartAsyncStorage'
 import Snackbar from 'react-native-snackbar'
@@ -19,7 +20,7 @@ import { Follows } from '../interfaces/FavoritesInterface'
 import { deleteFollows, saveFollows } from '../storage/FavoritesAsyncStorage'
 
 export interface Authstate {
-    status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates' | '';
+    status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates' | 'update' |'';
     access_token: string | null | '';
     user: User | null | '';
     errorMessage: string;
@@ -29,6 +30,7 @@ export interface Authstate {
     chats: postChatResponse[] | null | '';
     cart: [] | null | '';
     favorites: Follows[] | null | '';
+    version: string;
 
 }
 
@@ -71,12 +73,13 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
     switch (action.type) {
 
         case 'sing-in':
-            //deleteFollows()
             let status_user = '';
-            if (parseInt(action.payload.user.register_verified) !== 0) {
+            if (parseInt(action.payload.user.register_verified) !== 0 && state.status !== 'update') {
                 status_user = 'authenticated'
-            } else {
+            } else if(parseInt(action.payload.user.register_verified) == 0 && state.status !== 'update'){
                 status_user = 'registered-phone'
+            }else{
+                status_user = 'update'
             }
 
             return { ...state, user: action.payload.user, address: action.payload.address, status: status_user, access_token: action.payload.user["access_token"], notifications: action.payload.notifications, business: action.payload.business, chats: action.payload.chats, cart: action.payload.cart, favorites: action.payload.favorites }
@@ -85,10 +88,12 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
 
             let status_user2 = '';
 
-            if (parseInt(action.payload.user.register_verified) !== 0) {
+            if (parseInt(action.payload.user.register_verified) !== 0 && state.status !== 'update') {
                 status_user2 = 'authenticated'
-            } else {
+            } else if(parseInt(action.payload.user.register_verified) == 0 && state.status !== 'update'){
                 status_user2 = 'registered-phone'
+            }else{
+                status_user2 = 'update'
             }
 
             action.payload.user["access_token"] = action.payload.access_token;
@@ -129,15 +134,22 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             }
 
         case 'getCountry':
+            let update = 'cheking'
+            saveVersion(action.payload.address.version).then((msg) => {
+                console.log('address save')
+            })
 
             saveAddress(action.payload.address).then((msg) => {
                 console.log('address save')
             })
 
+            if (action.payload.address.version.version !== state.version){
+                update = 'update'
+            }
             return {
                 ...state,
                 address: action.payload.address,
-
+                status: update
             }
 
         case 'recoveryCountry':
@@ -246,6 +258,7 @@ export const userReducer = (state: Authstate, action: AuthAction): Authstate => 
             }
 
         case 'getNotifications':
+
 
             saveNotifications(action.payload.notifications).then((msg) => {
                 console.log('address save')

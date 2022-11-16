@@ -18,7 +18,7 @@ import { FollowBusinessResponse, UnFollowBusinessResponse, Follows } from '../in
 
 type AuthContextProps = {
     errorMessage: string;
-    status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates' | '';
+    status: 'cheking' | 'authenticated' | 'not-authenticated' | 'registered-phone' | 'registered-dates' | 'update' | '';
     access_token: string | null;
     user: User | null | '';
     business: Negocios[] | null | '';
@@ -26,6 +26,7 @@ type AuthContextProps = {
     notifications: Notifications[] | null | '';
     chats: postChatResponse[] | null | '';
     cart: [] | null | '';
+    version: string;
     favorites: Follows[] | null | '';
     sing: (data: any, address: any, notifications: any, business: any, chats: any, cart: any, responseFavorite: any) => void;
     singUp: (data: any) => void;
@@ -72,7 +73,8 @@ const initialSatate: Authstate = {
     notifications: [],
     chats: [],
     cart: [],
-    favorites: []
+    favorites: [],
+    version: '1.0'
 }
 
 
@@ -207,7 +209,7 @@ const UserProvider = ({ children }: any) => {
             if (typeof resp === 'object') {
                 await dispatch({ type: 'getCountry', payload: { address: resp.data } })
             } else {
-                await dispatch({ type: 'getCountry', payload: { address: { 'countrys': [], 'provinces': [], 'citys': [], 'sectors': [] } } })
+                await dispatch({ type: 'getCountry', payload: { address: { 'countrys': [], 'provinces': [], 'citys': [], 'sectors': [], }, version: ''  } })
             }
 
         } catch (error) {

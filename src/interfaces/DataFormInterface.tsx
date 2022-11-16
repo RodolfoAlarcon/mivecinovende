@@ -3,6 +3,7 @@ export interface Address {
     citys:    City[];
     provinces: Provinces[];
     sectors: Sectors[];
+    version: string;
 } 
 
 export interface Country {

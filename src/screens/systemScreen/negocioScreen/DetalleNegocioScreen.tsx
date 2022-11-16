@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { View, AppRegistry, Text, StyleSheet, Dimensions, Image, TouchableOpacity, Linking, ScrollView, FlatList, Modal, ImageBackground } from 'react-native';
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/Feather';
@@ -27,7 +27,7 @@ const DetalleNegocioScreen = (props: any) => {
     const [sliderModal, setSliderModal] = useState(false)
     const [descripcionFoto, setDescripcionFoto] = useState('')
     const [modalDescripcion, setModalDescripcion] = useState('')
-
+    const [modalinformacion, setModalinformacion] = useState(false);
     const baseUrl = `https://vecinovendechat.herokuapp.com`;
     const socket = io(baseUrl, { transports: ['websocket'] })
 
@@ -40,8 +40,49 @@ const DetalleNegocioScreen = (props: any) => {
         setSliderModal(true)
     }, 1000);
 
+    const [datesBusiness, setDatesBusiness] = useState({
+            "reviews": [],
+            "followBussines": []
+    });
+    const [allStar, setAllStar] = useState(0);
+    useEffect(() => {
+        const url = `https://14.sdcecuador.com/api/get-reviews-bussines/${params.business.id}`;
+        fetch(url)
+            .then((response) => response.json())
+            .then((responseJson) => {
+                if (typeof responseJson.datas === 'object') {
+                    setDatesBusiness(responseJson.datas)
 
+                } else {
+                    setDatesBusiness({
+                            "reviews": [],
+                            "followBussines": []
+                    })
+                }
+            })
+            .catch((error: any) => {
+                console.log(error)
+            })
+            totalStar(datesBusiness.reviews);
+    }, [])
 
+    function totalStar(datas:any) {
+        console.log('los datos son:' +datas)
+        let conter = 0;
+        if (datas == null || datas.length == 0) {
+            setAllStar(conter)
+        } else {
+            datas.forEach((data, key) => {
+                conter = data.puntuacion + conter;
+            })
+            conter = conter / datas.length;
+            conter = parseFloat(conter.toFixed(2));
+            setAllStar(conter)
+
+        }
+
+    }
+console.log(datesBusiness)
 
     const renderItem = ({ item }: BusinessCategory) => (
         <View style={{ marginRight: 5 }}>
@@ -79,11 +120,15 @@ const DetalleNegocioScreen = (props: any) => {
                                     style={{ width: 20, height: 20, resizeMode: "stretch", marginTop: 10, marginLeft: 10 }}
                                 />
                             </View>
-                            <View style={{ paddingVertical: 5, backgroundColor: "#6900FF", width: 130, borderRadius: 15 }}>
-                                <Text style={{ color: "#fff", textAlign: "center", fontSize: 12 }}>
-                                    Vendedor Premium
-                                </Text>
+                            {params.business.delivery == 0 ?
+                            <View style={{ paddingVertical: 2, backgroundColor: "#6900FF", width: 40, borderRadius: 7, marginTop: 2, height:40}}>
+                                <Image source={require('../../../sources/img/not-delivery-white.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30, marginLeft:4 }} />
                             </View>
+                            :
+                            <View style={{ paddingVertical: 2, backgroundColor: "#6900FF", width: 40, borderRadius: 7, marginTop: 2, height:40 }}>
+                                <Image source={require('../../../sources/img/delivery-white.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30, marginLeft:4 }} />
+                            </View>
+                        }
                         </View>
                         <View style={{ width: "5%" }}>
                             <TouchableOpacity
@@ -95,15 +140,15 @@ const DetalleNegocioScreen = (props: any) => {
                     </View>
                     <View style={{ flexDirection: "row", width: "95%", marginVertical: 15, justifyContent: "space-between" }}>
                         <View style={{ width: "32%" }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>254</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>{datesBusiness.followBussines.length}</Text>
                             <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>FAVORITOS</Text>
                         </View>
                         <View style={{ width: "32%" }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>198</Text>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>SATISFECHOS</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>{datesBusiness.reviews.length}</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>RESEÑAS</Text>
                         </View>
                         <View style={{ width: "32%" }}>
-                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>4.5</Text>
+                            <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>{allStar}</Text>
                             <Text style={{ color: "#fff", textAlign: "center", fontSize: 10 }}>ESTRELLLAS</Text>
                         </View>
                     </View>
@@ -114,18 +159,60 @@ const DetalleNegocioScreen = (props: any) => {
                         <View style={{ width: "20%" }}>
                             <TouchableOpacity
                                 style={{ width: "100%", alignItems: "center" }}
+                                onPress={() => setModalinformacion(!modalinformacion)}
                             >
                                 <Image source={require('../../../sources/img/informacion.png')} style={{ width: 30, resizeMode: "stretch", height: 30 }} />
                                 <Text style={{ textAlign: "center", color: "#A191B7", fontSize: 11, marginTop: 5 }}>
                                     Infomación
                                 </Text>
                             </TouchableOpacity>
+                            {modalinformacion ? (
+                                    <Modal
+                                        animationType="slide"
+                                        transparent={true}
+                                        visible={true}
+                                    >
+                                        <View style={{ backgroundColor: "#0000005c", flex: 1, justifyContent: "center", alignItems: "center" }}>
+                                            <View style={{ width: 300, paddingTop: 20, padding: 15, backgroundColor: "#fff", borderRadius: 15 }}>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10, fontSize: 18 }}>
+                                                    Mi Información
+                                                </Text>
+                                                <Text style={{ color: "#000", marginBottom: 10, fontSize: 18 }}>
+                                                    {params.business.description}
+                                                </Text>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10, fontSize: 18 }}>
+                                                    Mi Ubicación
+                                                </Text>
+                                                <Text style={{ color: "#000", marginBottom: 10, fontSize: 18 }}>
+                                                    {params.business.direccion}
+                                                </Text>
+                                                <Text style={{ color: "#000", textAlign: "center", fontWeight: "900", marginBottom: 10, fontSize: 18 }}>
+                                                    Mi Teléfono
+                                                </Text>
+                                                <Text style={{ color: "#000", marginBottom: 10, fontSize: 18 }}>
+                                                    {params.business.phone}
+                                                </Text>
+                                                <View style={{ width: "100%", flexDirection: "row", justifyContent: "center" }}>
+                                                    <TouchableOpacity
+                                                        style={{ width: '70%', justifyContent: 'center', alignItems: 'center', backgroundColor: '#453091', height: 45, borderRadius: 50 }}
+                                                        onPress={() => { setModalinformacion(!modalinformacion) }}
+                                                    >
+                                                        <Text style={{ color: "#fff", fontWeight: "800" }}>
+                                                            Regresar
+                                                        </Text>
+                                                    </TouchableOpacity>
+                                                </View>
+                                            </View>
+                                        </View>
+                                    </Modal>
+
+                                ) : null}
                         </View>
                         <View style={{ width: "20%" }}>
                             <TouchableOpacity
                                 style={{ alignItems: "center" }}
                                 onPress={() => {
-                                    goToReviews('ReviewsBusinessScreen', params.business.id)
+                                    goToScreen('ReviewsBusinessScreen', datesBusiness.reviews)
                                 }}
                             >
                                 <Image source={require('../../../sources/img/mensajes.png')} style={{ width: 30, resizeMode: "stretch", maxHeight: 30 }} />
